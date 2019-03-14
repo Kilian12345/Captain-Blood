@@ -2,13 +2,16 @@
 using UnityEngine;
 using System.Collections;
 
-namespace RetroJam.CaptainBlood{
+namespace RetroJam.CaptainBlood
+{
 
 	[ExecuteInEditMode]
-	public class Parallax2D : MonoBehaviour {
+	public class Parallax2D : MonoBehaviour
+    {
 
 		[System.Serializable]
-		public struct TwoDeeLayer{
+		public struct TwoDeeLayer
+        {
 
 			[Range(0.0f, 1.0f)]
 			public float move_multipler;
@@ -22,11 +25,12 @@ namespace RetroJam.CaptainBlood{
 		public TwoDeeLayer[] _layers;
 
 
-		void Reset(){
-
+		void Reset()////////////////////////////////////UPDATE
+        {
 			_layers = new TwoDeeLayer[transform.childCount];
 
-			for(int i=0; i< transform.childCount; i++){
+			for(int i=0; i< transform.childCount; i++)
+            {
 				_layers[i].layer = transform.GetChild(i);
 				_layers[i].move_multipler = (float)(i+1)/((float)transform.childCount+1.0f);
 				_layers[i].zPos = (i+1)*1.0f;
@@ -36,22 +40,34 @@ namespace RetroJam.CaptainBlood{
 		}
 
 		// Use this for initialization
-		void Start () {
+		void Start ()
+        {
 
-			if( !_targetCam){
+			if( !_targetCam)
+            {
 				_targetCam = Camera.main.transform;
 			}
 
 		}
-			
-		void LateUpdate(){
 
-			if( !_targetCam){
+        private void Update()
+        {
+            //transform.localScale += new Vector3 (0.1f , 0.1f);
+            Reset();
+        }
+
+        void LateUpdate()
+        {
+
+			if( !_targetCam)
+            {
 				_targetCam = Camera.main.transform;
 				return;
 			}
 
 			AdjustLayers(_targetCam.position);
+
+
 
 		}
 
@@ -68,14 +84,16 @@ namespace RetroJam.CaptainBlood{
 //
 //		}
 
-		void AdjustLayers(Vector3 viewPoint){
+		void AdjustLayers(Vector3 viewPoint)
+        {
 
 			viewPoint += (Vector3) _offset;
 
 			Vector3 displacement = viewPoint - transform.position;
 			Vector3 layerSpot = Vector3.zero;
 
-			for(int i=0; i<_layers.Length; i++){
+			for(int i=0; i<_layers.Length; i++)
+            {
 
 				layerSpot = displacement * _layers[i].move_multipler;
 				layerSpot.z = _layers[i].zPos;
