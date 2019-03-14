@@ -5,7 +5,7 @@ using System.Collections;
 namespace RetroJam.CaptainBlood
 {
 
-	[ExecuteInEditMode]
+	//[ExecuteInEditMode]
 	public class Parallax2D : MonoBehaviour
     {
 
@@ -17,9 +17,11 @@ namespace RetroJam.CaptainBlood
 			public float move_multipler;
 			public float zPos;
 			public Transform layer;
+            public Vector3 layerScale;
 
 		}
 
+        [SerializeField] GameObject spawnLayer;
 		public Transform     _targetCam;
 		public Vector2       _offset = Vector2.zero;
 		public TwoDeeLayer[] _layers;
@@ -52,8 +54,30 @@ namespace RetroJam.CaptainBlood
 
         private void Update()
         {
-            //transform.localScale += new Vector3 (0.1f , 0.1f);
-            Reset();
+            for (int i = 8; i >= 0; i--)
+            {
+              
+                _layers[i].layerScale = transform.GetChild(i).localScale;
+
+                Vector3 Scale = transform.GetChild(i).localScale;
+
+                Scale = new Vector3(Scale.x + Time.deltaTime, Scale.y + Time.deltaTime);
+
+                transform.GetChild(i).localScale = Scale;
+
+                if (Scale.x == 1.2)
+                {
+                    Destroy(transform.GetChild(i));
+                    Instantiate(spawnLayer, transform.parent);
+                    Reset();
+                }
+
+
+            }
+
+
+
+            //Reset();
         }
 
         void LateUpdate()
