@@ -7,6 +7,9 @@ namespace RetroJam.CaptainBlood
     public class Cursor : MonoBehaviour
     {
         [SerializeField, Range(1,40)] private float speed;
+        public bool clicking;
+
+        [SerializeField] private Animator animator;
         private Camera cam;
 
         public Vector2 Debug1;
@@ -25,6 +28,8 @@ namespace RetroJam.CaptainBlood
         void Update()
         {
             Move();
+
+            AnimationManager();
 
             Debug1 = cam.WorldToScreenPoint(transform.position);
         }
@@ -60,14 +65,18 @@ namespace RetroJam.CaptainBlood
 
         }
 
-        public bool AbleToMove(int _limit)
+        public void AnimationManager()
         {
-            return ((cam.WorldToViewportPoint(transform.position).y < 0 || cam.WorldToScreenPoint(transform.position).y > _limit) && (cam.WorldToViewportPoint(transform.position).x < 0 || cam.WorldToViewportPoint(transform.position).x > 1));
-        }
-
-        public bool AbleToMove()
-        {
-            return ((cam.WorldToViewportPoint(transform.position).y > 0 && cam.WorldToScreenPoint(transform.position).y < 89) && (cam.WorldToViewportPoint(transform.position).x > 0 && cam.WorldToViewportPoint(transform.position).x < 1));
+            if(Input.GetButton("Select1") && !clicking)
+            {
+                clicking = true;
+                animator.SetBool("used", true);
+            }
+            else if(clicking && !Input.GetButton("Select1"))
+            {
+                clicking = false;
+                animator.SetBool("used", clicking);
+            }
         }
     }
 }
