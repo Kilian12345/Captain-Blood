@@ -4,11 +4,13 @@ using UnityEngine;
 
 namespace RetroJam.CaptainBlood
 {
+    [System.Serializable]
     public class Sentence
     {
         public Word[] words;
         public int size { get; private set; }
 
+        
         public Sentence()
         {
             words = new Word[8];
