@@ -34,7 +34,7 @@ namespace RetroJam.CaptainBlood
         {
             Scroll();
 
-            PickWord();
+            Interact();
         }
 
         public void Scroll()
@@ -85,9 +85,20 @@ namespace RetroJam.CaptainBlood
 
         }
 
-        public void PickWord()
+        public void Remove()
+        {
+            if (pointer.position.x < 5.95 || pointer.position.y < -2.7 || pointer.position.x > 7 || pointer.position.y > -1.9) return;
+
+            if(Input.GetButtonDown("Select1"))
+            {
+                manager.player.RemoveWord();
+            }
+        }
+
+        public void Interact()
         {
             Selection(pointer.position);
+            Remove();
 
         }
 

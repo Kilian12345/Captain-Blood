@@ -78,12 +78,10 @@ namespace RetroJam.CaptainBlood
             if (_pos.x < -0.8)
             {
                 textField.text = alienSentence[cursor].ToText();
-                Debug.Log("blu");
             }
             else if (_pos.x > 0.85)
             {
                 textField.text = playerSentence[cursor].ToText();
-                Debug.Log("bli");
             }
         }
 
