@@ -1034,6 +1034,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d9dba4c33e9c2e4db89ffa4f01cd5e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  values: {fileID: 11400000, guid: 7b2b3c1868c82354a84b402b547293aa, type: 2}
+  debugY: 0
   height: 0
 --- !u!114 &683828367
 MonoBehaviour:
