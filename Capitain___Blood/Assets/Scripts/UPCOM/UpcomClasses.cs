@@ -7,22 +7,22 @@ namespace RetroJam.CaptainBlood
     [System.Serializable]
     public class Sentence
     {
-        public Word[] words;
+        public Glossary[] words;
         public int size { get; private set; }
 
         
         public Sentence()
         {
-            words = new Word[8];
+            words = new Glossary[8];
             for (int i = 0; i < 8; i++)
             {
-                words[i] = Word.none;
+                words[i] = Glossary.none;
             }
 
             size = 0;
         }
 
-        public void AddWord(Word _word)
+        public void AddWord(Glossary _word)
         {
             if (size < 8)
             {
@@ -39,7 +39,7 @@ namespace RetroJam.CaptainBlood
         {
             if (size > 0)
             {
-                words[size - 1] = Word.none;
+                words[size - 1] = Glossary.none;
                 size--;
             }
             else
@@ -56,15 +56,15 @@ namespace RetroJam.CaptainBlood
 
     public class Alien
     {
-        public Word[] name { get; private set; }
+        public Glossary[] name { get; private set; }
 
         public void SetName()
         {
-            name = new Word[Random.Range(2, 3)];
+            name = new Glossary[Random.Range(2, 3)];
 
             for (int i = 0; i < name.Length; i++)
             {
-                name[i] = (Word)Random.Range(1, 72);
+                name[i] = (Glossary)Random.Range(1, 72);
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace RetroJam.CaptainBlood
 {
-    public enum Word
+    public enum Glossary
     {
         none,
         QuestionMArk,
@@ -123,258 +123,283 @@
         Height,
         Nine
     }
+    public enum WordNature { Ponctuation, Noun, Adjective, Verb }
 
     public static class WordsFunctions
     {
-        public static string ToText(this Word _word)
+        public static string ToText(this Glossary _word)
         {
             switch (_word)
             {
-                case Word.none:
+                case Glossary.none:
                     return "";
-                case Word.QuestionMArk:
+                case Glossary.QuestionMArk:
                     return "?";
-                case Word.Not:
+                case Glossary.Not:
                     return "NOT";
-                case Word.Yes:
+                case Glossary.Yes:
                     return "YES";
-                case Word.No:
+                case Glossary.No:
                     return "NO";
-                case Word.Me:
+                case Glossary.Me:
                     return "ME";
-                case Word.You:
+                case Glossary.You:
                     return "YOU";
-                case Word.Howdy:
+                case Glossary.Howdy:
                     return "HOWDY";
-                case Word.Bye:
+                case Glossary.Bye:
                     return "BYE";
-                case Word.Go:
+                case Glossary.Go:
                     return "GO";
-                case Word.Want:
+                case Glossary.Want:
                     return "WANT";
-                case Word.Teleport:
+                case Glossary.Teleport:
                     return "TELEPORT";
-                case Word.Give:
+                case Glossary.Give:
                     return "GIVE";
-                case Word.Like:
+                case Glossary.Like:
                     return "LIKE";
-                case Word.Say:
+                case Glossary.Say:
                     return "SAY";
-                case Word.Know:
+                case Glossary.Know:
                     return "KNOW";
-                case Word.Unknown:
+                case Glossary.Unknown:
                     return "UNKNOWN";
-                case Word.Play:
+                case Glossary.Play:
                     return "PLAY";
-                case Word.Search:
+                case Glossary.Search:
                     return "SEARCH";
-                case Word.Race:
+                case Glossary.Race:
                     return "RACE";
-                case Word.Vote:
+                case Glossary.Vote:
                     return "VOTE";
-                case Word.Help:
+                case Glossary.Help:
                     return "HELP";
-                case Word.Disarm:
+                case Glossary.Disarm:
                     return "DISARM";
-                case Word.Laugh:
+                case Glossary.Laugh:
                     return "( LAUGH )";
-                case Word.Sob:
+                case Glossary.Sob:
                     return "SOB";
-                case Word.Fear:
+                case Glossary.Fear:
                     return "FEAR";
-                case Word.Destroy:
+                case Glossary.Destroy:
                     return "DESTROY";
-                case Word.Free:
+                case Glossary.Free:
                     return "FREE";
-                case Word.Kill:
+                case Glossary.Kill:
                     return "KILL";
-                case Word.Prison:
+                case Glossary.Prison:
                     return "PRISON";
-                case Word.Prisonner:
+                case Glossary.Prisonner:
                     return "PRISONNER";
-                case Word.Trap:
+                case Glossary.Trap:
                     return "TRAP";
-                case Word.Danger:
+                case Glossary.Danger:
                     return "DANGER";
-                case Word.Forbidden:
+                case Glossary.Forbidden:
                     return "FORBIDDEN";
-                case Word.Radioactivity:
+                case Glossary.Radioactivity:
                     return "RADIOACTIVITY";
-                case Word.Impossible:
+                case Glossary.Impossible:
                     return "IMPOSSIBLE";
-                case Word.Bounty:
+                case Glossary.Bounty:
                     return "BOUNTY";
-                case Word.Information:
+                case Glossary.Information:
                     return "INFORMATION";
-                case Word.NonSense:
+                case Glossary.NonSense:
                     return "NONSENSE";
-                case Word.RDV:
+                case Glossary.RDV:
                     return "RENDEZ-VOUS";
-                case Word.Time:
+                case Glossary.Time:
                     return "TIME";
-                case Word.Urgent:
+                case Glossary.Urgent:
                     return "URGENT";
-                case Word.Idea:
+                case Glossary.Idea:
                     return "IDEA";
-                case Word.Missile:
+                case Glossary.Missile:
                     return "MISSILE";
-                case Word.Code:
+                case Glossary.Code:
                     return "CODE";
-                case Word.Friend:
+                case Glossary.Friend:
                     return "FRIEND";
-                case Word.Ennemy:
+                case Glossary.Ennemy:
                     return "ENNEMY";
-                case Word.Spirit:
+                case Glossary.Spirit:
                     return "SPIRIT";
-                case Word.Brain:
+                case Glossary.Brain:
                     return "BRAIN";
-                case Word.Warrior:
+                case Glossary.Warrior:
                     return "WARRIOR";
-                case Word.President:
+                case Glossary.President:
                     return "PRESIDENT";
-                case Word.Scientist:
+                case Glossary.Scientist:
                     return "SCIENTIST";
-                case Word.Genetic:
+                case Glossary.Genetic:
                     return "GENETIC";
-                case Word.Sex:
+                case Glossary.Sex:
                     return "SEX";
-                case Word.Reproduction:
+                case Glossary.Reproduction:
                     return "REPRODUCTION";
-                case Word.Male:
+                case Glossary.Male:
                     return "MALE";
-                case Word.Female:
+                case Glossary.Female:
                     return "FEMALE";
-                case Word.Identity:
+                case Glossary.Identity:
                     return "IDENTITY";
-                case Word.Pop:
+                case Glossary.Pop:
                     return "POP";
-                case Word.People:
+                case Glossary.People:
                     return "PEOPLE";
-                case Word.Different:
+                case Glossary.Different:
                     return "DIFFERENT";
-                case Word.Small:
+                case Glossary.Small:
                     return "SMALL";
-                case Word.Great:
+                case Glossary.Great:
                     return "GREAT";
-                case Word.Strong:
+                case Glossary.Strong:
                     return "STRONG";
-                case Word.Bad:
+                case Glossary.Bad:
                     return "BAD";
-                case Word.Brave:
+                case Glossary.Brave:
                     return "BRAVE";
-                case Word.Good:
+                case Glossary.Good:
                     return "GOOD";
-                case Word.Crazy:
+                case Glossary.Crazy:
                     return "CRAZY";
-                case Word.Poor:
+                case Glossary.Poor:
                     return "POOR";
-                case Word.Insult:
+                case Glossary.Insult:
                     return "( INSULT )";
-                case Word.Curse:
+                case Glossary.Curse:
                     return "( CURSE )";
-                case Word.Peace:
+                case Glossary.Peace:
                     return "PEACE";
-                case Word.Dead:
+                case Glossary.Dead:
                     return "DEAD";
-                case Word.Oorx:
+                case Glossary.Oorx:
                     return "OORX";
-                case Word.Tromp:
+                case Glossary.Tromp:
                     return "TROMP";
-                case Word.Kingpak:
+                case Glossary.Kingpak:
                     return "KINGPAK";
-                case Word.Robhead:
+                case Glossary.Robhead:
                     return "ROBHEAD";
-                case Word.CroolisVar:
+                case Glossary.CroolisVar:
                     return "CROOLIS-VAR";
-                case Word.CroolisUlv:
+                case Glossary.CroolisUlv:
                     return "CROOLIS-ULV";
-                case Word.Izwal:
+                case Glossary.Izwal:
                     return "IZWAL";
-                case Word.Migrax:
+                case Glossary.Migrax:
                     return "MIGRAX";
-                case Word.Antenna:
+                case Glossary.Antenna:
                     return "ANTENNA";
-                case Word.Buggol:
+                case Glossary.Buggol:
                     return "BUGGOL";
-                case Word.Tricephal:
+                case Glossary.Tricephal:
                     return "TRICEPHAL";
-                case Word.TubularBrain:
+                case Glossary.TubularBrain:
                     return "TUBULAR-BRAIN";
-                case Word.Yukas:
+                case Glossary.Yukas:
                     return "YUKAS";
-                case Word.Sinox:
+                case Glossary.Sinox:
                     return "SINOX";
-                case Word.Ondoyante:
+                case Glossary.Ondoyante:
                     return "ONDOYANTE";
-                case Word.Duplicate:
+                case Glossary.Duplicate:
                     return "DUPLICATE";
-                case Word.Tuttle:
+                case Glossary.Tuttle:
                     return "TUTTLE";
-                case Word.Morlock:
+                case Glossary.Morlock:
                     return "MORLOCK";
-                case Word.Yoko:
+                case Glossary.Yoko:
                     return "YOKO";
-                case Word.Maxon:
+                case Glossary.Maxon:
                     return "MAXON";
-                case Word.Blood:
+                case Glossary.Blood:
                     return "BLOOD";
-                case Word.Torka:
+                case Glossary.Torka:
                     return "TORKA";
-                case Word.Ship:
+                case Glossary.Ship:
                     return "SHIP";
-                case Word.Contact:
+                case Glossary.Contact:
                     return "CONTACT";
-                case Word.Home:
+                case Glossary.Home:
                     return "HOME";
-                case Word.Planet:
+                case Glossary.Planet:
                     return "PLANET";
-                case Word.Trauma:
+                case Glossary.Trauma:
                     return "TRAUMA";
-                case Word.Entrax:
+                case Glossary.Entrax:
                     return "ENTRAX";
-                case Word.Ondoya:
+                case Glossary.Ondoya:
                     return "ONDOYA";
-                case Word.Kristo:
+                case Glossary.Kristo:
                     return "KRISTO";
-                case Word.Rosko:
+                case Glossary.Rosko:
                     return "ROSKO";
-                case Word.Corpo:
+                case Glossary.Corpo:
                     return "CORPO";
-                case Word.Ulikan:
+                case Glossary.Ulikan:
                     return "ULIKAN";
-                case Word.BowBow:
+                case Glossary.BowBow:
                     return "BOW-BOW";
-                case Word.Hour:
+                case Glossary.Hour:
                     return "HOUR";
-                case Word.Coord:
+                case Glossary.Coord:
                     return "COORDINATE";
-                case Word.Equal:
+                case Glossary.Equal:
                     return "=";
-                case Word.OutOf:
+                case Glossary.OutOf:
                     return "/";
-                case Word.Zero:
+                case Glossary.Zero:
                     return "0";
-                case Word.One:
+                case Glossary.One:
                     return "1";
-                case Word.Two:
+                case Glossary.Two:
                     return "2";
-                case Word.Three:
+                case Glossary.Three:
                     return "3";
-                case Word.For:
+                case Glossary.For:
                     return "4";
-                case Word.Five:
+                case Glossary.Five:
                     return "5";
-                case Word.Six:
+                case Glossary.Six:
                     return "6";
-                case Word.Seven:
+                case Glossary.Seven:
                     return "7";
-                case Word.Height:
+                case Glossary.Height:
                     return "8";
-                case Word.Nine:
+                case Glossary.Nine:
                     return "9";
                 default:
                     return "";
             }
         }
+    }
+
+    [System.Serializable]
+    public class Word
+    {
+        public Glossary word;
+        public WordNature nature;
+
+        public Word(Glossary _word, WordNature _nature)
+        {
+            word = _word;
+            nature = _nature;
+        }
+
+        public Word(int _word, int _nature)
+        {
+            word = (Glossary)_word;
+            nature = (WordNature)_nature;
+        }
+    }
+
+    public static class Language
+    {
+
     }
 }
