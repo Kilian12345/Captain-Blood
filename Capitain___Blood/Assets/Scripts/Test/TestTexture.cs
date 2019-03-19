@@ -43,7 +43,7 @@ namespace RetroJam.CaptainBlood
 
         public void InitializeTexture()
         {
-            texture = new Texture2D(256, 100);
+            texture = new Texture2D(256, 126);
 
             GetComponent<RawImage>().material.mainTexture = texture;
         }
