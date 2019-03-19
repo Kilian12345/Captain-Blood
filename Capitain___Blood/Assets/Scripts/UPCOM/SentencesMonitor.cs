@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -17,17 +18,31 @@ namespace RetroJam.CaptainBlood
 
         public Vector3Int debugPos;
 
-        private Dictionary<Vector3Int, Word> alienSentence = new Dictionary<Vector3Int, Word>();
+        /*private Dictionary<Vector3Int, Word> alienSentence = new Dictionary<Vector3Int, Word>();
         private Vector3Int[] alienField = new Vector3Int[8];
         private Dictionary<Vector3Int, Word> playerSentence = new Dictionary<Vector3Int, Word>();
-        private Vector3Int[] playerField = new Vector3Int[8];
+        private Vector3Int[] playerField = new Vector3Int[8];*/
 
-        private Dictionary<Word, Tile> icons = new Dictionary<Word, Tile>();
+        private Monitor player;
+        private Monitor alien;
+
+        private Dictionary<Glossary, Tile> icons = new Dictionary<Glossary, Tile>();
+
+        public Word mot;
+
+
+        public class Monitor
+        {
+            public Dictionary<Vector3Int, Glossary> sentence = new Dictionary<Vector3Int, Glossary>();
+            public Vector3Int[] field = new Vector3Int[8];
+        }
 
 
         private void Awake()
         {
             cam = Camera.main;
+
+            mot = new Word(2, 3);
         }
         // Start is called before the first frame update
         void Start()
@@ -39,31 +54,34 @@ namespace RetroJam.CaptainBlood
         // Update is called once per frame
         void Update()
         {
-            WritePlayerSentence();
+            WriteSentence(player, manager.player);
+            WriteSentence(alien, manager.alien);
             ReadSentences();
+
+            Test();
         }
 
         public void InitializeSentences()
         {
+            alien = new Monitor();
+            player = new Monitor();
+
             for (int i = 0; i < 8; i++)
             {
-                alienField[i] = new Vector3Int(-9 + i, 1, 0);
-                playerField[i] = new Vector3Int(1 + i, 1, 0);
+                alien.field[i] = new Vector3Int(-9 + i, 1, 0);
+                player.field[i] = new Vector3Int(1 + i, 1, 0);
 
-                alienSentence[alienField[i]] = Word.none;
-                playerSentence[playerField[i]] = Word.none;
+                alien.sentence[alien.field[i]] = Glossary.none;
+                player.sentence[player.field[i]] = Glossary.none;
             }
         }
 
         public void InitializeTiles()
         {
-            //Tile[] tiles = Resources.LoadAll<Tile>("Words");
-
-            //Debug.Log(tiles.Length);
 
             for (int i = 0; i < 120; i++)
             {
-                icons[(Word)i] = Resources.Load<Tile>("Words/words_"+i);
+                icons[(Glossary)i] = Resources.Load<Tile>("Words/words_"+i);
             }
         }
 
@@ -77,21 +95,36 @@ namespace RetroJam.CaptainBlood
 
             if (_pos.x < -0.8)
             {
-                textField.text = alienSentence[cursor].ToText();
+                textField.text = alien.sentence[cursor].ToText();
             }
             else if (_pos.x > 0.85)
             {
-                textField.text = playerSentence[cursor].ToText();
+                textField.text = player.sentence[cursor].ToText();
             }
         }
 
-        public void WritePlayerSentence()
+        public void WriteSentence(Monitor _monitor, Sentence _sentence)
         {
             for (int i = 0; i < 8; i++)
             {
-                playerSentence[playerField[i]] = manager.player.words[i];
-                tm.SetTile(playerField[i], icons[manager.player.words[i]]);
+                _monitor.sentence[_monitor.field[i]] = _sentence.words[i];
+                tm.SetTile(_monitor.field[i], icons[_sentence.words[i]]);
             }
         }
+
+        public void Test()
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                Debug.Log("Files created in the \"Saves\" directory, saving informations in json-format.");
+
+                using (StreamWriter test = File.CreateText(@"Saves\test.json"))
+                {
+                    test.WriteLine(JsonUtility.ToJson(mot));
+                }
+
+            }
+        }
+
     }
 }
