@@ -12,6 +12,10 @@ namespace RetroJam.CaptainBlood
         [SerializeField] private TextMeshProUGUI xScreen;
         [SerializeField] private Transform y;
         [SerializeField] private TextMeshProUGUI yScreen;
+        [SerializeField, Range(1,2)] private float speed;
+
+        private float xIndex;
+        private float yIndex;
 
         // Start is called before the first frame update
         void Start()
@@ -22,6 +26,7 @@ namespace RetroJam.CaptainBlood
         // Update is called once per frame
         void Update()
         {
+            SelectCoordinates();
             LineManager();
             ScreenManager();
         }
@@ -36,6 +41,33 @@ namespace RetroJam.CaptainBlood
         {
             x.localPosition = new Vector3(coord.x-128, 0);
             y.localPosition = new Vector3(0, coord.y-63);
+        }
+
+        public void SelectCoordinates()
+        {
+            if (Input.GetAxis("ScrollHorizontal") == 0 && Input.GetAxis("ScrollVertical") == 0) return;
+
+            if (Input.GetAxis("ScrollHorizontal") != 0)
+            {
+                xIndex += Input.GetAxis("ScrollHorizontal");
+            }
+            if (Input.GetAxis("ScrollVertical") != 0)
+            {
+                yIndex += Input.GetAxis("ScrollVertical");
+            }
+
+            if(Mathf.Abs(xIndex) > speed)
+            {
+                coord += new Vector2Int(Mathf.RoundToInt(xIndex / speed),0);
+                xIndex = 0;
+            }
+            if(Mathf.Abs(yIndex) > speed)
+            {
+                coord += new Vector2Int(0,Mathf.RoundToInt(yIndex / speed));
+                yIndex = 0;
+            }
+
+            coord = new Vector2Int(Mathf.Clamp(coord.x, 0, 255), Mathf.Clamp(coord.y, 0, 125));
         }
     }
 }
