@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using TMPro;
 
 namespace RetroJam.CaptainBlood
 {
@@ -11,6 +12,13 @@ namespace RetroJam.CaptainBlood
     {
         [SerializeField] private Phase phase;
         [SerializeField] private Menu menu;
+        [SerializeField] private Cursor cursor;
+
+        [SerializeField] private TextMeshProUGUI currentX;
+        [SerializeField] private TextMeshProUGUI currentY;
+
+        [SerializeField] private Planet currentPlanet;
+
         private Phase lastPhase;
 
         //[SerializeField] private GalaxySCO save;
@@ -80,6 +88,10 @@ namespace RetroJam.CaptainBlood
             Test();
 
             SavePlanets();
+
+            CurrentCoordinates();
+
+            SetPlanet(test);
         }
 
         public void HandleMenus()
@@ -88,6 +100,8 @@ namespace RetroJam.CaptainBlood
             {
                 menu.SetActive(phase);
                 lastPhase = phase;
+
+                SetCursorLimit(phase);
             }
         }
 
@@ -111,6 +125,45 @@ namespace RetroJam.CaptainBlood
                 }
 
             }
+        }
+
+        public void SetCursorLimit(Phase _phase)
+        {
+            switch (_phase)
+            {
+                case Phase.MainMenu:
+                    cursor.SetHeight(87);
+                    break;
+                case Phase.Galaxy:
+                    cursor.SetHeight(48);
+                    break;
+                case Phase.FTL:
+                    cursor.SetHeight(50);
+                    break;
+                case Phase.Planet:
+                    cursor.SetHeight(50);
+                    break;
+                case Phase.Landing:
+                    cursor.SetHeight(87);
+                    break;
+                case Phase.UpCom:
+                    cursor.SetHeight(87);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void CurrentCoordinates()
+        {
+            currentX.text = currentPlanet.coordinates.x.ToString();
+            currentY.text = currentPlanet.coordinates.y.ToString();
+
+        }
+
+        public void SetPlanet(Vector2Int _coord)
+        {
+            currentPlanet = Galaxy.planets[_coord];
         }
     }
 }

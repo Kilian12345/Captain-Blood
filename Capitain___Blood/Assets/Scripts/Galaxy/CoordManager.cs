@@ -40,8 +40,8 @@ namespace RetroJam.CaptainBlood
 
         public void LineManager()
         {
-            x.localPosition = new Vector3(coord.x-128, 0);
-            y.localPosition = new Vector3(0, coord.y-63);
+            x.localPosition = new Vector3(coord.x-128, -64);
+            y.localPosition = new Vector3(-160, coord.y-63);
         }
 
         public void SelectCoordinates()
