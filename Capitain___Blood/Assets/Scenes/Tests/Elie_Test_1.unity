@@ -3802,13 +3802,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c54b415f59c68046be0da9aa4b017dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phase: 5
+  phase: 1
   menu:
     main: {fileID: 173558162}
     galaxy: {fileID: 294473063}
     planet: {fileID: 380029647}
     landing: {fileID: 380029647}
     upCom: {fileID: 2093736464}
+  test: {x: 0, y: 0}
 --- !u!1 &1223286373
 GameObject:
   m_ObjectHideFlags: 0
@@ -4683,7 +4684,6 @@ GameObject:
   - component: {fileID: 2093736465}
   - component: {fileID: 2093736467}
   - component: {fileID: 2093736466}
-  - component: {fileID: 2093736468}
   m_Layer: 5
   m_Name: DialoguesMenu
   m_TagString: Untagged
@@ -4751,21 +4751,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093736464}
   m_CullTransparentMesh: 0
---- !u!114 &2093736468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2093736464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38604d8f02b9ad941be4b878ee679c10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: 
-  coordinates: {x: 2, y: 2}
-  race: 75
 --- !u!1 &2135133675
 GameObject:
   m_ObjectHideFlags: 0

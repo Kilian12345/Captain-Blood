@@ -38,7 +38,7 @@ namespace RetroJam.CaptainBlood
 
                 using (StreamWriter test = File.CreateText(@"Saves\planets.json"))
                 {
-                    test.WriteLine(JsonUtility.ToJson(Galaxy.grid,true));
+                    //test.WriteLine(JsonUtility.ToJson(Galaxy.grid,true));
                 }
 
             }

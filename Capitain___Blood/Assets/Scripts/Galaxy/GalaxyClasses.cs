@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 
 namespace RetroJam.CaptainBlood
 {
     [System.Serializable]
     public class Planet
     {
-        public readonly Glossary[] name;
-        public readonly Vector2Int coordinates;
-        public readonly Glossary race;
+        public Glossary[] name;
+        public Vector2Int coordinates;
+        public Glossary race;
         public bool visited;
         public bool destroyed;
         public Alien inhabitant;
@@ -41,19 +44,30 @@ namespace RetroJam.CaptainBlood
 
         }
 
+        [JsonConstructor]
+        public Planet(Glossary[] _name, Vector2Int _coord, Glossary _race, bool _visited, bool _destroyed, Alien _inhabitant)
+        {
+            name = _name;
+            coordinates = _coord;
+            race = _race;
+            visited = _visited;
+            destroyed = _destroyed;
+            inhabitant = _inhabitant;
+        }
+
 
         private Glossary[] GenerateName()
         {
-            int length = Random.Range(3, 5);
+            int length = UnityEngine.Random.Range(3, 5);
 
             Glossary[] result = new Glossary[length];
 
             Debug.Log(result.Length);
 
             result[0] = Glossary.Planet;
-            result[1] = (Glossary)Random.Range(2, 73);
-            result[2] = (Glossary)Random.Range(2, 73);
-            if (result.Length > 3) result[3] = (Glossary)Random.Range(113, 121);
+            result[1] = (Glossary)UnityEngine.Random.Range(2, 73);
+            result[2] = (Glossary)UnityEngine.Random.Range(2, 73);
+            if (result.Length > 3) result[3] = (Glossary)UnityEngine.Random.Range(113, 121);
 
             return result;
         }
@@ -80,7 +94,7 @@ namespace RetroJam.CaptainBlood
         {
             for (int i = 256*_coord.x; i < 256 * _coord.x + 126; i++)
             {
-                return planets[i];
+                if(_coord.y == coord[i].y) return planets[i];
             }
 
             return null;
@@ -90,7 +104,6 @@ namespace RetroJam.CaptainBlood
     public static class Galaxy
     {
         public static Dictionary<Vector2Int, Planet> planets = new Dictionary<Vector2Int, Planet>();
-        public static Grid grid;
 
         public static void Initialize()
         {
@@ -98,26 +111,43 @@ namespace RetroJam.CaptainBlood
 
             sw.Start();
 
-            grid = new Grid(256 * 126);
-
-            int index = 0;
-
             for (int x = 0; x < 256; x++)
             {
                 for (int y = 0; y < 126; y++)
                 {
-                    planets.Add(new Vector2Int(x, y), new Planet(new Vector2Int(x, y), (Glossary)Random.Range(74, 89)));
-
-                    grid.coord[index] = new Vector2Int(x, y);
-                    grid.planets[index] = planets[new Vector2Int(x, y)];
-
-                    index++;
+                    planets.Add(new Vector2Int(x, y), new Planet(new Vector2Int(x, y), (Glossary)UnityEngine.Random.Range(74, 89)));
                 }
             }
 
             sw.Stop();
 
             Debug.Log("Time to Initialize whole Galaxy : "+sw.ElapsedMilliseconds/1000+"s.");
+        }
+
+        public static void Initialize(GalaxySCO _save)
+        {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
+            sw.Start();
+
+            planets = _save.galaxy;
+
+            sw.Stop();
+
+            Debug.Log("Time to Initialize whole Galaxy : " + sw.ElapsedMilliseconds / 1000 + "s.");
+        }
+
+        public static void Initialize(Dictionary<Vector2Int, Planet> _save)
+        {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
+            sw.Start();
+
+            planets = _save;
+
+            sw.Stop();
+
+            Debug.Log("Time to Initialize whole Galaxy : " + sw.ElapsedMilliseconds + "ms.");
         }
     }
 
@@ -126,5 +156,79 @@ namespace RetroJam.CaptainBlood
         public PlanetValueException(string message) : base (message) { }
     }
 
-    
+    public class Vec2DictionaryConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof(Dictionary<Vector2Int, Planet>).IsAssignableFrom(objectType);
+        }
+
+        //Deserialize json to an Object
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            //Debug.Log("De-serializing!");
+            if (reader.TokenType == JsonToken.StartArray)
+            {
+                // Load JArray from stream
+                JArray jArray = JArray.Load(reader);
+
+                //Where to re-create the json data into 
+                Dictionary<Vector2Int, Planet> dict = new Dictionary<Vector2Int, Planet>();
+
+                if (jArray == null || jArray.Count < 2)
+                {
+                    return dict;
+                }
+
+                //Do the loop faster with +=2
+                for (int i = 0; i < jArray.Count; i += 2)
+                {
+                    //first item = key
+                    string firstData = jArray[i + 0].ToString();
+                    //second item = value
+                    string secondData = jArray[i + 1].ToString();
+
+                    //Create Vector2Int key data 
+                    Vector2Int vect = JsonConvert.DeserializeObject<Vector2Int>(firstData);
+
+                    //Create Collection value data
+                    Planet values = JsonConvert.DeserializeObject<Planet>(secondData);
+
+                    //Add both Key and Value to the Dictionary if key doesnt exit yet
+                    if (!dict.ContainsKey(vect))
+                        dict.Add(vect, values);
+                }
+                //Return the Dictionary result
+                return dict;
+            }
+            return new Dictionary<Vector2Int, Planet>();
+        }
+
+        //SerializeObject to Json
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            //Debug.Log("Serializing!");
+            if (value is Dictionary<Vector2Int, Planet>)
+            {
+                //Get the Data to serialize
+                Dictionary<Vector2Int, Planet> dict = (Dictionary<Vector2Int, Planet>)value;
+
+                //Loop over the Dictionary array and write each one
+                writer.WriteStartArray();
+                foreach (KeyValuePair<Vector2Int, Planet> entry in dict)
+                {
+                    //Write Key (Vector) 
+                    serializer.Serialize(writer, entry.Key);
+                    //Write Value (Collection)
+                    serializer.Serialize(writer, entry.Value);
+                }
+                writer.WriteEndArray();
+                return;
+            }
+            writer.WriteStartObject();
+            writer.WriteEndObject();
+        }
+    }
+
+
 }

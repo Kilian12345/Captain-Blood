@@ -75,8 +75,7 @@ namespace RetroJam.CaptainBlood
         {
             if(Input.GetButtonDown("Precision"))
             {
-                if (speed == .5f) speed = 2;
-                else if (speed == 2) speed = 4;
+                if (speed == .5f) speed = 4;
                 else speed = .5f;
             }
         }

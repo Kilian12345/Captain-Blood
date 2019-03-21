@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Runtime.Serialization;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 namespace RetroJam.CaptainBlood
 {
@@ -8,9 +11,13 @@ namespace RetroJam.CaptainBlood
     {
         [SerializeField] private Phase phase;
         [SerializeField] private Menu menu;
+        private Phase lastPhase;
 
-        private Phase save;
-        
+        //[SerializeField] private GalaxySCO save;
+
+        public Vector2Int test;
+
+        #region Classes
         [System.Serializable] public class Menu
         {
             public GameObject main, galaxy, planet, landing, upCom;
@@ -47,7 +54,18 @@ namespace RetroJam.CaptainBlood
                 }
             }
         }
+        #endregion
 
+        private void Awake()
+        {
+            string save = File.ReadAllText(@"Saves\planets.json");
+            JsonSerializerSettings setting = new JsonSerializerSettings();
+            setting.CheckAdditionalContent = true;
+
+            Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter()));
+
+            //save.galaxy = Galaxy.planets;
+        }
         // Start is called before the first frame update
         void Start()
         {
@@ -58,14 +76,40 @@ namespace RetroJam.CaptainBlood
         void Update()
         {
             HandleMenus();
+
+            Test();
+
+            SavePlanets();
         }
 
         public void HandleMenus()
         {
-            if(phase != save)
+            if(phase != lastPhase)
             {
                 menu.SetActive(phase);
-                save = phase;
+                lastPhase = phase;
+            }
+        }
+
+        public void Test()
+        {
+            if(Input.GetKeyDown(KeyCode.T))
+            {
+                Debug.Log(Galaxy.planets[test].name[0] + " - " + Galaxy.planets[test].name[1] + " - " + Galaxy.planets[test].name[2]);
+            }
+        }
+
+        public void SavePlanets()
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                Debug.Log("Files created in the \"Saves\" directory, saving informations in json-format.");
+
+                using (StreamWriter test = File.CreateText(@"Saves\planets.json"))
+                {
+                    test.WriteLine(JsonConvert.SerializeObject(Galaxy.planets, new Vec2DictionaryConverter()));
+                }
+
             }
         }
     }
