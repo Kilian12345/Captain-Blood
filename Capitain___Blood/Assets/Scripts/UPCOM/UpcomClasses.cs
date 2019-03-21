@@ -54,6 +54,7 @@ namespace RetroJam.CaptainBlood
         public bool teleportable;
     }
 
+    [System.Serializable]
     public class Alien
     {
         public Glossary[] name { get; private set; }

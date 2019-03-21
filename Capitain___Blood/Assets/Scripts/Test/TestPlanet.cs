@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,7 +27,21 @@ namespace RetroJam.CaptainBlood
         // Update is called once per frame
         void Update()
         {
+            SavePlanets();
+        }
 
+        public void SavePlanets()
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                Debug.Log("Files created in the \"Saves\" directory, saving informations in json-format.");
+
+                using (StreamWriter test = File.CreateText(@"Saves\planets.json"))
+                {
+                    test.WriteLine(JsonUtility.ToJson(Galaxy.grid,true));
+                }
+
+            }
         }
     }
 }

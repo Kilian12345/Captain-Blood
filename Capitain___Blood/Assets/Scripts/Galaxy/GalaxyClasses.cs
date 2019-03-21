@@ -64,9 +64,33 @@ namespace RetroJam.CaptainBlood
         }
     }
 
+    [System.Serializable]
+    public class Grid
+    {
+        public Vector2Int[] coord;
+        public Planet[] planets;
+
+        public Grid(int _size)
+        {
+            coord = new Vector2Int[_size];
+            planets = new Planet[_size];
+        }
+
+        public Planet Planet(Vector2Int _coord)
+        {
+            for (int i = 256*_coord.x; i < 256 * _coord.x + 126; i++)
+            {
+                return planets[i];
+            }
+
+            return null;
+        }
+    }
+
     public static class Galaxy
     {
         public static Dictionary<Vector2Int, Planet> planets = new Dictionary<Vector2Int, Planet>();
+        public static Grid grid;
 
         public static void Initialize()
         {
@@ -74,17 +98,26 @@ namespace RetroJam.CaptainBlood
 
             sw.Start();
 
+            grid = new Grid(256 * 126);
+
+            int index = 0;
+
             for (int x = 0; x < 256; x++)
             {
                 for (int y = 0; y < 126; y++)
                 {
                     planets.Add(new Vector2Int(x, y), new Planet(new Vector2Int(x, y), (Glossary)Random.Range(74, 89)));
+
+                    grid.coord[index] = new Vector2Int(x, y);
+                    grid.planets[index] = planets[new Vector2Int(x, y)];
+
+                    index++;
                 }
             }
 
             sw.Stop();
 
-            Debug.Log("Time to Initialize whole Galaxy"+sw.ElapsedMilliseconds);
+            Debug.Log("Time to Initialize whole Galaxy : "+sw.ElapsedMilliseconds/1000+"s.");
         }
     }
 

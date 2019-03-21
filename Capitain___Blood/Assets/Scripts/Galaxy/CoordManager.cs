@@ -12,7 +12,7 @@ namespace RetroJam.CaptainBlood
         [SerializeField] private TextMeshProUGUI xScreen;
         [SerializeField] private Transform y;
         [SerializeField] private TextMeshProUGUI yScreen;
-        [SerializeField, Range(1,2)] private float speed;
+        [SerializeField] private float speed;
 
         private float xIndex;
         private float yIndex;
@@ -26,6 +26,7 @@ namespace RetroJam.CaptainBlood
         // Update is called once per frame
         void Update()
         {
+            PrecisionHandler();
             SelectCoordinates();
             LineManager();
             ScreenManager();
@@ -68,6 +69,16 @@ namespace RetroJam.CaptainBlood
             }
 
             coord = new Vector2Int(Mathf.Clamp(coord.x, 0, 255), Mathf.Clamp(coord.y, 0, 125));
+        }
+
+        public void PrecisionHandler()
+        {
+            if(Input.GetButtonDown("Precision"))
+            {
+                if (speed == .5f) speed = 2;
+                else if (speed == 2) speed = 4;
+                else speed = .5f;
+            }
         }
     }
 }
