@@ -45,12 +45,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Brightness: 20
-    - _BrightnessAmount: 0.531
+    - _BrightnessAmount: 1
     - _Contrast: 20
-    - _ContrastAmount: 10.6
+    - _ContrastAmount: 1
     - _DstBlend: 0
     - _Offset: 0
-    - _PixelNumberX: 100
-    - _PixelNumberY: 100
-    - _SaturationAmount: 1.5
-    m_Colors: []
+    - _PixelNumberX: 20
+    - _PixelNumberY: 20
+    - _SaturationAmount: 1
+    m_Colors:
+    - _Color: {r: 0.32211977, g: 0.3679245, b: 0.10586506, a: 1}
