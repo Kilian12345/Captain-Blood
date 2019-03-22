@@ -81,6 +81,7 @@ namespace RetroJam.CaptainBlood
     [System.Serializable]
     public class Grid
     {
+
         public Vector2Int[] coord;
         public Planet[] planets;
 
@@ -95,6 +96,7 @@ namespace RetroJam.CaptainBlood
             for (int i = 256*_coord.x; i < 256 * _coord.x + 126; i++)
             {
                 if(_coord.y == coord[i].y) return planets[i];
+                
             }
 
             return null;
