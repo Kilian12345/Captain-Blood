@@ -10,12 +10,13 @@ namespace RetroJam.CaptainBlood
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private Phase phase;
+        [SerializeField] public Phase phase;
         [SerializeField] private Menu menu;
         [SerializeField] private Cursor cursor;
 
         [SerializeField] private TextMeshProUGUI currentX;
         [SerializeField] private TextMeshProUGUI currentY;
+        
 
         [SerializeField] private Planet currentPlanet;
 
@@ -28,7 +29,7 @@ namespace RetroJam.CaptainBlood
         #region Classes
         [System.Serializable] public class Menu
         {
-            public GameObject main, galaxy, planet, landing, upCom;
+            public GameObject main, galaxy, planet, landing, upCom, keyboard;
 
             public void SetActive(Phase _phase)
             {
@@ -37,6 +38,7 @@ namespace RetroJam.CaptainBlood
                 planet.SetActive(false);
                 landing.SetActive(false);
                 upCom.SetActive(false);
+                keyboard.SetActive(false);
 
                 switch (_phase)
                 {
@@ -56,6 +58,7 @@ namespace RetroJam.CaptainBlood
                         return;
                     case Phase.UpCom:
                         upCom.SetActive(true);
+                        keyboard.SetActive(true);
                         return;
                     default:
                         return;
@@ -83,7 +86,7 @@ namespace RetroJam.CaptainBlood
         // Update is called once per frame
         void Update()
         {
-            HandleMenus();
+            //HandleMenus();
 
             Test();
 
@@ -164,6 +167,13 @@ namespace RetroJam.CaptainBlood
         public void SetPlanet(Vector2Int _coord)
         {
             currentPlanet = Galaxy.planets[_coord];
+        }
+
+        public void SetPhase(Phase _phase)
+        {
+            menu.SetActive(_phase);
+            phase = _phase;
+
         }
     }
 }

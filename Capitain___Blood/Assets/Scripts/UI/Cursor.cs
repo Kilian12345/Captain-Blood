@@ -85,5 +85,5 @@ namespace RetroJam.CaptainBlood
         {
             height = Mathf.Clamp(_value, 2, 87);
         }
-    }
+    } 
 }

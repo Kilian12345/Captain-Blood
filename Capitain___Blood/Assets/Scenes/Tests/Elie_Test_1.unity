@@ -656,7 +656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &294473064
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1054,7 +1054,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 258
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1399,7 +1399,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 258
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1441,11 +1441,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -4031,6 +4031,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1208673036}
   - component: {fileID: 1208673037}
+  - component: {fileID: 1208673038}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4064,13 +4065,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c54b415f59c68046be0da9aa4b017dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phase: 1
+  phase: 5
   menu:
     main: {fileID: 173558162}
     galaxy: {fileID: 294473063}
     planet: {fileID: 380029647}
     landing: {fileID: 380029647}
     upCom: {fileID: 2093736464}
+    keyboard: {fileID: 572132563}
   cursor: {fileID: 1958863215}
   currentX: {fileID: 1359181741}
   currentY: {fileID: 401780457}
@@ -4083,6 +4085,82 @@ MonoBehaviour:
     inhabitant:
       sympathy: 0
   test: {x: 0, y: 0}
+--- !u!114 &1208673038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208673035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab14bd4e54aaf9e458d908e4dbf3c848, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  save: {fileID: 11400000, guid: d7458132bbda18640a36fd94e8665953, type: 2}
+  manager: {fileID: 1208673037}
+  cursor: {fileID: 432397501}
+  main:
+  - bottomLeft:
+      position: {x: -5.55, y: -2.15}
+    upRight:
+      position: {x: -4, y: -1.15}
+  - bottomLeft:
+      position: {x: -5.55, y: -3.8}
+    upRight:
+      position: {x: -4, y: -2.8}
+  - bottomLeft:
+      position: {x: -3.95, y: -4.45}
+    upRight:
+      position: {x: -2.5, y: -3.45}
+  - bottomLeft:
+      position: {x: -2.35, y: -4.8}
+    upRight:
+      position: {x: -0.9, y: -3.8}
+  - bottomLeft:
+      position: {x: 4.05, y: -2.15}
+    upRight:
+      position: {x: 5.5, y: -1.15}
+  galaxy:
+  - bottomLeft:
+      position: {x: -0.9, y: -3.9}
+    upRight:
+      position: {x: 0.95, y: -2.7}
+  - bottomLeft:
+      position: {x: 5.9, y: -3.6}
+    upRight:
+      position: {x: 7.35, y: -2.6}
+  planet:
+  - bottomLeft:
+      position: {x: -2.4, y: -4.8}
+    upRight:
+      position: {x: -0.95, y: -3.8}
+  - bottomLeft:
+      position: {x: 0.85, y: -4.85}
+    upRight:
+      position: {x: 2.3, y: -3.85}
+  - bottomLeft:
+      position: {x: 2.45, y: -4.45}
+    upRight:
+      position: {x: 3.9, y: -3.45}
+  - bottomLeft:
+      position: {x: 4.1, y: -3.8}
+    upRight:
+      position: {x: 5.55, y: -2.8}
+  - bottomLeft:
+      position: {x: 5.9, y: -3.6}
+    upRight:
+      position: {x: 7.35, y: -2.6}
+  landing: []
+  upcom:
+  - bottomLeft:
+      position: {x: -8, y: -3.75}
+    upRight:
+      position: {x: -6.55, y: -2.75}
+  - bottomLeft:
+      position: {x: 5.9, y: -3.6}
+    upRight:
+      position: {x: 7.35, y: -2.6}
 --- !u!1 &1223286373
 GameObject:
   m_ObjectHideFlags: 0
@@ -4250,7 +4328,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 258
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -4292,11 +4370,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -4411,7 +4489,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 258
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -5159,11 +5237,11 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
