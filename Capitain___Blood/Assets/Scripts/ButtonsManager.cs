@@ -17,6 +17,8 @@ namespace RetroJam.CaptainBlood
         [SerializeField] private Button[] landing;
         [SerializeField] private Button[] upcom; // 0 = Teleport In, 1 = MainMenu
 
+        [SerializeField] private PlanetRenderer planetRenderer;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -186,6 +188,7 @@ namespace RetroJam.CaptainBlood
                         break;
                     case Phase.Planet:
                         PlanetButtons();
+                        planetRenderer.ApplyRender(manager.currentPlanet);
                         break;
                     case Phase.Landing:
                         break;

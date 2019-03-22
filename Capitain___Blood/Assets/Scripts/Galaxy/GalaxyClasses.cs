@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 
-namespace RetroJam.CaptainBlood
+namespace RetroJam.CaptainBlood.GalaxyLib
 {
     [System.Serializable]
     public class Planet
@@ -16,6 +16,7 @@ namespace RetroJam.CaptainBlood
         public bool visited;
         public bool destroyed;
         public Alien inhabitant;
+        public Vector2 renderingValues;
 
         public Planet(Glossary[] _name, Vector2Int _coord, Glossary _race)
         {
@@ -29,6 +30,8 @@ namespace RetroJam.CaptainBlood
             race = _race;
 
             inhabitant = new Alien();
+
+            renderingValues = new Vector2(UnityEngine.Random.Range(0, 20), UnityEngine.Random.Range(0, 20));
         }
 
         public Planet(Vector2Int _coord, Glossary _race)
@@ -42,10 +45,11 @@ namespace RetroJam.CaptainBlood
 
             inhabitant = new Alien();
 
+            renderingValues = new Vector2(UnityEngine.Random.Range(0, 20), UnityEngine.Random.Range(0, 20));
         }
 
         [JsonConstructor]
-        public Planet(Glossary[] _name, Vector2Int _coord, Glossary _race, bool _visited, bool _destroyed, Alien _inhabitant)
+        public Planet(Glossary[] _name, Vector2Int _coord, Glossary _race, bool _visited, bool _destroyed, Alien _inhabitant, Vector2 _renderingValues)
         {
             name = _name;
             coordinates = _coord;
@@ -53,6 +57,7 @@ namespace RetroJam.CaptainBlood
             visited = _visited;
             destroyed = _destroyed;
             inhabitant = _inhabitant;
+            renderingValues = _renderingValues;
         }
 
 
@@ -124,19 +129,6 @@ namespace RetroJam.CaptainBlood
             sw.Stop();
 
             Debug.Log("Time to Initialize whole Galaxy : "+sw.ElapsedMilliseconds/1000+"s.");
-        }
-
-        public static void Initialize(GalaxySCO _save)
-        {
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-
-            sw.Start();
-
-            planets = _save.galaxy;
-
-            sw.Stop();
-
-            Debug.Log("Time to Initialize whole Galaxy : " + sw.ElapsedMilliseconds / 1000 + "s.");
         }
 
         public static void Initialize(Dictionary<Vector2Int, Planet> _save)

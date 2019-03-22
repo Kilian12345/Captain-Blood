@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using TMPro;
+using RetroJam.CaptainBlood.GalaxyLib;
 
 namespace RetroJam.CaptainBlood
 {
@@ -18,7 +19,7 @@ namespace RetroJam.CaptainBlood
         [SerializeField] private TextMeshProUGUI currentY;
         
 
-        [SerializeField] private Planet currentPlanet;
+        [SerializeField] public Planet currentPlanet;
 
         private Phase lastPhase;
 
@@ -29,16 +30,17 @@ namespace RetroJam.CaptainBlood
         #region Classes
         [System.Serializable] public class Menu
         {
-            public GameObject main, galaxy, planet, landing, upCom, keyboard;
+            public GameObject main, galaxy, planetMenu, landing, upCom, keyboard, planet;
 
             public void SetActive(Phase _phase)
             {
                 main.SetActive(false);
                 galaxy.SetActive(false);
-                planet.SetActive(false);
+                planetMenu.SetActive(false);
                 landing.SetActive(false);
                 upCom.SetActive(false);
                 keyboard.SetActive(false);
+                planet.SetActive(false);
 
                 switch (_phase)
                 {
@@ -51,6 +53,7 @@ namespace RetroJam.CaptainBlood
                     case Phase.FTL:
                         return;
                     case Phase.Planet:
+                        planetMenu.SetActive(true);
                         planet.SetActive(true);
                         return;
                     case Phase.Landing:
