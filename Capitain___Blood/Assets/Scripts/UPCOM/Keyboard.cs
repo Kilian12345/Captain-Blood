@@ -39,9 +39,9 @@ namespace RetroJam.CaptainBlood
 
         public void Scroll()
         {
-            if (Input.GetAxis("Scroll") != 0)
+            if (Input.GetAxis("ScrollHorizontal") != 0)
             {
-                transform.position -= new Vector3(Input.GetAxis("Scroll") > 0 ? Mathf.Pow(Input.GetAxis("Scroll"), 2) : -Mathf.Pow(Input.GetAxis("Scroll"), 2), 0, 0) * speed * Time.deltaTime;
+                transform.position -= new Vector3(Input.GetAxis("ScrollHorizontal") > 0 ? Mathf.Pow(Input.GetAxis("ScrollHorizontal"), 2) : -Mathf.Pow(Input.GetAxis("ScrollHorizontal"), 2), 0, 0) * speed * Time.deltaTime;
             }
 
             if (transform.localPosition.x > 0 || transform.localPosition.x < -736)

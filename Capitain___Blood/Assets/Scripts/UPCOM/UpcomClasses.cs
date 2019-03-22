@@ -54,18 +54,17 @@ namespace RetroJam.CaptainBlood
         public bool teleportable;
     }
 
+    [System.Serializable]
     public class Alien
     {
         public Glossary[] name { get; private set; }
+        public int sympathy;
 
         public void SetName()
         {
-            name = new Glossary[Random.Range(2, 3)];
-
-            for (int i = 0; i < name.Length; i++)
-            {
-                name[i] = (Glossary)Random.Range(1, 72);
-            }
+            name = new Glossary[2];
+            name[0] = (Glossary)Random.Range(2, 72);
+            name[1] = (Glossary)Random.Range(2, 72);
         }
     }
 

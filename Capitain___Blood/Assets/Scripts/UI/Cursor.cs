@@ -12,6 +12,8 @@ namespace RetroJam.CaptainBlood
         [SerializeField] private Animator animator;
         private Camera cam;
 
+        [SerializeField] private int height = 87;
+
         public Vector2 Debug1;
 
         private void Awake()
@@ -50,9 +52,9 @@ namespace RetroJam.CaptainBlood
 
             if (Input.GetAxis("Vertical") != 0)
             {
-                if ((pos.y >= 2 && pos.y <= 87)
+                if ((pos.y >= 2 && pos.y <= height)
                     || (pos.y < 2 && Input.GetAxis("Vertical") > 0)
-                    || (pos.y > 87 && Input.GetAxis("Vertical") < 0))
+                    || (pos.y > height && Input.GetAxis("Vertical") < 0))
                 {
                     transform.position += new Vector3(0,Input.GetAxis("Vertical") > 0 ? Mathf.Pow(Input.GetAxis("Vertical"), 2) : -Mathf.Pow(Input.GetAxis("Vertical"), 2), 0) * speed * Time.deltaTime;
                 }
@@ -60,7 +62,7 @@ namespace RetroJam.CaptainBlood
 
             pos = cam.WorldToScreenPoint(transform.position);
 
-            transform.position = cam.ScreenToWorldPoint(new Vector3(Mathf.Clamp(pos.x, 5, 310), Mathf.Clamp(pos.y, 2, 87), pos.z));
+            transform.position = cam.ScreenToWorldPoint(new Vector3(Mathf.Clamp(pos.x, 5, 310), Mathf.Clamp(pos.y, 2, height), pos.z));
 
 
         }
@@ -77,6 +79,11 @@ namespace RetroJam.CaptainBlood
                 clicking = false;
                 animator.SetBool("used", clicking);
             }
+        }
+
+        public void SetHeight(int _value)
+        {
+            height = Mathf.Clamp(_value, 2, 87);
         }
     }
 }
