@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RetroJam.CaptainBlood.CursorLib;
+using RetroJam.CaptainBlood.GalaxyLib;
 
 namespace RetroJam.CaptainBlood
 {
@@ -18,6 +19,7 @@ namespace RetroJam.CaptainBlood
         [SerializeField] private Button[] upcom; // 0 = Teleport In, 1 = MainMenu
 
         [SerializeField] private PlanetRenderer planetRenderer;
+        [SerializeField] private CoordManager coordManager;
 
         // Start is called before the first frame update
         void Start()
@@ -58,6 +60,7 @@ namespace RetroJam.CaptainBlood
                     break;
                 case 2:
                     Debug.Log("Switching to Planet interface.");
+                    planetRenderer.ApplyRender(manager.currentPlanet);
                     manager.SetPhase(Phase.Planet);
                     break;
                 case 3:
@@ -90,7 +93,7 @@ namespace RetroJam.CaptainBlood
                     break;
                 case 0:
                     Debug.Log("Hyperspace Jump.");
-                    //FTL
+                    manager.SetPlanet(coordManager.coord);
                     break;
                 case 1:
                     Debug.Log("Switching to Main interface.");
@@ -188,7 +191,7 @@ namespace RetroJam.CaptainBlood
                         break;
                     case Phase.Planet:
                         PlanetButtons();
-                        planetRenderer.ApplyRender(manager.currentPlanet);
+                        
                         break;
                     case Phase.Landing:
                         break;

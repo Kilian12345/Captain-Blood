@@ -31,7 +31,7 @@ namespace RetroJam.CaptainBlood.GalaxyLib
 
             inhabitant = new Alien();
 
-            renderingValues = new Vector2(UnityEngine.Random.Range(0, 20), UnityEngine.Random.Range(0, 20));
+            renderingValues = new Vector2(UnityEngine.Random.Range(0, 20), UnityEngine.Random.Range(0, 1000000));
         }
 
         public Planet(Vector2Int _coord, Glossary _race)
@@ -45,7 +45,7 @@ namespace RetroJam.CaptainBlood.GalaxyLib
 
             inhabitant = new Alien();
 
-            renderingValues = new Vector2(UnityEngine.Random.Range(0, 20), UnityEngine.Random.Range(0, 20));
+            renderingValues = new Vector2(UnityEngine.Random.Range(0, 14), UnityEngine.Random.Range(0, 1000000));
         }
 
         [JsonConstructor]

@@ -10,22 +10,22 @@ namespace RetroJam.CaptainBlood
         [SerializeField] private Material material;
         [SerializeField] private Texture[] texture;
 
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public void ApplyRender(Planet _planet)
         {
+            Debug.Log("Changing Texture");
             material.mainTexture = texture[(int)_planet.renderingValues.x];
+            material.color = ColorFromSeed((int)_planet.renderingValues.y);
+        }
+
+        private Color ColorFromSeed(int _seed)
+        {
+            float red = Mathf.Floor(_seed / 10000) / 100;
+            float green = (Mathf.Floor(_seed / 100) - Mathf.Floor(_seed / 10000) * 100) / 100;
+            float blue = (_seed - Mathf.Floor(_seed / 100) * 100) / 100;
+
+            Debug.Log("Red : " + red + " - Green : " + green + " - Blue : " + blue);
+
+            return new Color(red, green, blue);
         }
     }
 }

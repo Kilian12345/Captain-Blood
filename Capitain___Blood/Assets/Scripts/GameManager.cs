@@ -25,7 +25,7 @@ namespace RetroJam.CaptainBlood
 
         //[SerializeField] private GalaxySCO save;
 
-        public Vector2Int test;
+        //public Vector2Int test;
 
         #region Classes
         [System.Serializable] public class Menu
@@ -76,7 +76,7 @@ namespace RetroJam.CaptainBlood
             JsonSerializerSettings setting = new JsonSerializerSettings();
             setting.CheckAdditionalContent = true;
 
-            Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter()));
+            Galaxy.Initialize(/*JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter())*/);
 
             //save.galaxy = Galaxy.planets;
         }
@@ -96,8 +96,6 @@ namespace RetroJam.CaptainBlood
             SavePlanets();
 
             CurrentCoordinates();
-
-            SetPlanet(test);
         }
 
         public void HandleMenus()
@@ -115,7 +113,7 @@ namespace RetroJam.CaptainBlood
         {
             if(Input.GetKeyDown(KeyCode.T))
             {
-                Debug.Log(Galaxy.planets[test].name[0] + " - " + Galaxy.planets[test].name[1] + " - " + Galaxy.planets[test].name[2]);
+                Debug.Log(currentPlanet.name[0] + " - " + currentPlanet.name[1] + " - " + currentPlanet.name[2]);
             }
         }
 

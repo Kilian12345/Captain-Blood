@@ -7,7 +7,7 @@ namespace RetroJam.CaptainBlood
 {
     public class CoordManager : MonoBehaviour
     {
-        [SerializeField] private Vector2Int coord;
+        [SerializeField] public Vector2Int coord;
         [SerializeField] private Transform x;
         [SerializeField] private TextMeshProUGUI xScreen;
         [SerializeField] private Transform y;
