@@ -23,6 +23,8 @@ namespace RetroJam.CaptainBlood
 
         private Phase lastPhase;
 
+        public static Events events = new Events();
+
         //[SerializeField] private GalaxySCO save;
 
         //public Vector2Int test;
@@ -76,37 +78,22 @@ namespace RetroJam.CaptainBlood
             JsonSerializerSettings setting = new JsonSerializerSettings();
             setting.CheckAdditionalContent = true;
 
-            Galaxy.Initialize(/*JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter())*/);
-
-            //save.galaxy = Galaxy.planets;
+            Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter()));
         }
-        // Start is called before the first frame update
+
         void Start()
         {
-
+            currentPlanet = Galaxy.planets[new Vector2Int(Random.Range(0, 256), Random.Range(0, 126))];
         }
 
-        // Update is called once per frame
         void Update()
         {
-            //HandleMenus();
 
             Test();
 
             SavePlanets();
 
             CurrentCoordinates();
-        }
-
-        public void HandleMenus()
-        {
-            if(phase != lastPhase)
-            {
-                menu.SetActive(phase);
-                lastPhase = phase;
-
-                SetCursorLimit(phase);
-            }
         }
 
         public void Test()
@@ -172,6 +159,7 @@ namespace RetroJam.CaptainBlood
 
         public void SetPhase(Phase _phase)
         {
+            SetCursorLimit(_phase);
             menu.SetActive(_phase);
             phase = _phase;
 

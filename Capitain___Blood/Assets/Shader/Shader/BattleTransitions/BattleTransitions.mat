@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TransitionTex:
-        m_Texture: {fileID: 2800000, guid: 53ecc36e0ed444842a20c49e2b616511, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2d47a015e01e91349bf700d3ab93abc8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TransitionTexture:

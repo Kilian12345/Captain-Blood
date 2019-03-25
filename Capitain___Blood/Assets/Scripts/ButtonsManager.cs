@@ -6,7 +6,7 @@ using RetroJam.CaptainBlood.GalaxyLib;
 
 namespace RetroJam.CaptainBlood
 {
-    public class ButtonsManager : MonoBehaviour
+    public class ButtonsManager : EventsManager
     {
         [SerializeField] private SaveButtons save;
         [SerializeField] private GameManager manager;
@@ -25,6 +25,8 @@ namespace RetroJam.CaptainBlood
         void Start()
         {
             SavingButtonsValues(save);
+            planetRenderer.ApplyRender(manager.currentPlanet);
+
         }
 
         // Update is called once per frame
@@ -93,11 +95,18 @@ namespace RetroJam.CaptainBlood
                     break;
                 case 0:
                     Debug.Log("Hyperspace Jump.");
+                    Debug.Log("Switching to Planet interface.");
                     manager.SetPlanet(coordManager.coord);
+                    manager.SetPhase(Phase.Planet);
+                    GameManager.events.CallInitializingFTL();
                     break;
                 case 1:
                     Debug.Log("Switching to Main interface.");
                     manager.SetPhase(Phase.MainMenu);
+                    break;
+                case 2:
+                    Debug.Log("Switching to Planet interface.");
+                    manager.SetPhase(Phase.Planet);
                     break;
             }
         }
@@ -211,6 +220,11 @@ namespace RetroJam.CaptainBlood
             _save.planet = planet;
             _save.landing = landing;
             _save.upcom = upcom;
+        }
+
+        public override void SlowingDown()
+        {
+            planetRenderer.ApplyRender(manager.currentPlanet);
         }
     }
 }

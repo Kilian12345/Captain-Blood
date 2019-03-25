@@ -12,18 +12,17 @@ namespace RetroJam.CaptainBlood
 
         public void ApplyRender(Planet _planet)
         {
-            Debug.Log("Changing Texture");
             material.mainTexture = texture[(int)_planet.renderingValues.x];
             material.color = ColorFromSeed((int)_planet.renderingValues.y);
+
+            Debug.Log("ApplyRenderer");
         }
 
         private Color ColorFromSeed(int _seed)
         {
-            float red = Mathf.Floor(_seed / 10000) / 100;
+            float red = Mathf.Floor(_seed / 10000) /100;
             float green = (Mathf.Floor(_seed / 100) - Mathf.Floor(_seed / 10000) * 100) / 100;
             float blue = (_seed - Mathf.Floor(_seed / 100) * 100) / 100;
-
-            Debug.Log("Red : " + red + " - Green : " + green + " - Blue : " + blue);
 
             return new Color(red, green, blue);
         }

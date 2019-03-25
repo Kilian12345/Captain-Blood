@@ -15,6 +15,7 @@ Shader "Custom/BattleTransitions"
 
 		SubShader
 		{
+			Tags{ "Queue" = "Transparent" "RenderType" = "Transparent" }
 			// No culling or depth
 			Cull Off ZWrite Off ZTest Always
 

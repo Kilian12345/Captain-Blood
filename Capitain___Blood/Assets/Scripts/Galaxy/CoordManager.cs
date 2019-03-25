@@ -5,7 +5,7 @@ using TMPro;
 
 namespace RetroJam.CaptainBlood
 {
-    public class CoordManager : MonoBehaviour
+    public class CoordManager : EventsManager
     {
         [SerializeField] public Vector2Int coord;
         [SerializeField] private Transform x;
@@ -20,7 +20,7 @@ namespace RetroJam.CaptainBlood
         // Start is called before the first frame update
         void Start()
         {
-
+            coord = new Vector2Int(123, 62);
         }
 
         // Update is called once per frame
