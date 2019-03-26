@@ -2,27 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RetroJam.CaptainBlood
+namespace RetroJam.CaptainBlood.Lang
 {
     [System.Serializable]
     public class Sentence
     {
-        public Glossary[] words;
+        public Word[] words;
         public int size { get; private set; }
 
         
         public Sentence()
         {
-            words = new Glossary[8];
+            words = new Word[8];
             for (int i = 0; i < 8; i++)
             {
-                words[i] = Glossary.none;
+                words[i] = Word.none;
             }
 
             size = 0;
         }
 
-        public void AddWord(Glossary _word)
+        public void AddWord(Word _word)
         {
             if (size < 8)
             {
@@ -39,7 +39,7 @@ namespace RetroJam.CaptainBlood
         {
             if (size > 0)
             {
-                words[size - 1] = Glossary.none;
+                words[size - 1] = Word.none;
                 size--;
             }
             else
@@ -57,14 +57,14 @@ namespace RetroJam.CaptainBlood
     [System.Serializable]
     public class Alien
     {
-        public Glossary[] name { get; private set; }
+        public Word[] name { get; private set; }
         public int sympathy;
 
         public void SetName()
         {
-            name = new Glossary[2];
-            name[0] = (Glossary)Random.Range(2, 72);
-            name[1] = (Glossary)Random.Range(2, 72);
+            name = new Word[2];
+            name[0] = (Word)Random.Range(2, 72);
+            name[1] = (Word)Random.Range(2, 72);
         }
     }
 
@@ -72,6 +72,4 @@ namespace RetroJam.CaptainBlood
     {
 
     }
-
-
 }

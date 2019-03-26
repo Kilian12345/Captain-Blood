@@ -1,9 +1,11 @@
-﻿namespace RetroJam.CaptainBlood
+﻿using System.Collections.Generic;
+
+namespace RetroJam.CaptainBlood.Lang
 {
-    public enum Glossary
+    public enum Word
     {
         none,
-        QuestionMArk,
+        QuestionMark,
         Not,
         Yes,
         No,
@@ -57,7 +59,8 @@
         Genetic,
         Sex,
         Reproduction,
-        Male, Female,
+        Male,
+        Female,
         Identity,
         Pop,
         People,
@@ -123,255 +126,257 @@
         Height,
         Nine
     }
-    public enum WordNature { Ponctuation, Noun, Adjective, Verb }
+    public enum WordNature { Ponctuation, Noun, Adjective, Verb, Expression, Negation, Number }
+    public enum WordFunction { Subject, Action, Object, Complement}
+    public enum VerbType { Intransitive, Transitive, Ditransitive, DoubleTransitive, Copular}
 
     public static class WordsFunctions
     {
-        public static string ToText(this Glossary _word)
+        public static string ToText(this Word _word)
         {
             switch (_word)
             {
-                case Glossary.none:
+                case Word.none:
                     return "";
-                case Glossary.QuestionMArk:
+                case Word.QuestionMark:
                     return "?";
-                case Glossary.Not:
+                case Word.Not:
                     return "NOT";
-                case Glossary.Yes:
+                case Word.Yes:
                     return "YES";
-                case Glossary.No:
+                case Word.No:
                     return "NO";
-                case Glossary.Me:
+                case Word.Me:
                     return "ME";
-                case Glossary.You:
+                case Word.You:
                     return "YOU";
-                case Glossary.Howdy:
+                case Word.Howdy:
                     return "HOWDY";
-                case Glossary.Bye:
+                case Word.Bye:
                     return "BYE";
-                case Glossary.Go:
+                case Word.Go:
                     return "GO";
-                case Glossary.Want:
+                case Word.Want:
                     return "WANT";
-                case Glossary.Teleport:
+                case Word.Teleport:
                     return "TELEPORT";
-                case Glossary.Give:
+                case Word.Give:
                     return "GIVE";
-                case Glossary.Like:
+                case Word.Like:
                     return "LIKE";
-                case Glossary.Say:
+                case Word.Say:
                     return "SAY";
-                case Glossary.Know:
+                case Word.Know:
                     return "KNOW";
-                case Glossary.Unknown:
+                case Word.Unknown:
                     return "UNKNOWN";
-                case Glossary.Play:
+                case Word.Play:
                     return "PLAY";
-                case Glossary.Search:
+                case Word.Search:
                     return "SEARCH";
-                case Glossary.Race:
+                case Word.Race:
                     return "RACE";
-                case Glossary.Vote:
+                case Word.Vote:
                     return "VOTE";
-                case Glossary.Help:
+                case Word.Help:
                     return "HELP";
-                case Glossary.Disarm:
+                case Word.Disarm:
                     return "DISARM";
-                case Glossary.Laugh:
+                case Word.Laugh:
                     return "( LAUGH )";
-                case Glossary.Sob:
+                case Word.Sob:
                     return "SOB";
-                case Glossary.Fear:
+                case Word.Fear:
                     return "FEAR";
-                case Glossary.Destroy:
+                case Word.Destroy:
                     return "DESTROY";
-                case Glossary.Free:
+                case Word.Free:
                     return "FREE";
-                case Glossary.Kill:
+                case Word.Kill:
                     return "KILL";
-                case Glossary.Prison:
+                case Word.Prison:
                     return "PRISON";
-                case Glossary.Prisonner:
+                case Word.Prisonner:
                     return "PRISONNER";
-                case Glossary.Trap:
+                case Word.Trap:
                     return "TRAP";
-                case Glossary.Danger:
+                case Word.Danger:
                     return "DANGER";
-                case Glossary.Forbidden:
+                case Word.Forbidden:
                     return "FORBIDDEN";
-                case Glossary.Radioactivity:
+                case Word.Radioactivity:
                     return "RADIOACTIVITY";
-                case Glossary.Impossible:
+                case Word.Impossible:
                     return "IMPOSSIBLE";
-                case Glossary.Bounty:
+                case Word.Bounty:
                     return "BOUNTY";
-                case Glossary.Information:
+                case Word.Information:
                     return "INFORMATION";
-                case Glossary.NonSense:
+                case Word.NonSense:
                     return "NONSENSE";
-                case Glossary.RDV:
+                case Word.RDV:
                     return "RENDEZ-VOUS";
-                case Glossary.Time:
+                case Word.Time:
                     return "TIME";
-                case Glossary.Urgent:
+                case Word.Urgent:
                     return "URGENT";
-                case Glossary.Idea:
+                case Word.Idea:
                     return "IDEA";
-                case Glossary.Missile:
+                case Word.Missile:
                     return "MISSILE";
-                case Glossary.Code:
+                case Word.Code:
                     return "CODE";
-                case Glossary.Friend:
+                case Word.Friend:
                     return "FRIEND";
-                case Glossary.Ennemy:
+                case Word.Ennemy:
                     return "ENNEMY";
-                case Glossary.Spirit:
+                case Word.Spirit:
                     return "SPIRIT";
-                case Glossary.Brain:
+                case Word.Brain:
                     return "BRAIN";
-                case Glossary.Warrior:
+                case Word.Warrior:
                     return "WARRIOR";
-                case Glossary.President:
+                case Word.President:
                     return "PRESIDENT";
-                case Glossary.Scientist:
+                case Word.Scientist:
                     return "SCIENTIST";
-                case Glossary.Genetic:
+                case Word.Genetic:
                     return "GENETIC";
-                case Glossary.Sex:
+                case Word.Sex:
                     return "SEX";
-                case Glossary.Reproduction:
+                case Word.Reproduction:
                     return "REPRODUCTION";
-                case Glossary.Male:
+                case Word.Male:
                     return "MALE";
-                case Glossary.Female:
+                case Word.Female:
                     return "FEMALE";
-                case Glossary.Identity:
+                case Word.Identity:
                     return "IDENTITY";
-                case Glossary.Pop:
+                case Word.Pop:
                     return "POP";
-                case Glossary.People:
+                case Word.People:
                     return "PEOPLE";
-                case Glossary.Different:
+                case Word.Different:
                     return "DIFFERENT";
-                case Glossary.Small:
+                case Word.Small:
                     return "SMALL";
-                case Glossary.Great:
+                case Word.Great:
                     return "GREAT";
-                case Glossary.Strong:
+                case Word.Strong:
                     return "STRONG";
-                case Glossary.Bad:
+                case Word.Bad:
                     return "BAD";
-                case Glossary.Brave:
+                case Word.Brave:
                     return "BRAVE";
-                case Glossary.Good:
+                case Word.Good:
                     return "GOOD";
-                case Glossary.Crazy:
+                case Word.Crazy:
                     return "CRAZY";
-                case Glossary.Poor:
+                case Word.Poor:
                     return "POOR";
-                case Glossary.Insult:
+                case Word.Insult:
                     return "( INSULT )";
-                case Glossary.Curse:
+                case Word.Curse:
                     return "( CURSE )";
-                case Glossary.Peace:
+                case Word.Peace:
                     return "PEACE";
-                case Glossary.Dead:
+                case Word.Dead:
                     return "DEAD";
-                case Glossary.Oorx:
+                case Word.Oorx:
                     return "OORX";
-                case Glossary.Tromp:
+                case Word.Tromp:
                     return "TROMP";
-                case Glossary.Kingpak:
+                case Word.Kingpak:
                     return "KINGPAK";
-                case Glossary.Robhead:
+                case Word.Robhead:
                     return "ROBHEAD";
-                case Glossary.CroolisVar:
+                case Word.CroolisVar:
                     return "CROOLIS-VAR";
-                case Glossary.CroolisUlv:
+                case Word.CroolisUlv:
                     return "CROOLIS-ULV";
-                case Glossary.Izwal:
+                case Word.Izwal:
                     return "IZWAL";
-                case Glossary.Migrax:
+                case Word.Migrax:
                     return "MIGRAX";
-                case Glossary.Antenna:
+                case Word.Antenna:
                     return "ANTENNA";
-                case Glossary.Buggol:
+                case Word.Buggol:
                     return "BUGGOL";
-                case Glossary.Tricephal:
+                case Word.Tricephal:
                     return "TRICEPHAL";
-                case Glossary.TubularBrain:
+                case Word.TubularBrain:
                     return "TUBULAR-BRAIN";
-                case Glossary.Yukas:
+                case Word.Yukas:
                     return "YUKAS";
-                case Glossary.Sinox:
+                case Word.Sinox:
                     return "SINOX";
-                case Glossary.Ondoyante:
+                case Word.Ondoyante:
                     return "ONDOYANTE";
-                case Glossary.Duplicate:
+                case Word.Duplicate:
                     return "DUPLICATE";
-                case Glossary.Tuttle:
+                case Word.Tuttle:
                     return "TUTTLE";
-                case Glossary.Morlock:
+                case Word.Morlock:
                     return "MORLOCK";
-                case Glossary.Yoko:
+                case Word.Yoko:
                     return "YOKO";
-                case Glossary.Maxon:
+                case Word.Maxon:
                     return "MAXON";
-                case Glossary.Blood:
+                case Word.Blood:
                     return "BLOOD";
-                case Glossary.Torka:
+                case Word.Torka:
                     return "TORKA";
-                case Glossary.Ship:
+                case Word.Ship:
                     return "SHIP";
-                case Glossary.Contact:
+                case Word.Contact:
                     return "CONTACT";
-                case Glossary.Home:
+                case Word.Home:
                     return "HOME";
-                case Glossary.Planet:
+                case Word.Planet:
                     return "PLANET";
-                case Glossary.Trauma:
+                case Word.Trauma:
                     return "TRAUMA";
-                case Glossary.Entrax:
+                case Word.Entrax:
                     return "ENTRAX";
-                case Glossary.Ondoya:
+                case Word.Ondoya:
                     return "ONDOYA";
-                case Glossary.Kristo:
+                case Word.Kristo:
                     return "KRISTO";
-                case Glossary.Rosko:
+                case Word.Rosko:
                     return "ROSKO";
-                case Glossary.Corpo:
+                case Word.Corpo:
                     return "CORPO";
-                case Glossary.Ulikan:
+                case Word.Ulikan:
                     return "ULIKAN";
-                case Glossary.BowBow:
+                case Word.BowBow:
                     return "BOW-BOW";
-                case Glossary.Hour:
+                case Word.Hour:
                     return "HOUR";
-                case Glossary.Coord:
+                case Word.Coord:
                     return "COORDINATE";
-                case Glossary.Equal:
+                case Word.Equal:
                     return "=";
-                case Glossary.OutOf:
+                case Word.OutOf:
                     return "/";
-                case Glossary.Zero:
+                case Word.Zero:
                     return "0";
-                case Glossary.One:
+                case Word.One:
                     return "1";
-                case Glossary.Two:
+                case Word.Two:
                     return "2";
-                case Glossary.Three:
+                case Word.Three:
                     return "3";
-                case Glossary.For:
+                case Word.For:
                     return "4";
-                case Glossary.Five:
+                case Word.Five:
                     return "5";
-                case Glossary.Six:
+                case Word.Six:
                     return "6";
-                case Glossary.Seven:
+                case Word.Seven:
                     return "7";
-                case Glossary.Height:
+                case Word.Height:
                     return "8";
-                case Glossary.Nine:
+                case Word.Nine:
                     return "9";
                 default:
                     return "";
@@ -379,23 +384,430 @@
         }
     }
 
-    [System.Serializable]
-    public class Word
+    public static class Words
     {
-        public Glossary word;
-        public WordNature nature;
+        public static Dictionary<Word, WordNature> dictionary { get; private set; }
 
-        public Word(Glossary _word, WordNature _nature)
+        public static Dictionary<Word, Verb> verbs { get; private set; }
+
+        public static Dictionary<Word, Adjective> adjectives { get; private set; }
+
+        public static List<Word> nouns { get; private set; }
+
+        public class Verb
         {
-            word = _word;
-            nature = _nature;
+            public VerbType type;
+            public int valency;
+
+            public Verb(VerbType _type, int _valency)
+            {
+                type = _type;
+                valency = _valency;
+            }
         }
 
-        public Word(int _word, int _nature)
+        public class Adjective
         {
-            word = (Glossary)_word;
-            nature = (WordNature)_nature;
+            public float factor;
+
+            public Adjective(float _value)
+            {
+                factor = _value;
+            }
         }
+
+        public static void InitializeWords()
+        {
+            for (int i = 1; i < 121; i++)
+            {
+                switch ((Word)i)
+                {
+                    case Word.QuestionMark:
+                        dictionary.Add((Word)i, WordNature.Ponctuation);
+                        break;
+                    case Word.Not:
+                        dictionary.Add((Word)i, WordNature.Negation);
+                        break;
+                    case Word.Yes:
+                        dictionary.Add((Word)i, WordNature.Expression);
+                        break;
+                    case Word.No:
+                        dictionary.Add((Word)i, WordNature.Expression);
+                        break;
+                    case Word.Me:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.You:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Howdy:
+                        dictionary.Add((Word)i, WordNature.Expression);
+                        break;
+                    case Word.Bye:
+                        dictionary.Add((Word)i, WordNature.Expression);
+                        break;
+                    case Word.Go:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Intransitive, 1));
+                        break;
+                    case Word.Want:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Teleport:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Give:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Ditransitive, 3));
+                        break;
+                    case Word.Like:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Say:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Know:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Unknown:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Play:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Intransitive, 1));
+                        break;
+                    case Word.Search:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Race:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Intransitive, 1));
+                        break;
+                    case Word.Vote:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Help:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Disarm:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Laugh:
+                        dictionary.Add((Word)i, WordNature.Expression);
+                        break;
+                    case Word.Sob:
+                        dictionary.Add((Word)i, WordNature.Expression);
+                        break;
+                    case Word.Fear:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Destroy:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Free:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Kill:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.Prison:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Prisonner:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Trap:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Danger:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Forbidden:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Radioactivity:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Impossible:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Bounty:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Information:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.NonSense:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.RDV:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Time:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Urgent:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Idea:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Missile:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Code:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Friend:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Ennemy:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Spirit:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Brain:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Warrior:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.President:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Scientist:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Genetic:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Sex:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Reproduction:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Male:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Female:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Identity:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Pop:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.People:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Different:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Small:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Great:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Strong:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Bad:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Brave:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Good:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Crazy:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Poor:
+                        dictionary.Add((Word)i, WordNature.Adjective);
+                        break;
+                    case Word.Insult:
+                        dictionary.Add((Word)i, WordNature.Expression);
+                        break;
+                    case Word.Curse:
+                        dictionary.Add((Word)i, WordNature.Expression);
+                        break;
+                    case Word.Peace:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Dead:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Oorx:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Tromp:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Kingpak:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Robhead:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.CroolisVar:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.CroolisUlv:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Izwal:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Migrax:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Antenna:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Buggol:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Tricephal:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.TubularBrain:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Yukas:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Sinox:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Ondoyante:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Duplicate:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Tuttle:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Morlock:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Yoko:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Maxon:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Blood:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Torka:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Ship:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Contact:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Home:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Planet:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Trauma:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Entrax:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Ondoya:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Kristo:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Rosko:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Corpo:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Ulikan:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.BowBow:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Hour:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Coord:
+                        dictionary.Add((Word)i, WordNature.Noun);
+                        break;
+                    case Word.Equal:
+                        dictionary.Add((Word)i, WordNature.Verb);
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2));
+                        break;
+                    case Word.OutOf:
+                        dictionary.Add((Word)i, WordNature.Ponctuation);
+                        break;
+                    case Word.Zero:
+                        dictionary.Add((Word)i, WordNature.Number);
+                        break;
+                    case Word.One:
+                        dictionary.Add((Word)i, WordNature.Number);
+                        break;
+                    case Word.Two:
+                        dictionary.Add((Word)i, WordNature.Number);
+                        break;
+                    case Word.Three:
+                        dictionary.Add((Word)i, WordNature.Number);
+                        break;
+                    case Word.For:
+                        dictionary.Add((Word)i, WordNature.Number);
+                        break;
+                    case Word.Five:
+                        dictionary.Add((Word)i, WordNature.Number);
+                        break;
+                    case Word.Six:
+                        dictionary.Add((Word)i, WordNature.Number);
+                        break;
+                    case Word.Seven:
+                        dictionary.Add((Word)i, WordNature.Number);
+                        break;
+                    case Word.Height:
+                        dictionary.Add((Word)i, WordNature.Number);
+                        break;
+                    case Word.Nine:
+                        dictionary.Add((Word)i, WordNature.Number);
+                        break;
+                }
+            }
+        }
+
+    }
+
+    public class Lexicon
+    {
+
     }
 
     public static class Language

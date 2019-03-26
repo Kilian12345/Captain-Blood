@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RetroJam.CaptainBlood.Lang;
 using System;
 
 namespace RetroJam.CaptainBlood.GalaxyLib
@@ -10,18 +11,18 @@ namespace RetroJam.CaptainBlood.GalaxyLib
     [System.Serializable]
     public class Planet
     {
-        public Glossary[] name;
+        public Word[] name;
         public Vector2Int coordinates;
-        public Glossary race;
+        public Word race;
         public bool visited;
         public bool destroyed;
         public Alien inhabitant;
         public Vector2 renderingValues;
 
-        public Planet(Glossary[] _name, Vector2Int _coord, Glossary _race)
+        public Planet(Word[] _name, Vector2Int _coord, Word _race)
         {
             if (_name.Length > 4) throw new PlanetValueException("Planet's name is too long.");
-            if (_name[0] != Glossary.Planet) throw new PlanetValueException("Planet's name must begin with PLANET");
+            if (_name[0] != Word.Planet) throw new PlanetValueException("Planet's name must begin with PLANET");
             if (_coord.x < 0 || _coord.x > 256 || _coord.y < 0 || _coord.y > 125) throw new PlanetValueException("Planet's coordinates must be between [0,0] and [256,125].");
             if((int)_race < 73 && (int)_race > 88) throw new PlanetValueException("Planet's race is not a race !");
 
@@ -34,7 +35,7 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             renderingValues = new Vector2(UnityEngine.Random.Range(0, 20), UnityEngine.Random.Range(0, 1000000));
         }
 
-        public Planet(Vector2Int _coord, Glossary _race)
+        public Planet(Vector2Int _coord, Word _race)
         {
             if (_coord.x < 0 || _coord.x > 256 || _coord.y < 0 || _coord.y > 125) throw new PlanetValueException("Planet's coordinates must be between [0,0] and [256,125].");
             if ((int)_race < 73 || (int)_race > 88) throw new PlanetValueException("Planet's race is not a race !");
@@ -49,7 +50,7 @@ namespace RetroJam.CaptainBlood.GalaxyLib
         }
 
         [JsonConstructor]
-        public Planet(Glossary[] _name, Vector2Int _coord, Glossary _race, bool _visited, bool _destroyed, Alien _inhabitant, Vector2 _renderingValues)
+        public Planet(Word[] _name, Vector2Int _coord, Word _race, bool _visited, bool _destroyed, Alien _inhabitant, Vector2 _renderingValues)
         {
             name = _name;
             coordinates = _coord;
@@ -61,18 +62,18 @@ namespace RetroJam.CaptainBlood.GalaxyLib
         }
 
 
-        private Glossary[] GenerateName()
+        private Word[] GenerateName()
         {
             int length = UnityEngine.Random.Range(3, 5);
 
-            Glossary[] result = new Glossary[length];
+            Word[] result = new Word[length];
 
             Debug.Log(result.Length);
 
-            result[0] = Glossary.Planet;
-            result[1] = (Glossary)UnityEngine.Random.Range(2, 73);
-            result[2] = (Glossary)UnityEngine.Random.Range(2, 73);
-            if (result.Length > 3) result[3] = (Glossary)UnityEngine.Random.Range(113, 121);
+            result[0] = Word.Planet;
+            result[1] = (Word)UnityEngine.Random.Range(2, 73);
+            result[2] = (Word)UnityEngine.Random.Range(2, 73);
+            if (result.Length > 3) result[3] = (Word)UnityEngine.Random.Range(113, 121);
 
             return result;
         }
@@ -122,7 +123,7 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             {
                 for (int y = 0; y < 126; y++)
                 {
-                    planets.Add(new Vector2Int(x, y), new Planet(new Vector2Int(x, y), (Glossary)UnityEngine.Random.Range(74, 89)));
+                    planets.Add(new Vector2Int(x, y), new Planet(new Vector2Int(x, y), (Word)UnityEngine.Random.Range(74, 89)));
                 }
             }
 
