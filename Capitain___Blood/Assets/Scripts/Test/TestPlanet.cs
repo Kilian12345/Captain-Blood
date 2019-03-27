@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RetroJam.CaptainBlood.GalaxyLib;
+using RetroJam.CaptainBlood.Lang;
 
 namespace RetroJam.CaptainBlood
 {
     public class TestPlanet : MonoBehaviour
     {
-        public Glossary[] name;
+        public Word[] name;
         public Vector2Int coordinates;
-        public Glossary race;
+        public Word race;
 
         // Start is called before the first frame update
         void Start()

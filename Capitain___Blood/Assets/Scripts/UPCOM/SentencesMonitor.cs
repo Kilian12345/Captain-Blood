@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using RetroJam.CaptainBlood.Lang;
 using TMPro;
 
 namespace RetroJam.CaptainBlood
@@ -26,14 +27,14 @@ namespace RetroJam.CaptainBlood
         private Monitor player;
         private Monitor alien;
 
-        private Dictionary<Glossary, Tile> icons = new Dictionary<Glossary, Tile>();
+        private Dictionary<Word, Tile> icons = new Dictionary<Word, Tile>();
 
         public Word mot;
 
 
         public class Monitor
         {
-            public Dictionary<Vector3Int, Glossary> sentence = new Dictionary<Vector3Int, Glossary>();
+            public Dictionary<Vector3Int, Word> sentence = new Dictionary<Vector3Int, Word>();
             public Vector3Int[] field = new Vector3Int[8];
         }
 
@@ -41,8 +42,6 @@ namespace RetroJam.CaptainBlood
         private void Awake()
         {
             cam = Camera.main;
-
-            mot = new Word(2, 3);
         }
         // Start is called before the first frame update
         void Start()
@@ -57,8 +56,6 @@ namespace RetroJam.CaptainBlood
             WriteSentence(player, manager.player);
             WriteSentence(alien, manager.alien);
             ReadSentences();
-
-            Test();
         }
 
         public void InitializeSentences()
@@ -71,8 +68,8 @@ namespace RetroJam.CaptainBlood
                 alien.field[i] = new Vector3Int(-9 + i, 1, 0);
                 player.field[i] = new Vector3Int(1 + i, 1, 0);
 
-                alien.sentence[alien.field[i]] = Glossary.none;
-                player.sentence[player.field[i]] = Glossary.none;
+                alien.sentence[alien.field[i]] = Word.none;
+                player.sentence[player.field[i]] = Word.none;
             }
         }
 
@@ -81,7 +78,7 @@ namespace RetroJam.CaptainBlood
 
             for (int i = 0; i < 120; i++)
             {
-                icons[(Glossary)i] = Resources.Load<Tile>("Words/words_"+i);
+                icons[(Word)i] = Resources.Load<Tile>("Words/words_"+i);
             }
         }
 
@@ -109,20 +106,6 @@ namespace RetroJam.CaptainBlood
             {
                 _monitor.sentence[_monitor.field[i]] = _sentence.words[i];
                 tm.SetTile(_monitor.field[i], icons[_sentence.words[i]]);
-            }
-        }
-
-        public void Test()
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                Debug.Log("Files created in the \"Saves\" directory, saving informations in json-format.");
-
-                using (StreamWriter test = File.CreateText(@"Saves\test.json"))
-                {
-                    test.WriteLine(JsonUtility.ToJson(mot));
-                }
-
             }
         }
 

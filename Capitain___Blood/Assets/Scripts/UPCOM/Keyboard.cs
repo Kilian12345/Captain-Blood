@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
+using RetroJam.CaptainBlood.Lang;
 
 namespace RetroJam.CaptainBlood
 {
@@ -14,7 +15,7 @@ namespace RetroJam.CaptainBlood
         [SerializeField] private TextMeshProUGUI textField;
         [SerializeField] DialoguesManager manager;
 
-        private Dictionary<Vector3Int, Glossary> dictionary = new Dictionary<Vector3Int, Glossary>();
+        private Dictionary<Vector3Int, Word> dictionary = new Dictionary<Vector3Int, Word>();
 
         private Camera cam;
 
@@ -66,8 +67,8 @@ namespace RetroJam.CaptainBlood
         {
             for (int i = 1; i < 120; i+=2)
             {
-                dictionary[new Vector3Int(-7 + Mathf.FloorToInt(i / 2), 0, 0)] = (Glossary)i;
-                dictionary[new Vector3Int(-7 + Mathf.FloorToInt(i / 2), -1, 0)] = (Glossary)i+1;
+                dictionary[new Vector3Int(-7 + Mathf.FloorToInt(i / 2), 0, 0)] = (Word)i;
+                dictionary[new Vector3Int(-7 + Mathf.FloorToInt(i / 2), -1, 0)] = (Word)i+1;
             }
         }
 
