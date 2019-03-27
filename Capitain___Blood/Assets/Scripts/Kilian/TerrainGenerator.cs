@@ -30,8 +30,8 @@ public class TerrainGenerator : MonoBehaviour
 
     public void Start()
     {
-        offsetX = Random.Range(0, 99999);
-        offsetY = Random.Range(0, 99999);
+       /* offsetX = Random.Range(0, 99999);
+        offsetY = Random.Range(0, 99999);*/
     }
 
 
