@@ -97,9 +97,9 @@ float4 UCLAGL_frag(UCLAGL_g2f input) : COLOR
 		
 	//blend between the lines and the negative space to give illusion of anti aliasing
 	float4 targetColor = _Color * tex2D( _MainTex, input.uv);
-	float4 transCol = _Color * tex2D( _MainTex, input.uv);
+	float4 transCol = _Color * tex2D( _MainTex, input.uv) ;
 	transCol.a = 0;
-	return val * targetColor + ( 1 - val ) * transCol;
+	return val * targetColor + ( 1 - val ) * 2;
 }
 
 

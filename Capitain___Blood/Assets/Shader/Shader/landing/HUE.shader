@@ -1,7 +1,7 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 
-Shader "Custom/HSVRangeShader"
+Shader "Custom/Unlit/HSVRangeShader"
 {
 	Properties
 	{
