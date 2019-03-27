@@ -50,7 +50,7 @@ namespace RetroJam.CaptainBlood
 
         public void TransformManager()
         {
-            transform.position = new Vector2(-4 * graal, graal);
+            transform.localPosition = new Vector2(-4 * graal, graal);
             transform.localScale = new Vector3(4 * graal, 4 * graal, 4 * graal);
         }
 
@@ -73,7 +73,11 @@ namespace RetroJam.CaptainBlood
 
             graal = Mathf.Clamp(Mathf.Pow(time,2.5f)+1, 1, 4);
 
-            if (graal > 2) GameManager.events.CallFTLDistortionIn();
+            if (graal > 2)
+            {
+                GameManager.events.CallFTLDistortionIn();
+                GameManager.events.CallStartFTL();
+            }
 
             if (graal == 4)
             {

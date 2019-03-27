@@ -25,6 +25,7 @@ namespace RetroJam.CaptainBlood
         public virtual void FTLDistortionIn() { Debug.Log("FTLDistortion"); }
         public virtual void FTLDistortionOut() { }
         public virtual void SlowingDown() { Debug.Log("SlowingDown"); }
+        public virtual void StartFTL() { Debug.Log("FTLStart"); }
 
 
     }
@@ -88,6 +89,14 @@ namespace RetroJam.CaptainBlood
             for (int i = 0; i < events.Count; i++)
             {
                 events[i].SlowingDown();
+            }
+        }
+
+        public void CallStartFTL()
+        {
+            for (int i = 0; i < events.Count; i++)
+            {
+                events[i].StartFTL();
             }
         }
     }
