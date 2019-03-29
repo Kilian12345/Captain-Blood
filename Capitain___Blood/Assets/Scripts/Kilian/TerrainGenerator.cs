@@ -7,8 +7,18 @@ public class TerrainGenerator : MonoBehaviour
 {
     //EPISODE 2
 
+    #region FBM
+    [Header("FBM")]
 
+    [SerializeField] int frequency;
+    [SerializeField] int amplitude;
+    [SerializeField] float octave;
+    [SerializeField] int lacunarity;
 
+    [Space]
+    #endregion
+
+    #region Preference
     [Header("PREFRENCES")]
     public bool Randomized = true;      //BOOL NOT IN TUTORIAL {Do you want the terrain generated each time?}
     public bool Animate = true;         //BOOL NOT IN TUTORIAL {Do you want it to be animated and move?
@@ -26,6 +36,8 @@ public class TerrainGenerator : MonoBehaviour
 
     public float offsetX = 100;
     public float offsetY = 100;
+    #endregion
+
 
 
     public void Start()
@@ -52,7 +64,7 @@ public class TerrainGenerator : MonoBehaviour
     {
         terrainData.heightmapResolution = width + 1;
 
-        terrainData.size = new Vector3(width, depth, height);
+        terrainData.size = new Vector3(frequency, depth, amplitude);
 
         terrainData.SetHeights(0, 0, GenerateHeights());
         return terrainData;
@@ -60,22 +72,25 @@ public class TerrainGenerator : MonoBehaviour
 
     float[,] GenerateHeights()
     {
-        float[,] heights = new float[width, height];
-        for (int x = 0; x < width; x++)
+
+        float[,] heights = new float[frequency, amplitude];
+        for (int x = 0; x < frequency; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < amplitude; y++)
             {
-                heights[x, y] = CalculateHeight(x, y);      //generate some perlin noise value
+                  heights[x, y] = CalculateHeight(x, y);      //generate some perlin noise value
             }
         }
+
+
 
         return heights;
     }
 
     float CalculateHeight(int x, int y)
     {
-        float xCord = (float)x / width * Scale;
-        float yCord = (float)y / height * Scale;
+        float xCord = (float)x / frequency * Scale;
+        float yCord = (float)y / amplitude * Scale;
 
         if (Randomized == true)
         {
@@ -83,7 +98,27 @@ public class TerrainGenerator : MonoBehaviour
             yCord *= offsetY;
         }
 
+        float total = 0;
+        float totalAmplitude = 0;
+        float result;
 
-        return Mathf.PerlinNoise(xCord, yCord);
+        for (int i = 0; i < octave; i++)
+        {
+            total += Mathf.PerlinNoise(xCord, yCord) * amplitude;
+            totalAmplitude += amplitude;
+           // amplitude *= (int)0.96f;
+            frequency *= lacunarity;
+
+        }
+
+        return result = total / totalAmplitude;
+
+
+
+        /*   if (offsetX <= 0) offsetX += Time.deltaTime * Speed;
+           if (offsetY <= 0) offsetY += Time.deltaTime * Speed;*/
+
+
+        //return Mathf.PerlinNoise(xCord, yCord);
     }
 }
