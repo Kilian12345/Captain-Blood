@@ -27,8 +27,11 @@ namespace RetroJam.CaptainBlood
         // Update is called once per frame
         void Update()
         {
-            Lag();
+            //Lag();
             //TransformManager();
+
+            transform.Rotate(Vector3.up, speedOfRotation);
+            TransformManager();
 
             DebugInput();
 
@@ -73,17 +76,19 @@ namespace RetroJam.CaptainBlood
 
             graal = Mathf.Clamp(Mathf.Pow(time,2.5f)+1, 1, 4);
 
-            if (graal > 2)
+            /*if (graal > 3)
             {
                 GameManager.events.CallFTLDistortionIn();
                 GameManager.events.CallStartFTL();
-            }
+            }*/
 
             if (graal == 4)
             {
                 time = 0;
                 isAccelerating = false;
                 graal = 0;
+                GameManager.events.CallFTLDistortionIn();
+                GameManager.events.CallStartFTL();
             }
         }
 
