@@ -7,16 +7,6 @@ public class TerrainGenerator : MonoBehaviour
 {
     //EPISODE 2
 
-    #region FBM
-    [Header("FBM")]
-
-    [SerializeField] int frequency;
-    [SerializeField] int amplitude;
-    [SerializeField] float octave;
-    [SerializeField] int lacunarity;
-
-    [Space]
-    #endregion
 
     #region Preference
     [Header("PREFRENCES")]
@@ -42,8 +32,8 @@ public class TerrainGenerator : MonoBehaviour
 
     public void Start()
     {
-       /* offsetX = Random.Range(0, 99999);
-        offsetY = Random.Range(0, 99999);*/
+        offsetX = Random.Range(0, 99999);
+        offsetY = Random.Range(0, 99999);
     }
 
 
@@ -64,7 +54,7 @@ public class TerrainGenerator : MonoBehaviour
     {
         terrainData.heightmapResolution = width + 1;
 
-        terrainData.size = new Vector3(frequency, depth, amplitude);
+        terrainData.size = new Vector3(width, depth, height);
 
         terrainData.SetHeights(0, 0, GenerateHeights());
         return terrainData;
@@ -72,25 +62,22 @@ public class TerrainGenerator : MonoBehaviour
 
     float[,] GenerateHeights()
     {
-
-        float[,] heights = new float[frequency, amplitude];
-        for (int x = 0; x < frequency; x++)
+        float[,] heights = new float[width, height];
+        for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < amplitude; y++)
+            for (int y = 0; y < height; y++)
             {
-                  heights[x, y] = CalculateHeight(x, y);      //generate some perlin noise value
+                heights[x, y] = CalculateHeight(x, y);      //generate some perlin noise value
             }
         }
-
-
 
         return heights;
     }
 
     float CalculateHeight(int x, int y)
     {
-        float xCord = (float)x / frequency * Scale;
-        float yCord = (float)y / amplitude * Scale;
+        float xCord = (float)x / width * Scale + offsetX;
+        float yCord = (float)y / height * Scale + offsetY;
 
         if (Randomized == true)
         {
@@ -98,27 +85,7 @@ public class TerrainGenerator : MonoBehaviour
             yCord *= offsetY;
         }
 
-        float total = 0;
-        float totalAmplitude = 0;
-        float result;
 
-        for (int i = 0; i < octave; i++)
-        {
-            total += Mathf.PerlinNoise(xCord, yCord) * amplitude;
-            totalAmplitude += amplitude;
-           // amplitude *= (int)0.96f;
-            frequency *= lacunarity;
-
-        }
-
-        return result = total / totalAmplitude;
-
-
-
-        /*   if (offsetX <= 0) offsetX += Time.deltaTime * Speed;
-           if (offsetY <= 0) offsetY += Time.deltaTime * Speed;*/
-
-
-        //return Mathf.PerlinNoise(xCord, yCord);
+        return Mathf.PerlinNoise(xCord, yCord);
     }
 }
