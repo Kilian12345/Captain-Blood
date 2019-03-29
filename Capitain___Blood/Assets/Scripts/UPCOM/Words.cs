@@ -130,6 +130,7 @@ namespace RetroJam.CaptainBlood.Lang
     public enum WordFunction { Subject, Action, Object, Complement}
     public enum VerbType { Intransitive, Transitive, Ditransitive, DoubleTransitive, Copular}
     public enum SentenceConstruction { none, E, O, SV, SVO, SVA, SVOO, SVOC, SVOA }
+    public enum SentenceCorrectness { none, correct, needSubject, needObject, needAdverb, needVerb}
 
 public static class WordsFunctions
     {
@@ -400,12 +401,14 @@ public static class WordsFunctions
             public VerbType type;
             public int valency;
             public SentenceConstruction constructions;
+            public float factor;
 
-            public Verb(VerbType _type, int _valency, SentenceConstruction _constructions)
+            public Verb(VerbType _type, int _valency, SentenceConstruction _constructions, float _factor)
             {
                 type = _type;
                 valency = _valency;
                 constructions = _constructions;
+                factor = _factor;
             }
         }
 
@@ -421,6 +424,11 @@ public static class WordsFunctions
 
         public static void InitializeWords()
         {
+            dictionary = new Dictionary<Word, WordNature>();
+            verbs = new Dictionary<Word, Verb>();
+            adjectives = new Dictionary<Word, Adjective>();
+            nouns = new List<Word>();
+
             for (int i = 1; i < 121; i++)
             {
                 switch ((Word)i)
@@ -453,31 +461,31 @@ public static class WordsFunctions
                         break;
                     case Word.Go:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Intransitive, 1, SentenceConstruction.SVA));
+                        verbs.Add((Word)i, new Verb(VerbType.Intransitive, 1, SentenceConstruction.SVA, .25f));
                         break;
                     case Word.Want:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,  SentenceConstruction.SVO));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,  SentenceConstruction.SVO, .25f));
                         break;
                     case Word.Teleport:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO ));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO, .25f));
                         break;
                     case Word.Give:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Ditransitive, 3, SentenceConstruction.SVOO ));
+                        verbs.Add((Word)i, new Verb(VerbType.Ditransitive, 3, SentenceConstruction.SVOO, .75f));
                         break;
                     case Word.Like:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,  SentenceConstruction.SVO ));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,  SentenceConstruction.SVO, 1f));
                         break;
                     case Word.Say:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,SentenceConstruction.SVOO));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,SentenceConstruction.SVOO, .25f));
                         break;
                     case Word.Know:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO ));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO, .5f));
                         break;
                     case Word.Unknown:
                         dictionary.Add((Word)i, WordNature.Adjective);
@@ -485,27 +493,27 @@ public static class WordsFunctions
                         break;
                     case Word.Play:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Intransitive, 1, SentenceConstruction.SVA));
+                        verbs.Add((Word)i, new Verb(VerbType.Intransitive, 1, SentenceConstruction.SVA, .5f));
                         break;
                     case Word.Search:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO, .5f));
                         break;
                     case Word.Race:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Intransitive, 1, SentenceConstruction.SVO ));
+                        verbs.Add((Word)i, new Verb(VerbType.Intransitive, 1, SentenceConstruction.SVO, .25f));
                         break;
                     case Word.Vote:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO, .25f));
                         break;
                     case Word.Help:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,  SentenceConstruction.SVO));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,  SentenceConstruction.SVO, .75f));
                         break;
                     case Word.Disarm:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,  SentenceConstruction.SVO ));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,  SentenceConstruction.SVO, .25f));
                         break;
                     case Word.Laugh:
                         dictionary.Add((Word)i, WordNature.Expression);
@@ -519,7 +527,7 @@ public static class WordsFunctions
                         break;
                     case Word.Destroy:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO, -1f));
                         break;
                     case Word.Free:
                         dictionary.Add((Word)i, WordNature.Adjective);
@@ -527,7 +535,7 @@ public static class WordsFunctions
                         break;
                     case Word.Kill:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO ));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO, -.75f));
                         break;
                     case Word.Prison:
                         dictionary.Add((Word)i, WordNature.Noun);
@@ -849,7 +857,7 @@ public static class WordsFunctions
                         break;
                     case Word.Equal:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,  SentenceConstruction.SVO));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2,  SentenceConstruction.SVO, .25f));
                         break;
                     case Word.OutOf:
                         dictionary.Add((Word)i, WordNature.Ponctuation);
@@ -905,74 +913,77 @@ public static class WordsFunctions
 
     public static class Language
     {
-        public static bool IsCoherent(this Sentence _sentence)
+
+        public static SentenceCorrectness Correctness(this Sentence _sentence)
         {
-            bool result = false;
-            SentenceConstruction cosntruction = IdentifyConstruction();
+            int adjCount = 0;
+            int nounsCount = 0;
+            int verbsCount = 0;
+            int expressionsCount = 0;
+            int nounsBeforeVerb = 0;
+            int nounsAfterVerb = 0;
+            int mainVerbIndex = 0;
+            bool verbPassed = false;
+            Word mainVerb = Word.none;
 
-
-
-            return result;
-
-            SentenceConstruction IdentifyConstruction()
+            for (int i = 0; i < _sentence.size; i++)
             {
-                int nounsCount = 0;
-                int verbsCount = 0;
-                int expressionsCount = 0;
-                int nounsBeforeVerb = 0;
-                int nounsAfterVerb = 0;
-                int mainVerbIndex = 0;
-                bool verbPassed = false;
-
-                for (int i = 0; i < _sentence.size; i++)
+                switch (Words.dictionary[_sentence.words[i]])
                 {
-                    switch (Words.dictionary[_sentence.words[i]])
-                    {
-                        case WordNature.Noun:
-                            nounsCount++;
-                            if (!verbPassed) nounsBeforeVerb++;
-                            else nounsAfterVerb++;
-                            break;
-                        case WordNature.Verb:
-                            if (!verbPassed) mainVerbIndex = i;
-                            verbPassed = true;
-                            verbsCount++;
-                            break;
-                        case WordNature.Expression:
-                            expressionsCount++;
-                            break;
-                        default:
-                            break;
-                    }
+                    case WordNature.Noun:
+                        nounsCount++;
+                        if (!verbPassed) nounsBeforeVerb++;
+                        else nounsAfterVerb++;
+                        break;
+                    case WordNature.Verb:
+                        if (!verbPassed)
+                        {
+                            mainVerb = _sentence.words[i];
+                            mainVerbIndex = i;
+                        }
+                        verbPassed = true;
+                        verbsCount++;
+                        break;
+                    case WordNature.Expression:
+                        expressionsCount++;
+                        break;
+                    case WordNature.Adjective:
+                        adjCount++;
+                        break;
+                    default:
+                        break;
                 }
+            }
 
-                if (verbsCount == 0)
-                {
-                    if (nounsCount == 0 && expressionsCount == 0) return SentenceConstruction.none;
-                    else if (expressionsCount == 0) return SentenceConstruction.O;
-                    else return SentenceConstruction.E;
-                }
-                else if (verbsCount == 1)
-                {
-                    if (nounsCount == 0) return SentenceConstruction.none;
+            if (verbsCount == 0)
+            {
+                if (nounsCount == 0 && expressionsCount == 0) return SentenceCorrectness.none;
+                else if (expressionsCount == 0 && adjCount > 0) return SentenceCorrectness.correct;
+                else if (expressionsCount == 0) return SentenceCorrectness.needVerb;
+                else return SentenceCorrectness.correct;
+            }
+            else if (verbsCount == 1 || (verbsCount == 2 && (mainVerb == Word.Want || mainVerb == Word.Like || mainVerb == Word.Know)))
+            {
+                if (nounsCount == 0) return SentenceCorrectness.none;
+                else if (nounsBeforeVerb == 0) return SentenceCorrectness.needSubject;
+                else if (nounsBeforeVerb < 3)
                     switch (Words.verbs[_sentence.words[mainVerbIndex]].constructions)
                     {
                         case SentenceConstruction.SVO:
-                            break;
+                            if (nounsAfterVerb > 0) return SentenceCorrectness.correct;
+                            else return SentenceCorrectness.needObject;
                         case SentenceConstruction.SVA:
-                            break;
+                            if (nounsAfterVerb > 0) return SentenceCorrectness.correct;
+                            else return SentenceCorrectness.needAdverb;
                         case SentenceConstruction.SVOO:
-                            break;
+                            if (nounsAfterVerb > 0) return SentenceCorrectness.correct;
+                            else return SentenceCorrectness.needObject;
                         default:
-                            break;
+                            return SentenceCorrectness.needVerb;
                     }
-
-                }
-
-
-                return SentenceConstruction.none;
+                else return SentenceCorrectness.none;
             }
+            else return SentenceCorrectness.none;
         }
-
     }
 }
