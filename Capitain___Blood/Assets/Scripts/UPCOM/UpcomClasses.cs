@@ -47,6 +47,17 @@ namespace RetroJam.CaptainBlood.Lang
                 Debug.Log("The Sentence " + this + " is empty. You can't remove any word.");
             }
         }
+
+        public void Clean()
+        {
+            words = new Word[8];
+            for (int i = 0; i < 8; i++)
+            {
+                words[i] = Word.none;
+            }
+
+            size = 0;
+        }
     }
 
     public class ContextBehaviors
@@ -58,13 +69,26 @@ namespace RetroJam.CaptainBlood.Lang
     public class Alien
     {
         public Word[] name { get; private set; }
-        public int sympathy;
+        public float sympathy;
+        public Dictionary<Word, float> glossary;
 
         public void SetName()
         {
             name = new Word[2];
             name[0] = (Word)Random.Range(2, 72);
             name[1] = (Word)Random.Range(2, 72);
+        }
+
+        public void CreateGlossary()
+        {
+            glossary = new Dictionary<Word, float>();
+
+            for (int i = 0; i < Words.nouns.Count; i++)
+            {
+                float value = Random.value < .5f ? Random.value + 1 : -2 + Random.value;
+
+                glossary.Add(Words.nouns[i], value);
+            }
         }
     }
 
