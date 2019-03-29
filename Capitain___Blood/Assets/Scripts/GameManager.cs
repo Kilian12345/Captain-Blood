@@ -6,6 +6,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using TMPro;
 using RetroJam.CaptainBlood.GalaxyLib;
+using RetroJam.CaptainBlood.Lang;
 
 namespace RetroJam.CaptainBlood
 {
@@ -20,6 +21,7 @@ namespace RetroJam.CaptainBlood
         
 
         [SerializeField] public Planet currentPlanet;
+        [SerializeField] public Alien alien;
 
         private Phase lastPhase;
 
@@ -78,12 +80,14 @@ namespace RetroJam.CaptainBlood
             JsonSerializerSettings setting = new JsonSerializerSettings();
             setting.CheckAdditionalContent = true;
 
-            Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter()));
+            Words.InitializeWords();
+            Galaxy.Initialize(/*JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter())*/);
         }
 
         void Start()
         {
             currentPlanet = Galaxy.planets[new Vector2Int(Random.Range(0, 256), Random.Range(0, 126))];
+            alien = currentPlanet.inhabitant;
         }
 
         void Update()
@@ -155,6 +159,7 @@ namespace RetroJam.CaptainBlood
         public void SetPlanet(Vector2Int _coord)
         {
             currentPlanet = Galaxy.planets[_coord];
+            alien = currentPlanet.inhabitant;
         }
 
         public void SetPhase(Phase _phase)

@@ -985,5 +985,44 @@ public static class WordsFunctions
             }
             else return SentenceCorrectness.none;
         }
+
+        public static float SentenceEsteem(this Sentence _sentence, Alien _alien)
+        {
+            float result = 0;
+            float verb = 0;
+            bool negative = false;
+
+            for (int i = 0; i < _sentence.size; i++)
+            {
+                WordNature nature = Words.dictionary[_sentence.words[i]];
+
+                if(nature == WordNature.Noun)
+                {
+                    if (i == 0)
+                    {
+                        result += _alien.glossary[_sentence.words[i]];
+                    }
+                    else
+                    {
+                        if(Words.dictionary[_sentence.words[i-1]] == WordNature.Adjective)
+                        {
+                            result += _alien.glossary[_sentence.words[i]] * Words.adjectives[_sentence.words[i - 1]].factor;
+                        }
+                    }
+                }
+                else if(nature == WordNature.Verb && verb == 0)
+                {
+                    verb = Words.verbs[_sentence.words[i]].factor;
+                }
+                else if (_sentence.words[i] == Word.Not)
+                {
+                    negative = true;
+                }
+            }
+
+            result *= verb * (negative ? -1 : 1);
+
+            return result;
+        }
     }
 }

@@ -9,10 +9,11 @@ namespace RetroJam.CaptainBlood
     {
         [SerializeField] public Sentence alien;
         [SerializeField] public Sentence player;
+        [SerializeField] GameManager manager;
 
         private void Awake()
         {
-            Words.InitializeWords();
+            
         }
 
         // Start is called before the first frame update
@@ -30,6 +31,7 @@ namespace RetroJam.CaptainBlood
         public void ReadPlayerSentence()
         {
             Debug.Log(player.Correctness());
+            Debug.Log(player.SentenceEsteem(manager.alien));
             player.Clean();
         }
 

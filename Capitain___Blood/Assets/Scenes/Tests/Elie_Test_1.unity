@@ -4712,6 +4712,7 @@ MonoBehaviour:
     words: 0000000000000000000000000000000000000000000000000000000000000000
   player:
     words: 0000000000000000000000000000000000000000000000000000000000000000
+  manager: {fileID: 1208673037}
 --- !u!224 &1041562015
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4867,8 +4868,6 @@ MonoBehaviour:
     race: 0
     visited: 0
     destroyed: 0
-    inhabitant:
-      sympathy: 0
     renderingValues: {x: 0, y: 0}
 --- !u!114 &1208673038
 MonoBehaviour:

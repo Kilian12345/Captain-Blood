@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace RetroJam.CaptainBlood.Lang
@@ -31,7 +32,7 @@ namespace RetroJam.CaptainBlood.Lang
             }
             else
             {
-                Debug.Log("The Sentence " + this + " is full. You can't add a new word.");
+                Debug.Log("The Sentence " + this.ToString() + " is full. You can't add a new word.");
             }
         }
 
@@ -44,7 +45,7 @@ namespace RetroJam.CaptainBlood.Lang
             }
             else
             {
-                Debug.Log("The Sentence " + this + " is empty. You can't remove any word.");
+                Debug.Log("The Sentence " + this.ToString() + " is empty. You can't remove any word.");
             }
         }
 
@@ -65,15 +66,31 @@ namespace RetroJam.CaptainBlood.Lang
         public bool teleportable;
     }
 
-    [System.Serializable]
     public class Alien
     {
         public Word[] name { get; private set; }
         public float sympathy;
         public Dictionary<Word, float> glossary;
 
+        public Alien()
+        {
+            SetName();
+            CreateGlossary();
+
+            sympathy = 0;
+        }
+
+        [JsonConstructor]
+        public Alien(Word[] _name, float _sympathy, Dictionary<Word, float> _glossary)
+        {
+            name = _name;
+            sympathy = _sympathy;
+            glossary = _glossary;
+        }
+
         public void SetName()
         {
+
             name = new Word[2];
             name[0] = (Word)Random.Range(2, 72);
             name[1] = (Word)Random.Range(2, 72);
@@ -85,7 +102,7 @@ namespace RetroJam.CaptainBlood.Lang
 
             for (int i = 0; i < Words.nouns.Count; i++)
             {
-                float value = Random.value < .5f ? Random.value + 1 : -2 + Random.value;
+                float value = Random.value < .66f ? Random.value + 1 : -2 + Random.value;
 
                 glossary.Add(Words.nouns[i], value);
             }
