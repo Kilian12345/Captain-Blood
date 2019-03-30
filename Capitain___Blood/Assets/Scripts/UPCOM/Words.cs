@@ -384,6 +384,33 @@ public static class WordsFunctions
                     return "";
             }
         }
+
+        public static float Value(this Word _word)
+        {
+            switch (Words.dictionary[_word])
+            {
+                case WordNature.Adjective:
+                    return Words.adjectives[_word].factor;
+                case WordNature.Verb:
+                    return Words.verbs[_word].factor;
+                case WordNature.Negation:
+                    return -1;
+                case WordNature.Number:
+                    return (float)_word - 111;
+                default:
+                    return 0;
+            }
+        }
+
+        public static WordNature Nature(this Word _word)
+        {
+            return Words.dictionary[_word];
+        }
+
+        public static bool Nature(this Word _word,WordNature _nature)
+        {
+            return _word.Nature() == _nature;
+        }
     }
 
     public static class Words
@@ -994,31 +1021,39 @@ public static class WordsFunctions
 
             for (int i = 0; i < _sentence.size; i++)
             {
-                WordNature nature = Words.dictionary[_sentence.words[i]];
+                WordNature nature = _sentence.words[i].Nature();
 
                 if(nature == WordNature.Noun)
                 {
                     if (i == 0)
                     {
-                        result += _alien.glossary[_sentence.words[i]];
+                        result += (_alien.glossary[_sentence.words[i]].value)/ (_alien.glossary[_sentence.words[i]].iterations + 1);
                     }
                     else
                     {
-                        if(Words.dictionary[_sentence.words[i-1]] == WordNature.Adjective)
+                        if(_sentence.words[i-1].Nature(WordNature.Adjective))
                         {
-                            result += _alien.glossary[_sentence.words[i]] * Words.adjectives[_sentence.words[i - 1]].factor;
+                            result += (_alien.glossary[_sentence.words[i]].value * _sentence.words[i - 1].Value())/ (_alien.glossary[_sentence.words[i]].iterations +1);
                         }
                     }
+
+                    _alien.glossary[_sentence.words[i]].iterations++;
                 }
                 else if(nature == WordNature.Verb && verb == 0)
                 {
-                    verb = Words.verbs[_sentence.words[i]].factor;
+                    verb = _sentence.words[i].Value();
+                }
+                else if (nature == WordNature.Verb)
+                {
+                    result += _sentence.words[i].Value() > 0 ? _sentence.words[i].Value() +1 : -1 + _sentence.words[i].Value();
                 }
                 else if (_sentence.words[i] == Word.Not)
                 {
                     negative = true;
                 }
             }
+
+            if (verb == 0) verb = 1;
 
             result *= verb * (negative ? -1 : 1);
 

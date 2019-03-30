@@ -99,5 +99,10 @@ namespace RetroJam.CaptainBlood
             Destroy(gameObject);
 
         }
+
+        public override void InitializingFTL()
+        {
+            particleSystemLoop.Emit(1);
+        }
     }
 }
