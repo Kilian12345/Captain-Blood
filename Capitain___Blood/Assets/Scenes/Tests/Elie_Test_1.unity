@@ -803,7 +803,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286008107}
   m_LocalRotation: {x: 0.12194437, y: -0, z: -0, w: 0.99253696}
-  m_LocalPosition: {x: -1538, y: -57, z: -1317}
+  m_LocalPosition: {x: -1538, y: -65.82, z: -1317}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children:
   - {fileID: 318258908}
@@ -5766,8 +5766,8 @@ MonoBehaviour:
   width: 256
   height: 256
   Scale: 1
-  offsetX: 26192.584
-  offsetY: 83972.75
+  offsetX: 26236.559
+  offsetY: 84016.734
 --- !u!154 &1746086124
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -6176,6 +6176,7 @@ MonoBehaviour:
   speed: 0.1
   moveVert: 0
   moveHori: 0
+  moveFor: 0
 --- !u!1 &1958863213
 GameObject:
   m_ObjectHideFlags: 0
