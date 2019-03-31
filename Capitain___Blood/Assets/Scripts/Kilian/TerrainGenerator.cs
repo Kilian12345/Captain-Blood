@@ -26,14 +26,15 @@ public class TerrainGenerator : MonoBehaviour
 
     public float offsetX = 100;
     public float offsetY = 100;
+
     #endregion
 
 
 
     public void Start()
     {
-        offsetX = Random.Range(0, 99999);
-        offsetY = Random.Range(0, 99999);
+       /* offsetX = Random.Range(0, 99999);
+        offsetY = Random.Range(0, 99999);*/
     }
 
 
@@ -41,6 +42,7 @@ public class TerrainGenerator : MonoBehaviour
     {
         Terrain terrain = GetComponent<Terrain>();      //for Terrain Data
         terrain.terrainData = GenerateTerrain(terrain.terrainData);
+
 
         if (Animate == true)
         {

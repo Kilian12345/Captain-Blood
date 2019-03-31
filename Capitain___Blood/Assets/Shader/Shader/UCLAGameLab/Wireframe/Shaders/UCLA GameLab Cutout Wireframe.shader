@@ -22,7 +22,7 @@ Shader "UCLA Game Lab/Wireframe/Single-Sided Cutout"
 			Cull Off
 			ZWrite On
 			Blend SrcAlpha OneMinusSrcAlpha 
-			LOD 100
+			LOD 300
 			
 			CGPROGRAM
 				#pragma target 5.0

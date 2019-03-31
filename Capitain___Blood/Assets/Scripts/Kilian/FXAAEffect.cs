@@ -20,7 +20,10 @@ public class FXAAEffect : MonoBehaviour {
     [Range(-10, 10)]
     public float subpixelBlending = 1f;
 
-	[HideInInspector]
+    [Range(0, 50)]
+    public float gammaBlendingFloat;
+
+    [HideInInspector]
 	public Shader fxaaShader;
 
 	public bool lowQuality;
@@ -36,6 +39,7 @@ public class FXAAEffect : MonoBehaviour {
 			fxaaMaterial.hideFlags = HideFlags.HideAndDontSave;
 		}
 
+        fxaaMaterial.SetFloat("_GammaValue", gammaBlendingFloat);
 		fxaaMaterial.SetFloat("_ContrastThreshold", contrastThreshold * 10);
 		fxaaMaterial.SetFloat("_RelativeThreshold", relativeThreshold * 10);
 		fxaaMaterial.SetFloat("_SubpixelBlending", subpixelBlending * 10);

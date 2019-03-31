@@ -11,6 +11,7 @@
 
 		float _ContrastThreshold, _RelativeThreshold;
 		float _SubpixelBlending;
+		float _GammaValue;
 
 		struct VertexData {
 			float4 vertex : POSITION;
@@ -266,7 +267,7 @@
 				float4 FragmentProgram (Interpolators i) : SV_Target {
 					float4 sample = ApplyFXAA(i.uv);
 					#if defined(GAMMA_BLENDING)
-						sample.rgb = GammaToLinearSpace(sample.rgb);
+						sample.rgb = GammaToLinearSpace(sample.rgb) * _GammaValue;
 					#endif
 					return sample;
 				}
