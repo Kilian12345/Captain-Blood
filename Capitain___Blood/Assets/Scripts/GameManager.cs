@@ -27,6 +27,8 @@ namespace RetroJam.CaptainBlood
 
         public static Events events = new Events();
 
+        private System.Diagnostics.Stopwatch sw;
+
         //[SerializeField] private GalaxySCO save;
 
         //public Vector2Int test;
@@ -76,6 +78,10 @@ namespace RetroJam.CaptainBlood
 
         private void Awake()
         {
+            sw = new System.Diagnostics.Stopwatch();
+
+            sw.Start();
+
             string save = File.ReadAllText(@"Saves\planets.json");
             JsonSerializerSettings setting = new JsonSerializerSettings();
             setting.CheckAdditionalContent = true;
@@ -86,6 +92,10 @@ namespace RetroJam.CaptainBlood
 
         void Start()
         {
+
+            sw.Stop();
+
+            Debug.Log("Time to Initialize whole Game : " + sw.ElapsedMilliseconds + "ms.");
             currentPlanet = Galaxy.planets[new Vector2Int(Random.Range(0, 256), Random.Range(0, 126))];
             alien = currentPlanet.inhabitant;
         }

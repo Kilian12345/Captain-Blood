@@ -11,7 +11,7 @@ namespace RetroJam.CaptainBlood
     public class SentencesMonitor : MonoBehaviour
     {
         [SerializeField] private Transform pointer;
-        [SerializeField] private Tilemap tm;
+        [SerializeField] private Tilemap monitorTM;
         [SerializeField] private TextMeshProUGUI textField;
         [SerializeField] private DialoguesManager manager;
 
@@ -86,9 +86,11 @@ namespace RetroJam.CaptainBlood
         {
             Vector3 _pos = pointer.position;
 
+            textField.text = "";
+
             if (_pos.x < -7.15 || _pos.y < -1.5 || _pos.x > 7.2 || _pos.y > -0.6) return;
 
-            Vector3Int cursor = tm.WorldToCell(_pos);
+            Vector3Int cursor = monitorTM.WorldToCell(_pos);
 
             if (_pos.x < -0.8)
             {
@@ -105,7 +107,7 @@ namespace RetroJam.CaptainBlood
             for (int i = 0; i < 8; i++)
             {
                 _monitor.sentence[_monitor.field[i]] = _sentence.words[i];
-                tm.SetTile(_monitor.field[i], icons[_sentence.words[i]]);
+                monitorTM.SetTile(_monitor.field[i], icons[_sentence.words[i]]);
             }
         }
 

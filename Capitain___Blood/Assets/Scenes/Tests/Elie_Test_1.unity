@@ -1990,7 +1990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &572132564
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4216,9 +4216,11 @@ MonoBehaviour:
   speed: 40
   pointer: {fileID: 432397501}
   tm: {fileID: 750325664}
+  monitorTM: {fileID: 2135133679}
   textField: {fileID: 2011205863}
   manager: {fileID: 1041562014}
   debugPos: {x: 0, y: 0, z: 0}
+  mot: 0
 --- !u!1 &792941272
 GameObject:
   m_ObjectHideFlags: 0
@@ -6341,11 +6343,11 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -6477,7 +6479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2093736465
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6549,7 +6551,6 @@ GameObject:
   - component: {fileID: 2135133676}
   - component: {fileID: 2135133679}
   - component: {fileID: 2135133678}
-  - component: {fileID: 2135133677}
   m_Layer: 0
   m_Name: Sentences
   m_TagString: Untagged
@@ -6571,24 +6572,6 @@ Transform:
   m_Father: {fileID: 572132564}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2135133677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2135133675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23d3b57432c4eac48b6a88b9a7e98bb8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointer: {fileID: 432397501}
-  tm: {fileID: 2135133679}
-  textField: {fileID: 2011205863}
-  manager: {fileID: 1041562014}
-  debugPos: {x: 0, y: 0, z: 0}
-  mot: 0
 --- !u!483693784 &2135133678
 TilemapRenderer:
   m_ObjectHideFlags: 0
