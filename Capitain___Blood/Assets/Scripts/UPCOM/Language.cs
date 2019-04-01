@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace RetroJam.CaptainBlood.Lang
 {
@@ -129,7 +130,7 @@ namespace RetroJam.CaptainBlood.Lang
     public enum WordNature { Ponctuation, Noun, Adjective, Verb, Expression, Negation, Number }
     public enum WordFunction { Subject, Action, Object, Complement}
     public enum VerbType { Intransitive, Transitive, Ditransitive, DoubleTransitive, Copular}
-    public enum SentenceConstruction { none, E, O, SV, SVO, SVA, SVOO, SVOC, SVOA }
+    public enum SentenceConstruction { none, E, O, SV, SVO, SVA, SVOO, SVOC, SVOA, VO }
     public enum SentenceCorrectness { none, correct, needSubject, needObject, needAdverb, needVerb}
 
     public static class WordsFunctions
@@ -458,7 +459,6 @@ namespace RetroJam.CaptainBlood.Lang
 
     public static class Language
     {
-
         public static SentenceCorrectness Correctness(this Sentence _sentence)
         {
             int adjCount = 0;
@@ -473,7 +473,7 @@ namespace RetroJam.CaptainBlood.Lang
 
             for (int i = 0; i < _sentence.size; i++)
             {
-                switch (Words.dictionary[_sentence.words[i]])
+                switch (_sentence.words[i].Nature())
                 {
                     case WordNature.Noun:
                         nounsCount++;
@@ -521,7 +521,7 @@ namespace RetroJam.CaptainBlood.Lang
                             if (nounsAfterVerb > 0) return SentenceCorrectness.correct;
                             else return SentenceCorrectness.needAdverb;
                         case SentenceConstruction.SVOO:
-                            if (nounsAfterVerb > 0) return SentenceCorrectness.correct;
+                            if (nounsAfterVerb > 1) return SentenceCorrectness.correct;
                             else return SentenceCorrectness.needObject;
                         default:
                             return SentenceCorrectness.needVerb;
@@ -605,6 +605,10 @@ namespace RetroJam.CaptainBlood.Lang
                     }
                 }
             }
+            else if (construction == SentenceConstruction.O)
+            {
+
+            }
 
             return result;
         }
@@ -618,22 +622,41 @@ namespace RetroJam.CaptainBlood.Lang
             for (int i = 0; i < _sentence.size; i++)
             {
                 WordNature nature = _sentence.words[i].Nature();
-
-                if(nature == WordNature.Noun)
+                
+                if (nature == WordNature.Noun)
                 {
+                    Alien.GlossaryValues word = _alien.glossary[_sentence.words[i]];
+
+                    float weight = -Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value > 0 ? Mathf.Clamp(-Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value, 0, 2) : Mathf.Clamp(-Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value, -2, 0);
+
                     if (i == 0)
                     {
-                        result += (_alien.glossary[_sentence.words[i]].value)/ (_alien.glossary[_sentence.words[i]].iterations + 1);
+                        result += weight / 10;
                     }
-                    else
+                    else if(verb == 0 && _sentence.Construction() != SentenceConstruction.O)
                     {
                         if(_sentence.words[i-1].Nature(WordNature.Adjective))
                         {
-                            result += (_alien.glossary[_sentence.words[i]].value * _sentence.words[i - 1].Value())/ (_alien.glossary[_sentence.words[i]].iterations +1);
+                            result += weight / 10 * _sentence.words[i - 1].Value();
+                        }
+                        else
+                        {
+                            result += weight / 10;
+                        }
+                    }
+                    else
+                    {
+                        if (_sentence.words[i - 1].Nature(WordNature.Adjective))
+                        {
+                            result += weight * _sentence.words[i - 1].Value();
+                        }
+                        else
+                        {
+                            result += weight;
                         }
                     }
 
-                    _alien.glossary[_sentence.words[i]].iterations++;
+                    word.iterations++;
                 }
                 else if(nature == WordNature.Verb && verb == 0)
                 {

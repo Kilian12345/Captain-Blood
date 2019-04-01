@@ -2020,7 +2020,7 @@ Grid:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 572132563}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CellSize: {x: 15, y: 18, z: 0}
   m_CellGap: {x: 1, y: 1, z: 0}
   m_CellLayout: 0
@@ -4715,6 +4715,10 @@ MonoBehaviour:
   player:
     words: 0000000000000000000000000000000000000000000000000000000000000000
   manager: {fileID: 1208673037}
+  subject: 
+  action: 
+  object: 
+  complement: 
 --- !u!224 &1041562015
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5367,7 +5371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1492696963
 Transform:
   m_ObjectHideFlags: 0
@@ -5942,7 +5946,7 @@ MonoBehaviour:
   speedOfRotation: 0.3
   framer: 0.2
   graal: 1
-  speed: 0.2
+  speed: 0.1
   isArriving: 0
   isAccelerating: 0
 --- !u!23 &1763756045
@@ -6479,7 +6483,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2093736465
 RectTransform:
   m_ObjectHideFlags: 0

@@ -81,10 +81,10 @@ namespace RetroJam.CaptainBlood
             sw = new System.Diagnostics.Stopwatch();
 
             sw.Start();
-
+            /*
             string save = File.ReadAllText(@"Saves\planets.json");
             JsonSerializerSettings setting = new JsonSerializerSettings();
-            setting.CheckAdditionalContent = true;
+            setting.CheckAdditionalContent = true;*/
 
             Words.InitializeWords();
             Galaxy.Initialize(/*JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter())*/);

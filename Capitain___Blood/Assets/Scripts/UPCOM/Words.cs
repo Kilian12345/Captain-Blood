@@ -89,7 +89,7 @@ namespace RetroJam.CaptainBlood.Lang
                         break;
                     case Word.Give:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Ditransitive, 3, SentenceConstruction.SVO, .75f));
+                        verbs.Add((Word)i, new Verb(VerbType.Ditransitive, 3, SentenceConstruction.SVOO, .75f));
                         break;
                     case Word.Like:
                         dictionary.Add((Word)i, WordNature.Verb);
@@ -97,7 +97,7 @@ namespace RetroJam.CaptainBlood.Lang
                         break;
                     case Word.Say:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVO, .25f));
+                        verbs.Add((Word)i, new Verb(VerbType.Transitive, 2, SentenceConstruction.SVOO, .25f));
                         break;
                     case Word.Know:
                         dictionary.Add((Word)i, WordNature.Verb);

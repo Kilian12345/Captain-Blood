@@ -81,7 +81,7 @@ namespace RetroJam.CaptainBlood
                 mainloop.startLifetime = 0;
             }
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
 
             particleSystemEnd.Play();
 

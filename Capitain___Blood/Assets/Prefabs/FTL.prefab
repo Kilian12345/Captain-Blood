@@ -50,7 +50,7 @@ MonoBehaviour:
   particleSystemLoop: {fileID: 5799488115840566179}
   particleSystemEnd: {fileID: 5599223793829769630}
   activated: 0
-  timeWarp: 5
+  timeWarp: 3.5
 --- !u!1001 &1713769628856325313
 PrefabInstance:
   m_ObjectHideFlags: 0
