@@ -6,47 +6,35 @@ namespace RetroJam.CaptainBlood
 {
     public class FTL : EventsManager
     {
-        public float speed;
-        public bool play;
+        [SerializeField] private Object ftl;
 
-        [SerializeField] private ParticleSystem particle;
+        bool once = true;
 
         // Start is called before the first frame update
         void Start()
         {
-            particle.Stop();
+            Instantiate(ftl, transform);
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.O)) play = true;
-
-            if (play) PlayParticles();
-            else
-            {
-                particle.Stop(true);
-            }
+            
         }
 
-        public void PlayParticles()
+        public override void SlowingDown()
         {
-            if (particle.isStopped) particle.Play();
-
-            particle.startSpeed *= 1+Time.deltaTime * speed;
-
-            var em = particle.emission;
-            em.enabled = true;
-            em.rateOverTime = particle.startSpeed *-0.8f;
-
-            var sh = particle.shape;
-            sh.enabled = true;
-            sh.radius = 80 + Time.deltaTime * speed * 4;
+            if (once)
+            {
+                Instantiate(ftl, transform);
+                once = false;
+            }
         }
 
         public override void StartFTL()
         {
-            play = true;
+            once = true;
+            transform.Find("FTL(Clone)").GetComponent<Hyper_Space>().activated = true;
         }
 
     }

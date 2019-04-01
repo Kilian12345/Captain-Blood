@@ -111,10 +111,12 @@ namespace RetroJam.CaptainBlood.GalaxyLib
 
     public static class Galaxy
     {
-        public static Dictionary<Vector2Int, Planet> planets = new Dictionary<Vector2Int, Planet>();
+        public static Dictionary<Vector2Int, Planet> planets;
 
         public static void Initialize()
         {
+            planets = new Dictionary<Vector2Int, Planet>();
+
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
             sw.Start();

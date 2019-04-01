@@ -23,7 +23,7 @@ namespace RetroJam.CaptainBlood
         // Start is called before the first frame update
         void Start()
         {
-            volume = GetComponent<PostProcessVolume>();
+            volume = GetComponentInChildren<PostProcessVolume>();
 
             volume.profile.TryGetSettings(out lensLayer);
 
@@ -47,10 +47,10 @@ namespace RetroJam.CaptainBlood
 
             if (lensLayer.intensity.value < -100)
             {
-                lensLayer.intensity.value = 100;
+                lensLayer.intensity.value = -60;
                 distortionIn = false;
-                distortionOut = true;
-                GameManager.events.CallSlowingDown();
+                //distortionOut = true;
+                //GameManager.events.CallSlowingDown();
 
                 time = 0;
             }
@@ -59,11 +59,11 @@ namespace RetroJam.CaptainBlood
         void DistortionOut()
         {
             time += Time.deltaTime * 4f;
-            lensLayer.intensity.value -= time;
+            lensLayer.intensity.value += time;
 
             intensityDebug = lensLayer.intensity.value;
 
-            if (lensLayer.intensity.value < 0)
+            if (lensLayer.intensity.value > 0)
             {
                 distortionOut = false;
                 lensLayer.intensity.value = 0;
@@ -113,9 +113,14 @@ namespace RetroJam.CaptainBlood
                 Graphics.Blit(src, dst, TransitionMaterial);
         }*/
 
-        public override void FTLDistortionIn()
+        public override void InitializingFTL()
         {
             distortionIn = true;
+        }
+
+        public override void SlowingDown()
+        {
+            distortionOut = true;
         }
     }
 }

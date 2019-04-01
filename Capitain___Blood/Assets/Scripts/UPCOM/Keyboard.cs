@@ -12,6 +12,7 @@ namespace RetroJam.CaptainBlood
         [SerializeField, Range(1, 40)] private float speed;
         [SerializeField] private Transform pointer;
         [SerializeField] private Tilemap tm;
+        [SerializeField] private Tilemap monitorTM;
         [SerializeField] private TextMeshProUGUI textField;
         [SerializeField] DialoguesManager manager;
 
@@ -21,6 +22,21 @@ namespace RetroJam.CaptainBlood
 
         public Vector3Int debugPos;
 
+        private Monitor player;
+        private Monitor alien;
+
+        private Dictionary<Word, Tile> icons = new Dictionary<Word, Tile>();
+
+        public Word mot;
+
+
+        public class Monitor
+        {
+            public Dictionary<Vector3Int, Word> sentence = new Dictionary<Vector3Int, Word>();
+            public Vector3Int[] field = new Vector3Int[8];
+        }
+
+
 
         // Start is called before the first frame update
         void Start()
@@ -28,12 +44,17 @@ namespace RetroJam.CaptainBlood
             cam = Camera.main;
 
             InitializeKeyboard();
+            InitializeSentences();
+            InitializeTiles();
         }
 
         // Update is called once per frame
         void Update()
         {
             Scroll();
+
+            WriteSentence(player, manager.player);
+            WriteSentence(alien, manager.alien);
 
             Interact();
         }
@@ -72,9 +93,33 @@ namespace RetroJam.CaptainBlood
             }
         }
 
+        public void InitializeSentences()
+        {
+            alien = new Monitor();
+            player = new Monitor();
+
+            for (int i = 0; i < 8; i++)
+            {
+                alien.field[i] = new Vector3Int(-9 + i, 1, 0);
+                player.field[i] = new Vector3Int(1 + i, 1, 0);
+
+                alien.sentence[alien.field[i]] = Word.none;
+                player.sentence[player.field[i]] = Word.none;
+            }
+        }
+
+        public void InitializeTiles()
+        {
+
+            for (int i = 0; i < 120; i++)
+            {
+                icons[(Word)i] = Resources.Load<Tile>("Words/words_" + i);
+            }
+        }
+
         public void Selection(Vector3 _pos)
         {
-            textField.text = "";
+            
 
             if (_pos.x < -5.6 || _pos.y < -3.75 || _pos.x > 5.6 || _pos.y > -1.9) return;
 
@@ -98,9 +143,41 @@ namespace RetroJam.CaptainBlood
 
         public void Interact()
         {
+            textField.text = "";
+
             Selection(pointer.position);
+            ReadSentences();
             Remove();
 
+        }
+
+        public void ReadSentences()
+        {
+            Vector3 _pos = pointer.position;
+
+            
+
+            if (_pos.x < -7.15 || _pos.y < -1.5 || _pos.x > 7.2 || _pos.y > -0.6) return;
+
+            Vector3Int cursor = monitorTM.WorldToCell(_pos);
+
+            if (_pos.x < -0.8)
+            {
+                textField.text = alien.sentence[cursor].ToText();
+            }
+            else if (_pos.x > 0.85)
+            {
+                textField.text = player.sentence[cursor].ToText();
+            }
+        }
+
+        public void WriteSentence(Monitor _monitor, Sentence _sentence)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                _monitor.sentence[_monitor.field[i]] = _sentence.words[i];
+                monitorTM.SetTile(_monitor.field[i], icons[_sentence.words[i]]);
+            }
         }
 
     }

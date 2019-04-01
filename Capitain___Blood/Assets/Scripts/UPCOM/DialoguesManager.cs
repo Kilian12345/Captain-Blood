@@ -9,10 +9,16 @@ namespace RetroJam.CaptainBlood
     {
         [SerializeField] public Sentence alien;
         [SerializeField] public Sentence player;
+        [SerializeField] GameManager manager;
+
+        public List<Word> subject = new List<Word>();
+        public List<Word> action = new List<Word>();
+        public List<Word> @object = new List<Word>();
+        public List<Word> complement = new List<Word>();
 
         private void Awake()
         {
-            Words.InitializeWords();
+            
         }
 
         // Start is called before the first frame update
@@ -30,7 +36,23 @@ namespace RetroJam.CaptainBlood
         public void ReadPlayerSentence()
         {
             Debug.Log(player.Correctness());
+            Debug.Log(player.SentenceEsteem(manager.alien));
+            if (player.Correctness() != SentenceCorrectness.none)
+            {
+                Debug.Log(player.Construction());
+                DebugStructure();
+            }
             player.Clean();
+        }
+
+        public void DebugStructure()
+        {
+            Dictionary<WordFunction, List<Word>> dico = player.Structure();
+
+            subject = dico[WordFunction.Subject];
+            action = dico[WordFunction.Action];
+            @object = dico[WordFunction.Object];
+            complement = dico[WordFunction.Complement];
         }
 
     }

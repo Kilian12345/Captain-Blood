@@ -6,6 +6,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using TMPro;
 using RetroJam.CaptainBlood.GalaxyLib;
+using RetroJam.CaptainBlood.Lang;
 
 namespace RetroJam.CaptainBlood
 {
@@ -20,10 +21,13 @@ namespace RetroJam.CaptainBlood
         
 
         [SerializeField] public Planet currentPlanet;
+        [SerializeField] public Alien alien;
 
         private Phase lastPhase;
 
         public static Events events = new Events();
+
+        private System.Diagnostics.Stopwatch sw;
 
         //[SerializeField] private GalaxySCO save;
 
@@ -74,16 +78,26 @@ namespace RetroJam.CaptainBlood
 
         private void Awake()
         {
+            sw = new System.Diagnostics.Stopwatch();
+
+            sw.Start();
+            /*
             string save = File.ReadAllText(@"Saves\planets.json");
             JsonSerializerSettings setting = new JsonSerializerSettings();
-            setting.CheckAdditionalContent = true;
+            setting.CheckAdditionalContent = true;*/
 
-            Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter()));
+            Words.InitializeWords();
+            Galaxy.Initialize(/*JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter())*/);
         }
 
         void Start()
         {
+
+            sw.Stop();
+
+            Debug.Log("Time to Initialize whole Game : " + sw.ElapsedMilliseconds + "ms.");
             currentPlanet = Galaxy.planets[new Vector2Int(Random.Range(0, 256), Random.Range(0, 126))];
+            alien = currentPlanet.inhabitant;
         }
 
         void Update()
@@ -155,6 +169,7 @@ namespace RetroJam.CaptainBlood
         public void SetPlanet(Vector2Int _coord)
         {
             currentPlanet = Galaxy.planets[_coord];
+            alien = currentPlanet.inhabitant;
         }
 
         public void SetPhase(Phase _phase)

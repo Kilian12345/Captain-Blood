@@ -12,7 +12,7 @@ namespace RetroJam.CaptainBlood
         private float buffer = 0;
 
         [SerializeField] private float graal;
-        [SerializeField, Range(0, 10)] private float speed;
+        [SerializeField, Range(0, 1)] private float speed;
         private float time;
 
         [SerializeField] private bool isArriving;
@@ -27,8 +27,11 @@ namespace RetroJam.CaptainBlood
         // Update is called once per frame
         void Update()
         {
-            Lag();
+            //Lag();
             //TransformManager();
+
+            transform.Rotate(Vector3.up, speedOfRotation);
+            TransformManager();
 
             DebugInput();
 
@@ -69,21 +72,23 @@ namespace RetroJam.CaptainBlood
 
         public void PlanetDeparture()
         {
-            time += Time.deltaTime * speed * 3;
+            time += Time.deltaTime * 3 *.2f;
 
             graal = Mathf.Clamp(Mathf.Pow(time,2.5f)+1, 1, 4);
 
-            if (graal > 2)
+            /*if (graal > 3)
             {
                 GameManager.events.CallFTLDistortionIn();
                 GameManager.events.CallStartFTL();
-            }
+            }*/
 
             if (graal == 4)
             {
                 time = 0;
                 isAccelerating = false;
                 graal = 0;
+                GameManager.events.CallFTLDistortionIn();
+                GameManager.events.CallStartFTL();
             }
         }
 
