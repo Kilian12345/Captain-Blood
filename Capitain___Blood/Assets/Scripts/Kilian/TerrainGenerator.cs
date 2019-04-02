@@ -8,7 +8,7 @@ public class TerrainGenerator : MonoBehaviour
     //EPISODE 2
 
 
-
+    #region Preference
     [Header("PREFRENCES")]
     public bool Randomized = true;      //BOOL NOT IN TUTORIAL {Do you want the terrain generated each time?}
     public bool Animate = true;         //BOOL NOT IN TUTORIAL {Do you want it to be animated and move?
@@ -27,6 +27,9 @@ public class TerrainGenerator : MonoBehaviour
     public float offsetX = 100;
     public float offsetY = 100;
 
+    #endregion
+
+
 
     public void Start()
     {
@@ -39,6 +42,7 @@ public class TerrainGenerator : MonoBehaviour
     {
         Terrain terrain = GetComponent<Terrain>();      //for Terrain Data
         terrain.terrainData = GenerateTerrain(terrain.terrainData);
+
 
         if (Animate == true)
         {
@@ -74,8 +78,8 @@ public class TerrainGenerator : MonoBehaviour
 
     float CalculateHeight(int x, int y)
     {
-        float xCord = (float)x / width * Scale;
-        float yCord = (float)y / height * Scale;
+        float xCord = (float)x / width * Scale + offsetX;
+        float yCord = (float)y / height * Scale + offsetY;
 
         if (Randomized == true)
         {

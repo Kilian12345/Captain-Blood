@@ -4,9 +4,10 @@ Shader "UCLA Game Lab/Wireframe/Single-Sided Cutout"
 {
 	Properties 
 	{
-		_Color ("Line Color", Color) = (1,1,1,1)
+		_Color ("Line Color1", Color) = (1,1,1,1)
 		_MainTex ("Main Texture", 2D) = "white" {}
 		_Thickness ("Thickness", Float) = 1
+
 
 
 	}
@@ -22,7 +23,7 @@ Shader "UCLA Game Lab/Wireframe/Single-Sided Cutout"
 			Cull Off
 			ZWrite On
 			Blend SrcAlpha OneMinusSrcAlpha 
-			LOD 100
+			LOD 300
 			
 			CGPROGRAM
 				#pragma target 5.0
@@ -56,7 +57,8 @@ Shader "UCLA Game Lab/Wireframe/Single-Sided Cutout"
 				}
 					ENDCG
 
-					
 		}
+
 	} 
+
 }
