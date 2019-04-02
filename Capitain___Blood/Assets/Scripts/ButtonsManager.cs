@@ -134,7 +134,7 @@ namespace RetroJam.CaptainBlood
                     break;
                 case 1:
                     Debug.Log("Switching to Landing interface.");
-                    //Landing
+                    manager.SetPhase(Phase.Landing);
                     break;
                 case 2:
                     Debug.Log("Destroy Planet. #ThanksDirectorKrenic");
