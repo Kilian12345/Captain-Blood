@@ -56,6 +56,8 @@ namespace RetroJam.CaptainBlood
             WriteSentence(player, manager.player);
             WriteSentence(alien, manager.alien);
 
+            DebugMousePos();
+
             Interact();
         }
 
@@ -76,7 +78,7 @@ namespace RetroJam.CaptainBlood
         {
             Vector3 cursor = cam.ScreenToWorldPoint(Input.mousePosition);
 
-            debugPos = tm.WorldToCell(cursor);
+            debugPos = monitorTM.WorldToCell(cursor);
 
             if(Input.GetMouseButtonDown(0))
             {
@@ -88,8 +90,8 @@ namespace RetroJam.CaptainBlood
         {
             for (int i = 1; i < 120; i+=2)
             {
-                dictionary[new Vector3Int(-7 + Mathf.FloorToInt(i / 2), 0, 0)] = (Word)i;
-                dictionary[new Vector3Int(-7 + Mathf.FloorToInt(i / 2), -1, 0)] = (Word)i+1;
+                dictionary[new Vector3Int(-7 + Mathf.FloorToInt(i / 2), -3, 0)] = (Word)i;
+                dictionary[new Vector3Int(-7 + Mathf.FloorToInt(i / 2), -4, 0)] = (Word)i+1;
             }
         }
 
@@ -100,8 +102,8 @@ namespace RetroJam.CaptainBlood
 
             for (int i = 0; i < 8; i++)
             {
-                alien.field[i] = new Vector3Int(-9 + i, 1, 0);
-                player.field[i] = new Vector3Int(1 + i, 1, 0);
+                alien.field[i] = new Vector3Int(-9 + i, -2, 0);
+                player.field[i] = new Vector3Int(1 + i, -2, 0);
 
                 alien.sentence[alien.field[i]] = Word.none;
                 player.sentence[player.field[i]] = Word.none;

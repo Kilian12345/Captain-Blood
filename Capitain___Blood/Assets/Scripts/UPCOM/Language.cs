@@ -676,6 +676,8 @@ namespace RetroJam.CaptainBlood.Lang
 
             result *= verb * (negative ? -1 : 1);
 
+            result = result * 8 / _sentence.size;
+
             return result;
         }
     }
