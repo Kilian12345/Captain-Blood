@@ -26,6 +26,8 @@ public class landing_Control : MonoBehaviour
     void Update()
     {
         LandingControl();
+
+        GetComponent<Terrain>().materialTemplate.mainTextureOffset = new Vector2(terGen.offsetY,terGen.offsetX);
     }
 
     void LandingControl()
