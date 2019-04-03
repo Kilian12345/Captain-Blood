@@ -22,6 +22,7 @@ namespace RetroJam.CaptainBlood
 
         [SerializeField] public Planet currentPlanet;
         [SerializeField] public Alien alien;
+        [SerializeField] bool isInhabited;
 
         private Phase lastPhase;
 
@@ -98,8 +99,10 @@ namespace RetroJam.CaptainBlood
             sw.Stop();
 
             Debug.Log("Time to Initialize whole Game : " + sw.ElapsedMilliseconds + "ms.");
-            currentPlanet = Galaxy.planets[new Vector2Int(Random.Range(0, 256), Random.Range(0, 126))];
-            alien = currentPlanet.inhabitant;
+            currentPlanet = Galaxy.RandomInhabitedPlanet();
+            alien = Galaxy.inhabitants[currentPlanet.coordinates];
+            isInhabited = true;
+            
         }
 
         void Update()
@@ -126,9 +129,14 @@ namespace RetroJam.CaptainBlood
             {
                 Debug.Log("Files created in the \"Saves\" directory, saving informations in json-format.");
 
-                using (StreamWriter test = File.CreateText(@"Saves\planets.json"))
+                using (StreamWriter planets = File.CreateText(@"Saves\planets.json"))
                 {
-                    test.WriteLine(JsonConvert.SerializeObject(Galaxy.planets, new Vec2DictionaryConverter()));
+                    planets.WriteLine(JsonConvert.SerializeObject(Galaxy.planets, new Vec2DictionaryConverter()));
+                }
+
+                using (StreamWriter inhabitants = File.CreateText(@"Saves\inhabitants.json"))
+                {
+                    inhabitants.WriteLine(JsonConvert.SerializeObject(Galaxy.inhabitants, new Vec2DictionaryConverter()));
                 }
 
             }
@@ -165,13 +173,17 @@ namespace RetroJam.CaptainBlood
         {
             currentX.text = currentPlanet.coordinates.x.ToString();
             currentY.text = currentPlanet.coordinates.y.ToString();
-
         }
 
         public void SetPlanet(Vector2Int _coord)
         {
             currentPlanet = Galaxy.planets[_coord];
-            alien = currentPlanet.inhabitant;
+            if (Galaxy.inhabitants.ContainsKey(_coord))
+            {
+                alien = Galaxy.inhabitants[_coord];
+                isInhabited = true;
+            }
+            else isInhabited = false;
         }
 
         public void SetPhase(Phase _phase)
@@ -179,7 +191,6 @@ namespace RetroJam.CaptainBlood
             SetCursorLimit(_phase);
             menu.SetActive(_phase);
             phase = _phase;
-
         }
     }
 }

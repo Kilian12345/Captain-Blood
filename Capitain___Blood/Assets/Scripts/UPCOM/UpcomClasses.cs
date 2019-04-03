@@ -138,4 +138,13 @@ namespace RetroJam.CaptainBlood.Lang
     {
 
     }
+
+    public struct Answer
+    {
+        public Sentence sentence;
+        public SentenceCorrectness correctness;
+        public SentenceConstruction construction;
+        public Dictionary<WordFunction, List<Word>> structure;
+        public float esteem;
+    }
 }

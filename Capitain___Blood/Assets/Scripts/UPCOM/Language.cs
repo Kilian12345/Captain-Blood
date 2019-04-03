@@ -619,6 +619,9 @@ namespace RetroJam.CaptainBlood.Lang
             float verb = 0;
             bool negative = false;
 
+            const float gaussianFactorA = 2.5f;
+            const float gaussianFactorC = 1.12f;
+
             for (int i = 0; i < _sentence.size; i++)
             {
                 WordNature nature = _sentence.words[i].Nature();
@@ -627,8 +630,8 @@ namespace RetroJam.CaptainBlood.Lang
                 {
                     Alien.GlossaryValues word = _alien.glossary[_sentence.words[i]];
 
-                    float weight = -Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value > 0 ? Mathf.Clamp(-Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value, 0, 2) : Mathf.Clamp(-Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value, -2, 0);
-
+                    //float weight = -Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value > 0 ? Mathf.Clamp(-Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value, 0, 2) : Mathf.Clamp(-Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value, -2, 0);
+                    float weight = Mathf.Pow(gaussianFactorA, -(Mathf.Pow(word.iterations, 2) / (2 * Mathf.Pow(gaussianFactorC, 2)))) * word.value;
                     if (i == 0)
                     {
                         result += weight / 10;
@@ -680,5 +683,18 @@ namespace RetroJam.CaptainBlood.Lang
 
             return result;
         }
+
+        public static Answer Answer(this Sentence _sentence, Alien _alien)
+        {
+            Answer result;
+            result.sentence = _sentence;
+            result.construction = _sentence.Construction();
+            result.correctness = _sentence.Correctness();
+            result.structure = _sentence.Structure();
+            result.esteem = _sentence.SentenceEsteem(_alien);
+
+            return result;
+        }
+
     }
 }

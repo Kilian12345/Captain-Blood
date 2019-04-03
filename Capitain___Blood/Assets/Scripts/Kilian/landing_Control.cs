@@ -13,6 +13,7 @@ public class landing_Control : MonoBehaviour
     [SerializeField]float moveVert;
     [SerializeField]float moveHori;
     [SerializeField]float moveFor;
+    [SerializeField] float vertSpeed;
 
     float y;
 
@@ -31,19 +32,24 @@ public class landing_Control : MonoBehaviour
     void LandingControl()
     {
         moveVert += Input.GetAxis("Vertical") ;
-        moveHori += Input.GetAxis("Horizontal") * speed;
+        moveHori += Input.GetAxis("ScrollHorizontal") * speed;
         moveFor += (1-Mathf.Abs(Input.GetAxis("Forward"))) * speed*0.1f +.004f;
 
 
 
 
-        y = camera.localPosition.y + moveVert;
+        y = moveVert*vertSpeed;
         camera.localPosition = new Vector3(camera.localPosition.x, y, camera.localPosition.z);
 
         terGen.offsetY = moveHori;
 
         terGen.offsetX = moveFor;
         
+
+    }
+
+    void LandingControl2()
+    {
 
     }
 }

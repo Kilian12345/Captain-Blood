@@ -16,7 +16,6 @@ namespace RetroJam.CaptainBlood.GalaxyLib
         public Word race;
         public bool visited;
         public bool destroyed;
-        public Alien inhabitant;
         public Vector2 renderingValues;
 
         public Planet(Word[] _name, Vector2Int _coord, Word _race)
@@ -30,7 +29,6 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             coordinates = _coord;
             race = _race;
 
-            inhabitant = new Alien();
 
             renderingValues = new Vector2(UnityEngine.Random.Range(0, 20), UnityEngine.Random.Range(0, 1000000));
         }
@@ -44,8 +42,6 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             coordinates = _coord;
             race = _race;
 
-            inhabitant = new Alien();
-
             renderingValues = new Vector2(UnityEngine.Random.Range(0, 14), UnityEngine.Random.Range(0, 1000000));
         }
 
@@ -57,7 +53,6 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             race = _race;
             visited = _visited;
             destroyed = _destroyed;
-            inhabitant = _inhabitant;
             renderingValues = _renderingValues;
         }
 
@@ -76,11 +71,6 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             if (result.Length > 3) result[3] = (Word)UnityEngine.Random.Range(113, 121);
 
             return result;
-        }
-
-        public void SetAlien()
-        {
-
         }
     }
 
@@ -112,10 +102,14 @@ namespace RetroJam.CaptainBlood.GalaxyLib
     public static class Galaxy
     {
         public static Dictionary<Vector2Int, Planet> planets;
+        public static Dictionary<Vector2Int, Alien> inhabitants;
+        public static List<Vector2Int> inhabitedCoordinates;
 
         public static void Initialize()
         {
             planets = new Dictionary<Vector2Int, Planet>();
+            inhabitants = new Dictionary<Vector2Int, Alien>();
+            inhabitedCoordinates = new List<Vector2Int>();
 
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
@@ -129,22 +123,54 @@ namespace RetroJam.CaptainBlood.GalaxyLib
                 }
             }
 
+            for (int i = 0; i < 320; i++)
+            {
+                Vector2Int coord = new Vector2Int(UnityEngine.Random.Range(0, 256), UnityEngine.Random.Range(0, 126));
+
+                if (!inhabitants.ContainsKey(coord))
+                {
+                    inhabitants.Add(coord, new Alien());
+                    inhabitedCoordinates.Add(coord);
+                }
+            }
+
             sw.Stop();
 
             Debug.Log("Time to Initialize whole Galaxy : "+sw.ElapsedMilliseconds/1000+"s.");
         }
 
-        public static void Initialize(Dictionary<Vector2Int, Planet> _save)
+        public static void Initialize(Dictionary<Vector2Int, Planet> _savePlanet, Dictionary<Vector2Int, Alien> _savePop)
         {
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
             sw.Start();
 
-            planets = _save;
+            planets = _savePlanet;
+            inhabitants = _savePop;
+
+            foreach (Vector2Int _coord in inhabitants.Keys)
+            {
+                inhabitedCoordinates.Add(_coord);
+            }
+
+            Debug.Log("Amount of aliens loaded : " + inhabitedCoordinates.Count + ".");
 
             sw.Stop();
 
             Debug.Log("Time to Initialize whole Galaxy : " + sw.ElapsedMilliseconds + "ms.");
+        }
+
+        public static void AddAlien(Vector2Int _coord)
+        {
+            if (!inhabitants.ContainsKey(_coord))
+            {
+                inhabitants.Add(_coord, new Alien());
+            }
+        }
+
+        public static Planet RandomInhabitedPlanet()
+        {
+            return planets[inhabitedCoordinates[UnityEngine.Random.Range(0, inhabitedCoordinates.Count)]];
         }
     }
 
