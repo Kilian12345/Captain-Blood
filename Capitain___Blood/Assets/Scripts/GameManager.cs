@@ -12,6 +12,7 @@ namespace RetroJam.CaptainBlood
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField] bool loadFormSave;
         [SerializeField] public Phase phase;
         [SerializeField] private Menu menu;
         [SerializeField] private Cursor cursor;
@@ -84,13 +85,16 @@ namespace RetroJam.CaptainBlood
             sw = new System.Diagnostics.Stopwatch();
 
             sw.Start();
-            /*
-            string save = File.ReadAllText(@"Saves\planets.json");
+            
+            string savePlanets = File.ReadAllText(@"Saves\planets.json");
+            string saveAliens = File.ReadAllText(@"Saves\inhabitants.json");
             JsonSerializerSettings setting = new JsonSerializerSettings();
-            setting.CheckAdditionalContent = true;*/
+            setting.CheckAdditionalContent = false;
 
             Words.InitializeWords();
-            Galaxy.Initialize(/*JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter())*/);
+
+            if(loadFormSave) Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(savePlanets, new PlanetLoading()), JsonConvert.DeserializeObject<Dictionary<Vector2Int, Alien>>(saveAliens, new AlienLoading()));
+            else Galaxy.Initialize();
         }
 
         void Start()
@@ -131,12 +135,12 @@ namespace RetroJam.CaptainBlood
 
                 using (StreamWriter planets = File.CreateText(@"Saves\planets.json"))
                 {
-                    planets.WriteLine(JsonConvert.SerializeObject(Galaxy.planets, new Vec2DictionaryConverter()));
+                    planets.WriteLine(JsonConvert.SerializeObject(Galaxy.planets, new PlanetLoading()));
                 }
 
                 using (StreamWriter inhabitants = File.CreateText(@"Saves\inhabitants.json"))
                 {
-                    inhabitants.WriteLine(JsonConvert.SerializeObject(Galaxy.inhabitants, new Vec2DictionaryConverter()));
+                    inhabitants.WriteLine(JsonConvert.SerializeObject(Galaxy.inhabitants, new AlienLoading()));
                 }
 
             }
