@@ -22,7 +22,7 @@ Material:
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 8281fb4ea0389c44abc5202a75590989, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 1.5492017, y: 40.753838}
+        m_Offset: {x: 0, y: 32.367874}
     - _Texture:
         m_Texture: {fileID: 2800000, guid: f2aff80574802eb4dabbce2988cb2067, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -30,6 +30,7 @@ Material:
     m_Floats:
     - _First: 0.74
     - _Fourth: 0.1
+    - _Height1: 1
     - _Second: 0.3
     - _Test: 0.84
     - _Thickness: 0.68
