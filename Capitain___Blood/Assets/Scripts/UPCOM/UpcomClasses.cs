@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace RetroJam.CaptainBlood.Lang
 {
+    public enum AnswerRequirements { none, Match, MatchPart, MatchSize, MatchWordsScrambled, Binary}
+
     [System.Serializable]
     public class Sentence
     {
@@ -146,5 +148,48 @@ namespace RetroJam.CaptainBlood.Lang
         public SentenceConstruction construction;
         public Dictionary<WordFunction, List<Word>> structure;
         public float esteem;
+    }
+
+    public class AnswerCondition
+    {
+        public Word[] words;
+        public AnswerRequirements requirements;
+
+        public AnswerCondition(Word[] _words, AnswerRequirements _requirements)
+        {
+            words = _words;
+            requirements = _requirements;
+        }
+
+        public AnswerCondition(Word[] _words, int _requirements)
+        {
+            words = _words;
+            requirements = (AnswerRequirements)_requirements;
+        }
+
+        public bool Check(Answer _answer)
+        {
+            bool result = false;
+
+            switch (requirements)
+            {
+                case AnswerRequirements.none:
+                    return true;
+                case AnswerRequirements.Match:
+                    return words == _answer.sentence.words;
+                case AnswerRequirements.MatchPart:
+                    break;
+                case AnswerRequirements.MatchSize:
+                    return words.Length == _answer.sentence.size;
+                case AnswerRequirements.MatchWordsScrambled:
+                    return _answer.sentence.Contains(words);
+                default:
+                    break;
+            }
+
+            return result;
+        }
+
+        
     }
 }

@@ -7,7 +7,7 @@ public class landing_Control : MonoBehaviour
 
     TerrainGenerator terGen;
 
-    [SerializeField] Transform camera;
+    [SerializeField] Transform cam;
 
     [SerializeField]float speed;
     [SerializeField]float moveVert;
@@ -39,7 +39,7 @@ public class landing_Control : MonoBehaviour
 
 
         y = moveVert*vertSpeed;
-        camera.localPosition = new Vector3(camera.localPosition.x, y, camera.localPosition.z);
+        cam.localPosition = new Vector3(cam.localPosition.x, y, cam.localPosition.z);
 
         terGen.offsetY = moveHori;
 

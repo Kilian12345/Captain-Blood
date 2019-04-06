@@ -132,6 +132,7 @@ namespace RetroJam.CaptainBlood.Lang
     public enum VerbType { Intransitive, Transitive, Ditransitive, DoubleTransitive, Copular}
     public enum SentenceConstruction { none, E, O, SV, SVO, SVA, SVOO, SVOC, SVOA, VO }
     public enum SentenceCorrectness { none, correct, needSubject, needObject, needAdverb, needVerb}
+    public enum SentenceType { Speech, PolarQuestion, OpenQuestion, Answer, ScriptedAnswer, ScriptedSpeech}
 
     public static class WordsFunctions
     {
@@ -437,6 +438,49 @@ namespace RetroJam.CaptainBlood.Lang
 
             return false;
         }
+
+        public static bool Contains(this Sentence _sentence, Word[] _words)
+        {
+            int count = 0;
+
+            for (int k = 0; k < _words.Length; k++)
+            {
+                for (int i = 0; i < _sentence.size; i++)
+                {
+                    if (_sentence.words[i] == _words[k]) count++;
+                }
+            }
+
+            return count == _words.Length;
+        }
+
+        public static bool Contains(this Sentence _sentence, Word[] _words, bool _validOrder)
+        {
+            int count = 0;
+
+            if (!_validOrder) return _sentence.Contains(_words);
+            else
+            {
+                for (int k = 0; k < _sentence.size; k++)
+                {
+                    if (_sentence.words[k] != _words[0]) continue;
+
+                    for (int i = 0; i < _words.Length; i++)
+                    {
+                        if (_sentence.words[k + i] != _words[i]) break;
+                        else
+                        {
+                            count++;
+                        }
+                    }
+
+                    if (count == _words.Length) return true;
+                    else count = 0;
+                }
+
+                return false;
+            }
+        }
     }
 
     public class WordTypeException : System.Exception
@@ -696,5 +740,6 @@ namespace RetroJam.CaptainBlood.Lang
             return result;
         }
 
+        
     }
 }

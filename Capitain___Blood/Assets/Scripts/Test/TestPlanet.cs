@@ -9,7 +9,7 @@ namespace RetroJam.CaptainBlood
 {
     public class TestPlanet : MonoBehaviour
     {
-        public Word[] name;
+        public Word[] ownName;
         public Vector2Int coordinates;
         public Word race;
 
