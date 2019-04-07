@@ -6,7 +6,7 @@ using UnityEngine;
 public class TerrainGenerator : MonoBehaviour
 {
     //EPISODE 2
-
+    Terrain_manager terrain_man;
 
     #region Preference
     [Header("PREFRENCES")]
@@ -27,14 +27,21 @@ public class TerrainGenerator : MonoBehaviour
     public float offsetX = 100;
     public float offsetY = 100;
 
+    [SerializeField] float startOffset ;
+    [SerializeField] float xCord;
+
+    [Space (15)]
+    [SerializeField] bool terrain1;
+    [SerializeField] bool terrain2;
+    [SerializeField] bool terrain3;
     #endregion
 
 
 
     public void Start()
     {
-       /* offsetX = Random.Range(0, 99999);
-        offsetY = Random.Range(0, 99999);*/
+        terrain_man = GetComponentInParent<Terrain_manager>();
+
     }
 
 
@@ -48,6 +55,31 @@ public class TerrainGenerator : MonoBehaviour
         {
             offsetX += Time.deltaTime * Speed;
             offsetY += Time.deltaTime * Speed;
+        }
+
+        ValueUpdate();
+    }
+
+    void ValueUpdate ()
+    {
+        Speed = terrain_man.speed;
+        depth = terrain_man.depth;
+        width = terrain_man.width;
+        height = terrain_man.height;
+        Scale = terrain_man.scale; 
+
+        if (terrain2 == true)
+        {
+            float value = 97.9289940828f * Scale / 100;
+            float newXcord = xCord + value;
+            xCord = newXcord;
+        }
+
+        if (terrain3 == true)
+        {
+            float value = 97.9289940828f * Scale / 100;
+            float newXcord = xCord + value*2;
+            xCord = newXcord;
         }
     }
 
@@ -78,7 +110,7 @@ public class TerrainGenerator : MonoBehaviour
 
     float CalculateHeight(int x, int y)
     {
-        float xCord = (float)x / width * Scale + offsetX;
+        xCord = (float)x / width * Scale + offsetX + startOffset ;
         float yCord = (float)y / height * Scale + offsetY;
 
         if (Randomized == true)
