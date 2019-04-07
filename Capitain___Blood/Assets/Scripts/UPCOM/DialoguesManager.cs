@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using RetroJam.CaptainBlood.Lang;
+using RetroJam.CaptainBlood.CursorLib;
 
 namespace RetroJam.CaptainBlood
 {
@@ -12,8 +13,12 @@ namespace RetroJam.CaptainBlood
         [SerializeField] public Sentence player;
         [SerializeField] GameManager manager;
         [SerializeField] TextAsset jsonFile;
+        [SerializeField] Transform cursor;
 
         Speech alienSpeech;
+        Dialogue dialogue;
+
+        Button button;
 
         public List<Word> subject = new List<Word>();
         public List<Word> action = new List<Word>();
@@ -26,6 +31,7 @@ namespace RetroJam.CaptainBlood
         private void Awake()
         {
             alienSpeech = JsonConvert.DeserializeObject<Speech>(jsonFile.text);
+            button = new Button(new Vector2(-.75f, -1.75f), new Vector2(.8f, -.35f));
         }
 
         // Start is called before the first frame update
@@ -65,7 +71,15 @@ namespace RetroJam.CaptainBlood
 
         public void AlienSpeechManager()
         {
-            if (Input.GetKeyDown(KeyCode.H)) AlienKeyboard(alienSpeech.Read());
+            if (Input.GetButtonDown("Select1") && button.IsCursorOver(cursor)) AlienKeyboard(alienSpeech.Read());
+            if (Input.GetKeyDown(KeyCode.K)) AlienKeyboard(Language.RandomSentenceSVO());
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                Vector2Int coord = new Vector2Int(Random.Range(0, 256), Random.Range(0, 156));
+
+                Debug.Log("Planet coord = " + coord);
+                AlienKeyboard(Language.ReturnCoordinates(coord));
+            }
         }
 
         public void AlienKeyboard(Sentence _sentence)

@@ -12,7 +12,7 @@ namespace RetroJam.CaptainBlood
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] bool loadFormSave;
+        [SerializeField] bool loadFromSave;
         [SerializeField] public Phase phase;
         [SerializeField] private Menu menu;
         [SerializeField] private Cursor cursor;
@@ -93,7 +93,7 @@ namespace RetroJam.CaptainBlood
 
             Words.InitializeWords();
 
-            if(loadFormSave) Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(savePlanets, new PlanetLoading()), JsonConvert.DeserializeObject<Dictionary<Vector2Int, Alien>>(saveAliens, new AlienLoading()));
+            if(loadFromSave) Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(savePlanets, new PlanetLoading()), JsonConvert.DeserializeObject<Dictionary<Vector2Int, Alien>>(saveAliens, new AlienLoading()));
             else Galaxy.Initialize();
         }
 
@@ -135,12 +135,12 @@ namespace RetroJam.CaptainBlood
 
                 using (StreamWriter planets = File.CreateText(@"Saves\planets.json"))
                 {
-                    planets.WriteLine(JsonConvert.SerializeObject(Galaxy.planets, new PlanetLoading()));
+                    planets.WriteLine(JsonConvert.SerializeObject(Galaxy.planets,Formatting.Indented ,new PlanetLoading()));
                 }
 
                 using (StreamWriter inhabitants = File.CreateText(@"Saves\inhabitants.json"))
                 {
-                    inhabitants.WriteLine(JsonConvert.SerializeObject(Galaxy.inhabitants, new AlienLoading()));
+                    inhabitants.WriteLine(JsonConvert.SerializeObject(Galaxy.inhabitants, Formatting.Indented, new AlienLoading()));
                 }
 
             }

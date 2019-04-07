@@ -3841,6 +3841,7 @@ MonoBehaviour:
     words: 0000000000000000000000000000000000000000000000000000000000000000
   manager: {fileID: 1208673037}
   jsonFile: {fileID: 4900000, guid: 20bcdd3ce3233764c885c22da8a10061, type: 3}
+  cursor: {fileID: 432397501}
   subject: 
   action: 
   object: 
@@ -3982,7 +3983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c54b415f59c68046be0da9aa4b017dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadFormSave: 1
+  loadFromSave: 1
   phase: 0
   menu:
     main: {fileID: 173558162}
@@ -7529,7 +7530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2093736465
 RectTransform:
   m_ObjectHideFlags: 0

@@ -138,7 +138,7 @@ namespace RetroJam.CaptainBlood.Lang
 
     public class Quest
     {
-
+        
     }
 
     public struct Answer
@@ -190,6 +190,7 @@ namespace RetroJam.CaptainBlood.Lang
             return result;
         }
 
-        
+        public static AnswerCondition yes { get => new AnswerCondition(new Word[] { Word.Yes }, AnswerRequirements.Match); }
+        public static AnswerCondition no { get => new AnswerCondition(new Word[] { Word.No }, AnswerRequirements.Match); }
     }
 }

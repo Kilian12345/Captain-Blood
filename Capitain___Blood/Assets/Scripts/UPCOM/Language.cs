@@ -740,6 +740,55 @@ namespace RetroJam.CaptainBlood.Lang
             return result;
         }
 
+        public static Sentence ReturnCoordinates(Vector2Int _coord)
+        {
+            return ReturnCoordinates(_coord.x, _coord.y);
+        }
+
+        public static Sentence ReturnCoordinates(int _x, int _y)
+        {
+            Sentence result = new Sentence();
+
+            result.AddWord(Word.Coord);
+            result.AddWord(Word.Equal);
+            result.AddWord((Word)(111 + Mathf.FloorToInt(_x / 100)));
+            result.AddWord((Word)(111 + Mathf.FloorToInt(_x / 10)- Mathf.FloorToInt(_x / 100)*10));
+            result.AddWord((Word)(111 + _x - Mathf.FloorToInt(_x / 10)));
+            result.AddWord(Word.OutOf);
+            result.AddWord((Word)(111 + Mathf.FloorToInt(_y / 100)));
+            result.AddWord((Word)(111 + Mathf.FloorToInt(_y / 10) - Mathf.FloorToInt(_y / 100)*10));
+            result.AddWord((Word)(111 + _x - Mathf.FloorToInt(_y / 10)));
+
+            return result;
+        }
+
+        public static Sentence RandomSentenceSVO()
+        {
+            Sentence result = new Sentence();
+
+            if (Random.value < .8f) result.AddWord(GetWordOfNature(WordNature.Adjective));
+            result.AddWord(Words.nouns[Random.Range(0, Words.nouns.Count)]);
+            if (Random.value < .5f) result.AddWord(Word.Not);
+            result.AddWord(GetWordOfNature(WordNature.Verb));
+            if (Random.value < .8f) result.AddWord(GetWordOfNature(WordNature.Adjective));
+            result.AddWord(Words.nouns[Random.Range(0, Words.nouns.Count)]);
+
+            return result;
+
+            Word GetWordOfNature(WordNature _nature)
+            {
+                Word tmp;
+
+                do
+                {
+                    tmp = (Word)Random.Range(0, Words.dictionary.Count);
+                } while (Words.dictionary[tmp] != _nature);
+
+                return tmp;
+
+            }
+        }
+
         
     }
 }

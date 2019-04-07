@@ -13,6 +13,7 @@ namespace RetroJam.CaptainBlood.Lang
         public SentenceType[] types;
         public AnswerRequirements[] requirements;
         public SpeechStatus status;
+        public AnswerCondition condition;
         
         private int index;
 
@@ -52,5 +53,15 @@ namespace RetroJam.CaptainBlood.Lang
     public class Mission
     {
         public Alien giver;
+        public int currentPhase;
+        public Vector2Int duplicateCoord;
+        public bool started;
+
+
+    }
+
+    public class FindCode : Mission
+    {
+
     }
 }
