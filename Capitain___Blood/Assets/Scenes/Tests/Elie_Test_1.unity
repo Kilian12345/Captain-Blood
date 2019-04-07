@@ -1799,6 +1799,7 @@ MonoBehaviour:
   terrain1: 0
   terrain2: 0
   terrain3: 1
+  multiplicator: 1
 --- !u!154 &491347051
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -4314,6 +4315,7 @@ MonoBehaviour:
   terrain1: 0
   terrain2: 1
   terrain3: 0
+  multiplicator: 1
 --- !u!154 &1346792992
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -6932,6 +6934,7 @@ MonoBehaviour:
   terrain1: 1
   terrain2: 0
   terrain3: 0
+  multiplicator: 1
 --- !u!154 &1950398411
 TerrainCollider:
   m_ObjectHideFlags: 0

@@ -34,6 +34,9 @@ public class TerrainGenerator : MonoBehaviour
     [SerializeField] bool terrain1;
     [SerializeField] bool terrain2;
     [SerializeField] bool terrain3;
+
+    [SerializeField] float multiplicator;
+    float factor = 1;
     #endregion
 
 
@@ -110,8 +113,11 @@ public class TerrainGenerator : MonoBehaviour
 
     float CalculateHeight(int x, int y)
     {
-        xCord = (float)x / width * Scale + offsetX + startOffset ;
-        float yCord = (float)y / height * Scale + offsetY;
+
+        if(terrain2 || terrain3) factor = multiplicator;
+
+        xCord = (float)x / width * Scale*multiplicator + offsetX + startOffset*factor ;
+        float yCord = (float)y / height * Scale*multiplicator + offsetY;
 
         if (Randomized == true)
         {
