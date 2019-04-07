@@ -3840,6 +3840,7 @@ MonoBehaviour:
   player:
     words: 0000000000000000000000000000000000000000000000000000000000000000
   manager: {fileID: 1208673037}
+  jsonFile: {fileID: 4900000, guid: 20bcdd3ce3233764c885c22da8a10061, type: 3}
   subject: 
   action: 
   object: 
@@ -6989,7 +6990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2221bf4825449f1448c88f4a509683a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 286008108}
+  cam: {fileID: 0}
   speed: 0.1
   moveVert: 0
   moveHori: 0

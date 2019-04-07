@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
@@ -10,25 +9,28 @@ namespace RetroJam.CaptainBlood
 {
     public class ToolCSVToJSON : EditorWindow
     {
-
         #region Variables
         public Object csvFile;
-        public char csvSplittingCharacter;
+        public string csvSplittingCharacter;
         public string fileName;
         #endregion
 
-        [MenuItem("Tools/Sentence CSV To JSON Creator")]
+        [MenuItem("Tools/Sentence CSV To JSON Generator")]
         public static void ShowWindow()
         {
-            GetWindow<ToolCSVToJSON>("Sentence CSV To JSON Creator");
+            GetWindow<ToolCSVToJSON>("Sentence CSV To JSON Generator");
         }
 
         private void OnGUI()
         {
             //FILE NAME
             EditorGUILayout.BeginHorizontal();
-            //GUILayout.Label("Nom Du Mat", EditorStyles.label);
             fileName = EditorGUILayout.TextField("File output name: ", fileName);
+            EditorGUILayout.EndHorizontal();
+
+            //SEPARATOR
+            EditorGUILayout.BeginHorizontal();
+            csvSplittingCharacter = EditorGUILayout.TextField("Separator", csvSplittingCharacter);
             EditorGUILayout.EndHorizontal();
 
             //CSV FILE
@@ -37,41 +39,48 @@ namespace RetroJam.CaptainBlood
             csvFile = EditorGUILayout.ObjectField(csvFile, typeof(TextAsset), true);
             EditorGUILayout.EndHorizontal();
 
-            //BOUTON DE CREATION
+            //GENERATOR BUTTON
             if (GUILayout.Button("Generate"))
             {
-                System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-                sw.Start();
-
                 TextAsset file = csvFile as TextAsset;
-
-                /*Sentence[] sentences = GetSentenceFromCSVFile(file);
-
-                Debug.Log(JsonConvert.SerializeObject(sentences));
-                Debug.Log(sentences.Length);*/
 
                 Speech[] speeches = GetSpeechesFromCSVFile(file);
 
-                for (int i = 0; i < speeches.Length; i++)
-                {
+                GenerateFiles(speeches, fileName);
 
-                    TextAsset converted = new TextAsset(JsonConvert.SerializeObject(speeches[i], Formatting.Indented));
-
-                    using (StreamWriter json = File.CreateText("Assets/Resources/Speeches/" + fileName +"_"+i+ ".json"))
-                    {
-                        json.Write(JsonConvert.SerializeObject(speeches[i], Formatting.Indented));
-                    }
-                }
                 AssetDatabase.Refresh();
-
-                sw.Stop();
-
-                Debug.Log("File generated in: " + sw.ElapsedMilliseconds + "ms.");
             }
         }
 
+        #region File management methods
+        void GenerateFiles(Speech[] _speeches, string _fileName)
+        {
+            GenerateDirectory(_fileName);
 
-        Sentence[] DataToSentence(int[][] _data)
+            for (int i = 0; i < _speeches.Length; i++)
+            {
+                //TextAsset converted = new TextAsset(JsonConvert.SerializeObject(_speeches[i], Formatting.Indented));
+
+                using (StreamWriter json = File.CreateText("Assets/Resources/Speeches/" + _fileName + "/" + _fileName + "_" + i + ".json"))
+                {
+                    json.Write(JsonConvert.SerializeObject(_speeches[i], Formatting.Indented));
+                }
+            }
+
+            Debug.Log(csvFile.name+".csv successfully converted in JSON into "+_speeches.Length + " files.");
+        }
+
+        void GenerateDirectory(string _fileName)
+        {
+            if (Directory.Exists("Assets/Resources/Speeches/" + _fileName)) return;
+
+            Directory.CreateDirectory("Assets/Resources/Speeches/" + _fileName);
+            Debug.Log("Directory " + _fileName + " created in: Assets/Resources/Speeches/.");
+        }
+        #endregion
+
+        #region CSV to JSON methods
+        Sentence[] DataToSentences(int[][] _data)
         {
             Sentence[] result = new Sentence[_data[0].Length];
 
@@ -81,7 +90,7 @@ namespace RetroJam.CaptainBlood
 
                 for (int j = 3; j < 11; j++)
                 {
-                    result[i].AddWord((Word)_data[i][j]);
+                    result[i].AddWord((Word)_data[j][i]);
                 }
             }
 
@@ -90,18 +99,28 @@ namespace RetroJam.CaptainBlood
 
         int[][] TextDataToIntData(string[] _data)
         {
-            int[][] result = new int[11][];
+            int[][] tmp = new int[_data.Length][];
 
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < _data.Length; i++)
             {
-                result[i] = new int[_data.Length];
-
-                string[] segmentedData = _data[i].Split(';');
-                //Debug.Log("Amount of column in the file: " + segmentedData.Length);
+                string[] segmentedData = _data[i].Split(csvSplittingCharacter.ToCharArray()[0]);
+                tmp[i] = new int[segmentedData.Length];
 
                 for (int j = 0; j < segmentedData.Length; j++)
                 {
-                    result[i][j] = int.Parse(segmentedData[j]);
+                    tmp[i][j] = int.Parse(segmentedData[j]);
+                }
+            }
+
+            int[][] result = new int[tmp[0].Length][];
+
+            for (int columns = 0; columns < tmp[0].Length; columns++)
+            {
+                result[columns] = new int[tmp.Length];
+
+                for (int raws = 0; raws < tmp.Length; raws++)
+                {
+                    result[columns][raws] = tmp[raws][columns];
                 }
             }
 
@@ -110,7 +129,6 @@ namespace RetroJam.CaptainBlood
 
         string[] SplitFileLines(string _data)
         {
-            Debug.Log("Amount of line in the file: " + _data.Split('\n').Length);
             return _data.Split('\n');
         }
 
@@ -121,13 +139,20 @@ namespace RetroJam.CaptainBlood
             int[][] allData = TextDataToIntData(textLines);
 
             int[] ids = allData[1];
-            Sentence[] sentences = DataToSentence(allData);
+            Sentence[] sentences = DataToSentences(allData);
 
             Speech[] result = new Speech[ids[ids.Length - 1] + 1];
 
             List<SentenceType>[] types = new List<SentenceType>[result.Length];
             List<AnswerRequirements>[] requirements = new List<AnswerRequirements>[result.Length];
             List<Sentence>[] speechSentences = new List<Sentence>[result.Length];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                types[i] = new List<SentenceType>();
+                requirements[i] = new List<AnswerRequirements>();
+                speechSentences[i] = new List<Sentence>();
+            }
 
             for (int i = 0; i < textLines.Length; i++)
             {
@@ -144,53 +169,6 @@ namespace RetroJam.CaptainBlood
             return result;
 
         }
-
-        #region DEPRECATED CONTENT
-        //DEPRECATED
-        Sentence[] GetSentenceFromCSVFile(TextAsset _file)
-        {
-            string[] textSentences = SplitFileLines(_file.text);
-
-            Sentence[] result = new Sentence[textSentences.Length];
-
-            for (int i = 0; i < textSentences.Length; i++)
-            {
-                int[] sentence = TextDataToIntSentenceElements(textSentences[i]);
-
-                result[i] = DataToSentence(sentence);
-            }
-
-            return result;
-        }
-
-        //DEPRECATED
-        int[] TextDataToIntSentenceElements(string _data)
-        {
-            int[] result = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
-
-            string[] segmentedData = _data.Split(';');
-
-            for (int i = 3; i < segmentedData.Length; i++)
-            {
-                result[i] = int.Parse(segmentedData[i]);
-            }
-
-            return result;
-        }
-
-        //DEPRECATED
-        Sentence DataToSentence(int[] _data)
-        {
-            Sentence result = new Sentence();
-
-            for (int i = 0; i < _data.Length; i++)
-            {
-                result.AddWord((Word)_data[i]);
-            }
-
-            return result;
-        }
         #endregion
-
     }
 }

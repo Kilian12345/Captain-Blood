@@ -13,6 +13,8 @@ namespace RetroJam.CaptainBlood.Lang
         public SentenceType[] types;
         public AnswerRequirements[] requirements;
         public SpeechStatus status;
+        
+        private int index;
 
         public Speech(Sentence[] _sentences, SentenceType[] _types, AnswerRequirements[] _requirements)
         {
@@ -20,7 +22,24 @@ namespace RetroJam.CaptainBlood.Lang
             types = _types;
             requirements = _requirements;
 
-            status = SpeechStatus.Said;
+            status = SpeechStatus.Waiting;
+            index = 0;
+        }
+
+        public Sentence Read()
+        {
+            Sentence result = new Sentence();
+
+            result = sentences[index];
+            index++;
+
+            if (index == sentences.Length)
+            {
+                status = SpeechStatus.Said;
+                index = 0;
+            }
+
+            return result;
         }
     }
 
