@@ -31,6 +31,10 @@
 		_WireframeSmoothing ("Wireframe Smoothing", Range(0, 10)) = 1
 		_WireframeThickness ("Wireframe Thickness", Range(0, 10)) = 1
 
+		_WireColor1 ("Bottom Color", Color) = (0, 0, 0)
+ 		_WireColor2 ("Middle Color", Color) = (0, 0, 0)
+ 		_WireColor3 ("Top Color", Color) = (0, 0, 0)
+
 		[HideInInspector] _SrcBlend ("_SrcBlend", Float) = 1
 		[HideInInspector] _DstBlend ("_DstBlend", Float) = 0
 		[HideInInspector] _ZWrite ("_ZWrite", Float) = 1

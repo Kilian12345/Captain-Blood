@@ -10,4 +10,6 @@ public class Terrain_manager : MonoBehaviour
     public int height = 65;
     public float scale = 3.38f;
 
+    [Range(0.0f,3.0f)]public float multiplicateur = 1;
+
 }

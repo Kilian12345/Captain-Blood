@@ -46,6 +46,7 @@ Shader "UCLA Game Lab/Wireframe/Single-Sided Cutout"
 		else col.a = 1.0f;
 
 		return col;
+		
 	}
 
 		ENDCG

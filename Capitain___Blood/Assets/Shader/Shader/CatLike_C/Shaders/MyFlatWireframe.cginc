@@ -10,6 +10,10 @@ float3 _WireframeColor;
 float _WireframeSmoothing;
 float _WireframeThickness;
 
+float3 _WireColor1;
+float3 _WireColor2;
+float3 _WireColor3;
+
 float3 GetAlbedoWithWireframe (Interpolators i) {
 	float3 albedo = GetAlbedo(i);
 	float3 barys;
@@ -20,7 +24,15 @@ float3 GetAlbedoWithWireframe (Interpolators i) {
 	float3 thickness = deltas * _WireframeThickness;
 	barys = smoothstep(thickness, thickness + smoothing, barys);
 	float minBary = min(barys.x, min(barys.y, barys.z));
-	_WireframeColor.r = i.worldPos.y * 0.6 ;
+	_WireframeColor.b = i.worldPos.y * 0.6 ; //////////// Wireframe_Color
+	_WireframeColor.r = i.worldPos.z * 0.015 - 1.5;
+
+	/*if (i.worldPos.y <= 0)
+	{
+		_WireframeColor = lerp(_WireColor1, _WireColor2, i.worldPos.y);
+	}*/
+
+
 	return lerp(_WireframeColor, albedo, minBary);
 }
 

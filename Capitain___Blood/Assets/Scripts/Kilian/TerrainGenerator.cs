@@ -70,8 +70,9 @@ public class TerrainGenerator : MonoBehaviour
         width = terrain_man.width;
         height = terrain_man.height;
         Scale = terrain_man.scale; 
+        multiplicator = terrain_man.multiplicateur;
 
-        if (terrain2 == true)
+       /*  if (terrain2 == true)
         {
             float value = 97.9289940828f * Scale / 100;
             float newXcord = xCord + value;
@@ -83,7 +84,7 @@ public class TerrainGenerator : MonoBehaviour
             float value = 97.9289940828f * Scale / 100;
             float newXcord = xCord + value*2;
             xCord = newXcord;
-        }
+        }*/
     }
 
 
