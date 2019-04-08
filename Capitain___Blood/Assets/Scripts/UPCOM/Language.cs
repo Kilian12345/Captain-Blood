@@ -3,137 +3,6 @@ using UnityEngine;
 
 namespace RetroJam.CaptainBlood.Lang
 {
-    public enum Word
-    {
-        none,
-        QuestionMark,
-        Not,
-        Yes,
-        No,
-        Me,
-        You,
-        Howdy,
-        Bye,
-        Go,
-        Want,
-        Teleport,
-        Give,
-        Like,
-        Say,
-        Know,
-        Unknown,
-        Play,
-        Search,
-        Race,
-        Vote,
-        Help,
-        Disarm,
-        Laugh,
-        Sob,
-        Fear,
-        Destroy,
-        Free,
-        Kill,
-        Prison,
-        Prisonner,
-        Trap,
-        Danger,
-        Forbidden,
-        Radioactivity,
-        Impossible,
-        Bounty,
-        Information,
-        NonSense,
-        RDV,
-        Time,
-        Urgent,
-        Idea,
-        Missile,
-        Code,
-        Friend,
-        Ennemy,
-        Spirit,
-        Brain,
-        Warrior,
-        President,
-        Scientist,
-        Genetic,
-        Sex,
-        Reproduction,
-        Male,
-        Female,
-        Identity,
-        Pop,
-        People,
-        Different,
-        Small,
-        Great,
-        Strong,
-        Bad,
-        Brave,
-        Good,
-        Crazy,
-        Poor,
-        Insult,
-        Curse,
-        Peace,
-        Dead,
-        Oorx,
-        Tromp,
-        Kingpak,
-        Robhead,
-        CroolisVar,
-        CroolisUlv,
-        Izwal,
-        Migrax,
-        Antenna,
-        Buggol,
-        Tricephal,
-        TubularBrain,
-        Yukas,
-        Sinox,
-        Ondoyante,
-        Duplicate,
-        Tuttle,
-        Morlock,
-        Yoko,
-        Maxon,
-        Blood,
-        Torka,
-        Ship,
-        Contact,
-        Home,
-        Planet,
-        Trauma,
-        Entrax,
-        Ondoya,
-        Kristo,
-        Rosko,
-        Corpo,
-        Ulikan,
-        BowBow,
-        Hour,
-        Coord,
-        Equal,
-        OutOf,
-        Zero,
-        One,
-        Two,
-        Three,
-        For,
-        Five,
-        Six,
-        Seven,
-        Height,
-        Nine
-    }
-    public enum WordNature { Ponctuation, Noun, Adjective, Verb, Expression, Negation, Number }
-    public enum WordFunction { Subject, Action, Object, Complement}
-    public enum VerbType { Intransitive, Transitive, Ditransitive, DoubleTransitive, Copular}
-    public enum SentenceConstruction { none, E, O, SV, SVO, SVA, SVOO, SVOC, SVOA, VO }
-    public enum SentenceCorrectness { none, correct, needSubject, needObject, needAdverb, needVerb}
-    public enum SentenceType { Speech, PolarQuestion, OpenQuestion, Answer, ScriptedAnswer, ScriptedSpeech}
-
     public static class WordsFunctions
     {
         public static string ToText(this Word _word)
@@ -416,7 +285,7 @@ namespace RetroJam.CaptainBlood.Lang
 
         public static SentenceConstruction Type(this Word _word)
         {
-            if (!_word.Nature(WordNature.Verb)) throw new WordTypeException("You must use a verb.");
+            if (!_word.Nature(WordNature.Verb)) throw new LanguageException("You must use a verb.");
 
             return Words.verbs[_word].constructions;
         }
@@ -483,9 +352,9 @@ namespace RetroJam.CaptainBlood.Lang
         }
     }
 
-    public class WordTypeException : System.Exception
+    public class LanguageException : System.Exception
     {
-        public WordTypeException(string message) : base(message) { }
+        public LanguageException(string message) : base(message) { }
     }
 
     public class Lexicon
@@ -736,8 +605,14 @@ namespace RetroJam.CaptainBlood.Lang
             result.correctness = _sentence.Correctness();
             result.structure = _sentence.Structure();
             result.esteem = _sentence.SentenceEsteem(_alien);
+            result.negative = _sentence.IsNegative();
 
             return result;
+        }
+
+        public static bool IsNegative(this Sentence _sentence)
+        {
+            return _sentence.Contains(Word.No) || _sentence.Contains(Word.Not);
         }
 
         public static Sentence ReturnCoordinates(Vector2Int _coord)
@@ -760,6 +635,55 @@ namespace RetroJam.CaptainBlood.Lang
             result.AddWord((Word)(111 + _x - Mathf.FloorToInt(_y / 10)));
 
             return result;
+        }
+
+        public static Word[] ReturnCode(int _code)
+        {
+            if (_code.ToString().Length > 8 ) throw new LanguageException("The max length is 8 digits.");
+            if (_code.ToString().Length == 0) throw new LanguageException("The min length is 1 digit.");
+
+            Word[] result = new Word[_code.ToString().Length];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i]=(Word)(111+int.Parse(_code.ToString()[i].ToString()));
+            }
+
+            return result;
+        }
+
+        public static Word[] ReturnCode(string _code)
+        {
+            if (_code.Length > 8 ) throw new LanguageException("The max length is 8 digits.");
+            if (_code.Length == 0) throw new LanguageException("The min length is 1 digit.");
+
+            Word[] result = new Word[_code.Length];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i]=(Word)(111+int.Parse(_code[i].ToString()));
+            }
+
+            return result;
+        }
+
+        public static Word[] ReturnCode(int _code, bool _use8Digits)
+        {
+            if(!_use8Digits) return Language.ReturnCode(_code);
+
+            List<Word> result= new List<Word>();
+            for (int i = 0; i < 8-_code.ToString().Length; i++)
+            {
+                result.Add(Word.Zero);
+            }
+
+            Word[] tmp = ReturnCode(_code);
+            for (int i = 0; i < tmp.Length; i++)
+            {
+                result.Add(tmp[i]);
+            }
+
+            return result.ToArray();
         }
 
         public static Sentence RandomSentenceSVO()

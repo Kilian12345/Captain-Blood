@@ -72,31 +72,45 @@ namespace RetroJam.CaptainBlood.Lang
     public class Alien
     {
         public Word[] name { get; private set; }
+        public Races race;
         public float sympathy;
         public Dictionary<Word, GlossaryValues> glossary;
+        public Dialogue dialogue;
+        public MissionType mission;
+        public Vector2Int coordinates;
 
-        public Alien()
+        public Alien(Vector2Int _coord)
         {
+            coordinates = _coord;
+
             SetName();
             CreateGlossary();
+            SetRace();
 
+            mission = MissionType.none;
             sympathy = 0;
         }
 
         [JsonConstructor]
-        public Alien(Word[] _name, float _sympathy, Dictionary<Word, GlossaryValues> _glossary)
+        public Alien(Word[] _name, float _sympathy, Dictionary<Word, GlossaryValues> _glossary, MissionType _mission, Vector2Int _coord)
         {
             name = _name;
             sympathy = _sympathy;
             glossary = _glossary;
+            mission = _mission;
+            coordinates = _coord;
         }
 
         public void SetName()
         {
-
             name = new Word[2];
             name[0] = (Word)Random.Range(2, 72);
             name[1] = (Word)Random.Range(2, 72);
+        }
+
+        public void SetRace()
+        {
+            race = (Races)Random.Range(0,15);
         }
 
         public void CreateGlossary()
@@ -148,6 +162,7 @@ namespace RetroJam.CaptainBlood.Lang
         public SentenceConstruction construction;
         public Dictionary<WordFunction, List<Word>> structure;
         public float esteem;
+        public bool negative;
     }
 
     public class AnswerCondition
@@ -178,11 +193,11 @@ namespace RetroJam.CaptainBlood.Lang
                 case AnswerRequirements.Match:
                     return words == _answer.sentence.words;
                 case AnswerRequirements.MatchPart:
-                    break;
+                    return _answer.sentence.Contains(words, true) && !_answer.negative;
                 case AnswerRequirements.MatchSize:
                     return words.Length == _answer.sentence.size;
                 case AnswerRequirements.MatchWordsScrambled:
-                    return _answer.sentence.Contains(words);
+                    return _answer.sentence.Contains(words) && !_answer.negative;
                 default:
                     break;
             }

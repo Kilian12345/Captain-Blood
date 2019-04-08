@@ -86,11 +86,35 @@ namespace RetroJam.CaptainBlood
 
             for (int i = 0; i < result.Length; i++)
             {
-                result[i] = new Sentence();
-
-                for (int j = 3; j < 11; j++)
+                if(_data[0][i] < 4) 
                 {
-                    result[i].AddWord((Word)_data[j][i]);
+                    result[i] = new Sentence();
+
+                    for (int j = 3; j < 11; j++)
+                    {
+                        result[i].AddWord((Word)_data[j][i]);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        AnswerCondition[] DataToAnswerCondition(int[][] _data)
+        {
+            AnswerCondition[] result = new AnswerCondition[_data[0].Length];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                if(_data[0][i] > 3) 
+                {
+                    List<Word> words = new List<Word>();
+                    for (int j = 3; j < 11; j++)
+                    {
+                        if(_data[j][i] != 0) words.Add((Word)_data[j][i]);
+                    }
+
+                    result[i] = new AnswerCondition(words.ToArray(), _data[2][i]);
                 }
             }
 
@@ -140,18 +164,21 @@ namespace RetroJam.CaptainBlood
 
             int[] ids = allData[1];
             Sentence[] sentences = DataToSentences(allData);
+            AnswerCondition[] answers = DataToAnswerCondition(allData);
 
             Speech[] result = new Speech[ids[ids.Length - 1] + 1];
 
             List<SentenceType>[] types = new List<SentenceType>[result.Length];
             List<AnswerRequirements>[] requirements = new List<AnswerRequirements>[result.Length];
             List<Sentence>[] speechSentences = new List<Sentence>[result.Length];
+            List<AnswerCondition>[] answerConditions = new List<AnswerCondition>[result.Length];
 
             for (int i = 0; i < result.Length; i++)
             {
                 types[i] = new List<SentenceType>();
                 requirements[i] = new List<AnswerRequirements>();
                 speechSentences[i] = new List<Sentence>();
+                answerConditions[i] = new List<AnswerCondition>();
             }
 
             for (int i = 0; i < textLines.Length; i++)
@@ -159,11 +186,12 @@ namespace RetroJam.CaptainBlood
                 types[ids[i]].Add((SentenceType)allData[0][i]);
                 requirements[ids[i]].Add((AnswerRequirements)allData[0][i]);
                 speechSentences[ids[i]].Add(sentences[i]);
+                answerConditions[ids[i]].Add(answers[i]);
             }
 
             for (int i = 0; i < result.Length; i++)
             {
-                result[i] = new Speech(speechSentences[i].ToArray(), types[i].ToArray(), requirements[i].ToArray());
+                result[i] = new Speech(speechSentences[i].ToArray(), types[i].ToArray(), requirements[i].ToArray(), answerConditions[i].ToArray());
             }
 
             return result;

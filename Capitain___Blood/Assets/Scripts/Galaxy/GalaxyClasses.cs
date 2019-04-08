@@ -129,7 +129,7 @@ namespace RetroJam.CaptainBlood.GalaxyLib
 
                 if (!inhabitants.ContainsKey(coord))
                 {
-                    inhabitants.Add(coord, new Alien());
+                    inhabitants.Add(coord, new Alien(coord));
                     inhabitedCoordinates.Add(coord);
                 }
             }
@@ -166,8 +166,29 @@ namespace RetroJam.CaptainBlood.GalaxyLib
         {
             if (!inhabitants.ContainsKey(_coord))
             {
-                inhabitants.Add(_coord, new Alien());
+                inhabitants.Add(_coord, new Alien(_coord));
             }
+        }
+
+        public static Alien UnemployedAlien()
+        {
+            Alien result;
+
+            do
+            {
+                result = Galaxy.inhabitants[Galaxy.RandomInhabitedPlanet().coordinates];
+            } while (result.mission != MissionType.none);
+
+            return result;
+        }
+
+        public static Vector2Int SetDuplicate()
+        {
+            Alien duplicate = UnemployedAlien();
+            duplicate.mission = MissionType.Duplicate;
+            duplicate.race = Races.Duplicate;
+
+            return duplicate.coordinates;
         }
 
         public static Planet RandomInhabitedPlanet()
