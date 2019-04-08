@@ -2,131 +2,120 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
+namespace RetroJam.CaptainBlood
+{
 public class TerrainGenerator : MonoBehaviour
 {
     //EPISODE 2
-    Terrain_manager terrain_man;
+        Terrain_manager terrain_man;
 
-    #region Preference
-    [Header("PREFRENCES")]
-    public bool Randomized = true;      //BOOL NOT IN TUTORIAL {Do you want the terrain generated each time?}
-    public bool Animate = true;         //BOOL NOT IN TUTORIAL {Do you want it to be animated and move?
-    public float Speed = 5;             //FLOAT NOT IN TUTORIAL {If animating, how fast?)
-    //if Animate is true, it works with colliders (add a rigid body to a cube and place the cube above terrain)
+        #region Preference
+        [Header("PREFRENCES")]
+        public bool Randomized = true;      //BOOL NOT IN TUTORIAL {Do you want the terrain generated each time?}
+        public bool Animate = true;         //BOOL NOT IN TUTORIAL {Do you want it to be animated and move?
+        public float Speed = 5;             //FLOAT NOT IN TUTORIAL {If animating, how fast?)
+        //if Animate is true, it works with colliders (add a rigid body to a cube and place the cube above terrain)
 
-    [Space]
+        [Space]
 
-    public int depth = 20;  //height from above
+        public int depth = 20;  //height from above
 
-    public int width = 20;     //make a int named width and set it to a default of 256
-    public int height = 20;    //make int named height and set it to a default of 256 [Length of terrain]
+        public int width = 20;     //make a int named width and set it to a default of 256
+        public int height = 20;    //make int named height and set it to a default of 256 [Length of terrain]
 
-    public float Scale = 1;
+        public float Scale = 1;
 
-    public float offsetX = 100;
-    public float offsetY = 100;
+        public float offsetX = 100;
+        public float offsetY = 100;
 
-    [SerializeField] float startOffset ;
-    [SerializeField] float xCord;
+        [SerializeField] float startOffset ;
+        [SerializeField] float xCord;
 
-    [Space (15)]
-    [SerializeField] bool terrain1;
-    [SerializeField] bool terrain2;
-    [SerializeField] bool terrain3;
+        [Space (15)]
+        [SerializeField] bool terrain1;
+        [SerializeField] bool terrain2;
+        [SerializeField] bool terrain3;
 
-    [SerializeField] float multiplicator;
-    float factor = 1;
-    #endregion
-
-
-
-    public void Start()
-    {
-        terrain_man = GetComponentInParent<Terrain_manager>();
-
-    }
+        [SerializeField] float multiplicator;
+        float factor = 1;
+        #endregion
 
 
-    void Update()
-    {
-        Terrain terrain = GetComponent<Terrain>();      //for Terrain Data
-        terrain.terrainData = GenerateTerrain(terrain.terrainData);
 
-
-        if (Animate == true)
+        public void Start()
         {
-            offsetX += Time.deltaTime * Speed;
-            offsetY += Time.deltaTime * Speed;
+            terrain_man = GetComponentInParent<Terrain_manager>();
+
         }
 
-        ValueUpdate();
-    }
 
-    void ValueUpdate ()
-    {
-        Speed = terrain_man.speed;
-        depth = terrain_man.depth;
-        width = terrain_man.width;
-        height = terrain_man.height;
-        Scale = terrain_man.scale; 
-        multiplicator = terrain_man.multiplicateur;
-
-       /*  if (terrain2 == true)
+        void Update()
         {
-            float value = 97.9289940828f * Scale / 100;
-            float newXcord = xCord + value;
-            xCord = newXcord;
+            Terrain terrain = GetComponent<Terrain>();      //for Terrain Data
+            terrain.terrainData = GenerateTerrain(terrain.terrainData);
+   
+
+            ValueUpdate();
         }
 
-        if (terrain3 == true)
+        void ValueUpdate ()
         {
-            float value = 97.9289940828f * Scale / 100;
-            float newXcord = xCord + value*2;
-            xCord = newXcord;
-        }*/
-    }
+            Speed = terrain_man.speed;
+            depth = terrain_man.depth;
+            width = terrain_man.width;
+            height = terrain_man.height;
+            Scale = terrain_man.scale; 
+            multiplicator = terrain_man.multiplicateur;
 
-
-    TerrainData GenerateTerrain(TerrainData terrainData)
-    {
-        terrainData.heightmapResolution = width + 1;
-
-        terrainData.size = new Vector3(width, depth, height);
-
-        terrainData.SetHeights(0, 0, GenerateHeights());
-        return terrainData;
-    }
-
-    float[,] GenerateHeights()
-    {
-        float[,] heights = new float[width, height];
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
+        /*  if (terrain2 == true)
             {
-                heights[x, y] = CalculateHeight(x, y);      //generate some perlin noise value
+                float value = 97.9289940828f * Scale / 100;
+                float newXcord = xCord + value;
+                xCord = newXcord;
             }
+
+            if (terrain3 == true)
+            {
+                float value = 97.9289940828f * Scale / 100;
+                float newXcord = xCord + value*2;
+                xCord = newXcord;
+            }*/
         }
 
-        return heights;
-    }
 
-    float CalculateHeight(int x, int y)
-    {
-
-        if(terrain2 || terrain3) factor = multiplicator;
-
-        xCord = (float)x / width * Scale*multiplicator + offsetX + startOffset*factor ;
-        float yCord = (float)y / height * Scale*multiplicator + offsetY;
-
-        if (Randomized == true)
+        TerrainData GenerateTerrain(TerrainData terrainData)
         {
-            xCord *= offsetX;
-            yCord *= offsetY;
+            terrainData.heightmapResolution = width + 1;
+
+            terrainData.size = new Vector3(width, depth, height);
+
+            terrainData.SetHeights(0, 0, GenerateHeights());
+            return terrainData;
         }
 
+        float[,] GenerateHeights()
+        {
+            float[,] heights = new float[width, height];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    heights[x, y] = CalculateHeight(x, y);      //generate some perlin noise value
+                }
+            }
 
-        return Mathf.PerlinNoise(xCord, yCord);
+            return heights;
+        }
+
+        float CalculateHeight(int x, int y)
+        {
+
+            if(terrain2 || terrain3) factor = multiplicator;
+
+            xCord = (float)x / width * Scale*multiplicator + offsetX + startOffset*factor ;
+            float yCord = (float)y / height * Scale*multiplicator + offsetY;
+
+            return Mathf.PerlinNoise(xCord, yCord);
+        }
     }
 }

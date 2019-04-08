@@ -868,6 +868,7 @@ GameObject:
   - component: {fileID: 286008112}
   - component: {fileID: 286008113}
   - component: {fileID: 286008114}
+  - component: {fileID: 286008115}
   m_Layer: 0
   m_Name: LandingView
   m_TagString: Untagged
@@ -1031,8 +1032,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.25661904
+  m_Center: {x: 0, y: -0.030124597, z: -7.997921e-10}
 --- !u!114 &286008114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1049,10 +1050,26 @@ MonoBehaviour:
   - {fileID: 1950398410}
   - {fileID: 1346792991}
   - {fileID: 491347050}
-  speed: 0
+  speed: 0.1
   moveVert: 0
   moveHori: 0
   moveFor: 0
+--- !u!54 &286008115
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286008107}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 1
 --- !u!1 &294473063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,7 +1185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &318258908
 Transform:
   m_ObjectHideFlags: 0
@@ -1786,10 +1803,9 @@ GameObject:
   - component: {fileID: 491347052}
   - component: {fileID: 491347051}
   - component: {fileID: 491347050}
-  - component: {fileID: 491347053}
   m_Layer: 0
   m_Name: Terrain3
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1845,7 +1861,7 @@ TerrainCollider:
   m_Material: {fileID: 0}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: cf895f4d78053254b97ae94b37857834, type: 2}
-  m_EnableTreeColliders: 1
+  m_EnableTreeColliders: 0
 --- !u!218 &491347052
 Terrain:
   m_ObjectHideFlags: 0
@@ -1882,23 +1898,6 @@ Terrain:
   m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
   m_GroupingID: 0
   m_AllowAutoConnect: 1
---- !u!114 &491347053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 491347048}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2221bf4825449f1448c88f4a509683a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terGen: []
-  speed: 0.1
-  moveVert: 0
-  moveHori: 0
-  moveFor: 0
 --- !u!1 &496135040
 GameObject:
   m_ObjectHideFlags: 0
@@ -4303,10 +4302,9 @@ GameObject:
   - component: {fileID: 1346792993}
   - component: {fileID: 1346792992}
   - component: {fileID: 1346792991}
-  - component: {fileID: 1346792994}
   m_Layer: 0
   m_Name: Terrain2
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -4362,7 +4360,7 @@ TerrainCollider:
   m_Material: {fileID: 0}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: aa0d39f3076de884e9d2c4b44e25276d, type: 2}
-  m_EnableTreeColliders: 1
+  m_EnableTreeColliders: 0
 --- !u!218 &1346792993
 Terrain:
   m_ObjectHideFlags: 0
@@ -4399,23 +4397,6 @@ Terrain:
   m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
   m_GroupingID: 0
   m_AllowAutoConnect: 1
---- !u!114 &1346792994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1346792989}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2221bf4825449f1448c88f4a509683a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terGen: []
-  speed: 0.1
-  moveVert: 0
-  moveHori: 0
-  moveFor: 0
 --- !u!1 &1359181739
 GameObject:
   m_ObjectHideFlags: 0
@@ -6491,36 +6472,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1517717342}
   m_CullTransparentMesh: 0
---- !u!1 &1553804047
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1553804048}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1553804048
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1553804047}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.398499, y: 6.860634, z: 60.4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1591162164
 GameObject:
   m_ObjectHideFlags: 0
@@ -6954,6 +6905,7 @@ MonoBehaviour:
   width: 65
   height: 65
   scale: 3.38
+  offsetX: 0
   multiplicateur: 1
 --- !u!1 &1864397676
 GameObject:
@@ -7041,10 +6993,9 @@ GameObject:
   - component: {fileID: 1950398412}
   - component: {fileID: 1950398411}
   - component: {fileID: 1950398410}
-  - component: {fileID: 1950398414}
   m_Layer: 8
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -7086,7 +7037,7 @@ TerrainCollider:
   m_Material: {fileID: 0}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: a820eafb4fe795d4da3ece64d15d4845, type: 2}
-  m_EnableTreeColliders: 1
+  m_EnableTreeColliders: 0
 --- !u!218 &1950398412
 Terrain:
   m_ObjectHideFlags: 0
@@ -7103,7 +7054,7 @@ Terrain:
   m_TreeMaximumFullLODCount: 50
   m_DetailObjectDistance: 80
   m_DetailObjectDensity: 1
-  m_HeightmapPixelError: 5
+  m_HeightmapPixelError: 1
   m_SplatMapDistance: 1000
   m_HeightmapMaximumLOD: 0
   m_CastShadows: 1
@@ -7137,23 +7088,6 @@ Transform:
   m_Father: {fileID: 1863460522}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -13.189001, y: 0, z: 0}
---- !u!114 &1950398414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1950398409}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2221bf4825449f1448c88f4a509683a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terGen: []
-  speed: 0.1
-  moveVert: 0
-  moveHori: 0
-  moveFor: 0
 --- !u!1 &1958863213
 GameObject:
   m_ObjectHideFlags: 0
