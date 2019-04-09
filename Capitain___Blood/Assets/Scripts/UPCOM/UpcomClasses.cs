@@ -170,6 +170,7 @@ namespace RetroJam.CaptainBlood.Lang
         public Word[] words;
         public AnswerRequirements requirements;
 
+        [JsonConstructor]
         public AnswerCondition(Word[] _words, AnswerRequirements _requirements)
         {
             words = _words;

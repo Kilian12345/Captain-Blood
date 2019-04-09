@@ -134,15 +134,17 @@
       "words": [
         37,
         6,
-        109,
         66,
         1,
+        0,
         0,
         0,
         0
       ],
       "size": 8
-    }
+    },
+    null,
+    null
   ],
   "types": [
     0,
@@ -150,12 +152,14 @@
     0,
     0,
     0,
-    5,
+    3,
     0,
-    5,
+    3,
     0,
-    5,
-    1
+    3,
+    1,
+    4,
+    4
   ],
   "requirements": [
     0,
@@ -163,12 +167,40 @@
     0,
     0,
     0,
-    5,
+    3,
     0,
-    5,
+    3,
     0,
-    5,
-    1
+    3,
+    1,
+    4,
+    4
   ],
-  "status": 0
+  "status": 1,
+  "condition": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    {
+      "words": [
+        3
+      ],
+      "requirements": 1
+    },
+    {
+      "words": [
+        37,
+        66
+      ],
+      "requirements": 2
+    }
+  ]
 }

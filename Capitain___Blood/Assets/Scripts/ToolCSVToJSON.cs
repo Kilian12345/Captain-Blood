@@ -13,6 +13,7 @@ namespace RetroJam.CaptainBlood
         public Object csvFile;
         public string csvSplittingCharacter;
         public string fileName;
+        public SpeechConnexion connexions;
         #endregion
 
         [MenuItem("Tools/Sentence CSV To JSON Generator")]
