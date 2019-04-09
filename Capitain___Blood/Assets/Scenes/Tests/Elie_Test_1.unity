@@ -1050,7 +1050,7 @@ MonoBehaviour:
   - {fileID: 1950398410}
   - {fileID: 1346792991}
   - {fileID: 491347050}
-  UiImage: {fileID: 0}
+  UiImage: {fileID: 1509626141}
   speed: 0.2
   moveVert: 0
   moveHori: 0
