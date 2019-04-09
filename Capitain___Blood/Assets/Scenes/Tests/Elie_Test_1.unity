@@ -1050,7 +1050,7 @@ MonoBehaviour:
   - {fileID: 1950398410}
   - {fileID: 1346792991}
   - {fileID: 491347050}
-  speed: 0.1
+  speed: 0.47
   moveVert: 0
   moveHori: 0
   moveFor: 0
@@ -1836,8 +1836,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df44da47846fd1542abe8c98a3beb93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Randomized: 0
-  Animate: 0
   Speed: 0.01
   depth: 33
   width: 65
@@ -1847,6 +1845,7 @@ MonoBehaviour:
   offsetY: 0
   startOffset: 6.62
   xCord: 23.188
+  yCord: 0
   terrain1: 0
   terrain2: 0
   terrain3: 1
@@ -4335,8 +4334,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df44da47846fd1542abe8c98a3beb93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Randomized: 0
-  Animate: 0
   Speed: 0.01
   depth: 33
   width: 65
@@ -4346,6 +4343,7 @@ MonoBehaviour:
   offsetY: 0
   startOffset: 3.3100002
   xCord: 13.258
+  yCord: 0
   terrain1: 0
   terrain2: 1
   terrain3: 0
@@ -7012,8 +7010,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df44da47846fd1542abe8c98a3beb93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Randomized: 0
-  Animate: 0
   Speed: 0.01
   depth: 33
   width: 65
@@ -7023,6 +7019,7 @@ MonoBehaviour:
   offsetY: 0
   startOffset: 0
   xCord: 3.328
+  yCord: 0
   terrain1: 1
   terrain2: 0
   terrain3: 0
@@ -7531,11 +7528,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 394184501612467766, guid: cc98ffaf475153a4d9c51eb146702025,
-        type: 3}
-      propertyPath: m_Name
-      value: StarHyper
-      objectReference: {fileID: 0}
     - target: {fileID: 394184501612467721, guid: cc98ffaf475153a4d9c51eb146702025,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7590,6 +7582,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 394184501612467766, guid: cc98ffaf475153a4d9c51eb146702025,
+        type: 3}
+      propertyPath: m_Name
+      value: StarHyper
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc98ffaf475153a4d9c51eb146702025, type: 3}

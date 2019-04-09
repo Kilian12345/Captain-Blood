@@ -10,11 +10,8 @@ public class TerrainGenerator : MonoBehaviour
         Terrain_manager terrain_man;
 
         #region Preference
-        [Header("PREFRENCES")]
-        public bool Randomized = true;      //BOOL NOT IN TUTORIAL {Do you want the terrain generated each time?}
-        public bool Animate = true;         //BOOL NOT IN TUTORIAL {Do you want it to be animated and move?
-        public float Speed = 5;             //FLOAT NOT IN TUTORIAL {If animating, how fast?)
-        //if Animate is true, it works with colliders (add a rigid body to a cube and place the cube above terrain)
+        [Header("PREFRENCES")]     
+        public float Speed = 5;            
 
         [Space]
 
@@ -29,7 +26,8 @@ public class TerrainGenerator : MonoBehaviour
         public float offsetY = 100;
 
         [SerializeField] float startOffset ;
-        [SerializeField] float xCord;
+        public float xCord;
+        public float yCord;
 
         [Space (15)]
         [SerializeField] bool terrain1;
@@ -113,7 +111,7 @@ public class TerrainGenerator : MonoBehaviour
             if(terrain2 || terrain3) factor = multiplicator;
 
             xCord = (float)x / width * Scale*multiplicator + offsetX + startOffset*factor ;
-            float yCord = (float)y / height * Scale*multiplicator + offsetY;
+            yCord = (float)y / height * Scale*multiplicator + offsetY;
 
             return Mathf.PerlinNoise(xCord, yCord);
         }

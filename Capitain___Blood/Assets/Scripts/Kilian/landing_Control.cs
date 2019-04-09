@@ -14,6 +14,10 @@ namespace RetroJam.CaptainBlood
         [SerializeField]float moveFor;
 
         float y;
+        float pointA;
+        float pointB;
+        float currentObjective;
+        float spawnLocation;
 
         #region Static Speed
 
@@ -26,7 +30,25 @@ namespace RetroJam.CaptainBlood
          float variableSpeed = 0.1f;
         #endregion
 
-        // Update is called once per frame
+        private void Start()
+        {
+            StartLandingSettings();
+        }
+
+        void StartLandingSettings()
+        {
+            pointA = Random.Range(20, 900);
+            pointB = pointA + 100;
+            currentObjective = Random.Range(pointA + 20, pointB - 20);
+            spawnLocation = Random.Range(pointA + 20, pointB - 20);
+
+            Debug.Log("PointA" + pointA);
+            Debug.Log("PointB" + pointB);
+            Debug.Log("currentObjective" + currentObjective);
+            Debug.Log("spawnLocation" + spawnLocation);
+
+        }
+
         void Update()
         {
             LandingControl();
@@ -39,23 +61,30 @@ namespace RetroJam.CaptainBlood
 
         void LandingControl()
         {
+            float oldMoveHori = moveHori;
             moveVert += Input.GetAxis("Vertical") ;
             moveHori += Input.GetAxis("Horizontal") * speed;
             moveFor += (1-Mathf.Abs(Input.GetAxis("Forward"))) * speed * variableSpeed;
 
-
+            ////////////////////////// Camera mouv
             y = transform.localPosition.y + moveVert * 0.05f;
+            y = Mathf.Clamp(y, 351, 400);
             transform.localPosition = new Vector3(transform.localPosition.x, y, transform.localPosition.z);
 
             for (int i = 0; i < terGen.Length; i++)
             {
-                terGen[i].offsetY = moveHori * 0.05f;
+                terGen[i].offsetY = spawnLocation;
+                terGen[i].offsetY += moveHori * 0.05f;
                 terGen[i].offsetX = moveFor;
-            }   
 
-            #region IF
-            //if()
-            #endregion
+                terGen[i].offsetY = Mathf.Clamp(terGen[i].offsetY, pointA, pointB);
+
+                if (terGen[i].offsetY == pointA || terGen[i].offsetY == pointB)
+                {
+                   moveHori = oldMoveHori;
+
+                }
+            }
 
         }
 
@@ -66,6 +95,7 @@ namespace RetroJam.CaptainBlood
                 variableSpeed = speed0;
             }
         }
+
         
     }
 
