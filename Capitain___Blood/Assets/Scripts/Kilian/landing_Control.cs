@@ -7,6 +7,7 @@ namespace RetroJam.CaptainBlood
     public class landing_Control : MonoBehaviour
     {
         [SerializeField] TerrainGenerator[] terGen;
+        [SerializeField] GameObject UiImage;
 
         [SerializeField]float speed;
         [SerializeField]float moveVert;
@@ -52,6 +53,7 @@ namespace RetroJam.CaptainBlood
         void Update()
         {
             LandingControl();
+            CameraBehavior();
 
             for (int i = 0; i < terGen.Length; i++)
             {
@@ -63,12 +65,12 @@ namespace RetroJam.CaptainBlood
         {
             float oldMoveHori = moveHori;
             float oldMoveVert = moveVert;
-            moveVert += Input.GetAxis("Vertical");
+            moveVert = Input.GetAxis("Vertical");
             moveHori += Input.GetAxis("Horizontal") * speed;
             moveFor += (1-Mathf.Abs(Input.GetAxis("Forward"))) * speed * variableSpeed;
 
             ////////////////////////// Camera mouv
-            y = transform.localPosition.y + moveVert * 0.05f;
+            y = transform.localPosition.y + moveVert * 2.5f;
             y = Mathf.Clamp(y, 0, 500);
             transform.localPosition = new Vector3(transform.localPosition.x, y, transform.localPosition.z);
 
@@ -84,10 +86,25 @@ namespace RetroJam.CaptainBlood
                 {moveHori = oldMoveHori;}
             }
 
-            Debug.Log(moveVert);
-
         }
+        void CameraBehavior()
+        {
+            Quaternion transRotate = transform.localRotation;
+            transRotate.x = Mathf.Lerp(0, 23, (y*2) / 1000 );
+            transRotate.y = 0;
+            transRotate.z = 0;
+            transRotate.w = 0;
+            transform.localRotation = Quaternion.Euler(transRotate.x, 0f, 0f); 
 
+            Debug.Log(transform.localRotation);
+        }
+        void Curseur()
+        {
+            float imageX;
+            imageX = UiImage.transform.localPosition.x + moveHori;
+            imageX = Mathf.Clamp(y, 0, 500);
+            UiImage.transform.localPosition = new Vector3(imageX, UiImage.transform.localPosition.y, UiImage.transform.localPosition.z);
+        }
         void OnCollisionEnter (Collision col)
         {
             if (col.gameObject.tag == "Terrain")
