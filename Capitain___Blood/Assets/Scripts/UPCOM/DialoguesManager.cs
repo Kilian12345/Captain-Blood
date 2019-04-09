@@ -30,7 +30,7 @@ namespace RetroJam.CaptainBlood
 
         private void Awake()
         {
-            alienSpeech = JsonConvert.DeserializeObject<Speech>(jsonFile.text);
+            //alienSpeech = JsonConvert.DeserializeObject<Speech>(jsonFile.text);
             button = new Button(new Vector2(-.75f, -1.75f), new Vector2(.8f, -.35f));
         }
 
@@ -57,6 +57,22 @@ namespace RetroJam.CaptainBlood
                 DebugStructure();
             }
             player.Clean();
+        }
+
+        public void SetDialogue(Dialogue _dialogue)
+        {
+            dialogue = _dialogue;
+        }
+
+        public void SetSpeech()
+        {
+            alienSpeech = dialogue.currentSpeech;
+        }
+
+        public void GetAnswer()
+        {
+            Answer currentAnswer = player.Answer(manager.alien);
+            
         }
 
         public void DebugStructure()

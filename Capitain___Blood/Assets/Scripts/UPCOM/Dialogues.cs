@@ -31,6 +31,16 @@ namespace RetroJam.CaptainBlood.Lang
             index = 0;
         }
 
+        public bool Check(Answer _answer)
+        {
+            for (int i = 0; i < condition.Length; i++)
+            {
+                if(!condition[i].Check(_answer)) return false;
+            }
+
+            return true;
+        }
+
         public Sentence Read()
         {
             Sentence result = new Sentence();
@@ -48,85 +58,54 @@ namespace RetroJam.CaptainBlood.Lang
         }
     }
 
+    [System.Serializable]
+    public struct SpeechConnexion
+    {
+        public int trueStatement;
+        public int falseStatement;
+    }
+
     public class Dialogue
     {
         public Speech[] speeches;
         public List<Answer> answers;
         public int step;
+        public SpeechConnexion[] stepConnexions;
+        public Speech currentSpeech {get; private set;}
 
         public Dialogue(Speech[] _speeches)
         {
             speeches = _speeches;
             answers = new List<Answer>();
             step = 0;
-        }
-    }
 
-    public class Mission
-    {
-        public Alien giver;
-        public int currentPhase;
-        public Vector2Int duplicateCoord;
-        public MissionStatus status;
-
-
-    }
-
-    public class FindCode : Mission
-    {
-        public Part[] parts;
-        public Word[] mainCode;
-
-        public struct Part
-        {
-            public Vector2Int coord;
-            public Alien alien;
-            public Word[] code;
-            public bool given;
-
-            public void Initialize(Word[] _code)
-            {
-                alien = Galaxy.UnemployedAlien();
-                coord = alien.coordinates;
-                code = _code;
-                given = false;
-            }
+            stepConnexions = new SpeechConnexion[speeches.Length];
+            currentSpeech = speeches[step];
         }
 
-        public FindCode()
+        public Dialogue(Speech[] _speeches, SpeechConnexion[] _connexions)
         {
-            giver = Galaxy.UnemployedAlien();
-            giver.mission = MissionType.Code;
+            speeches = _speeches;
+            answers = new List<Answer>();
+            step = 0;
+            stepConnexions = _connexions;
 
-            currentPhase = 0;
-            duplicateCoord = Galaxy.SetDuplicate();
-            status = MissionStatus.none;
-            mainCode = Language.ReturnCode(Random.Range(0,99999999));
-
-            parts = new Part[3];
-            parts[0].Initialize(new Word[]{mainCode[0], mainCode[1], mainCode[2]});
-            parts[1].Initialize(new Word[]{mainCode[3], mainCode[4]});
-            parts[2].Initialize(new Word[]{mainCode[5], mainCode[6], mainCode[7]});
+            currentSpeech = speeches[step];
         }
 
-        public Dialogue SetUpDialogue()
+        private void NextSpeech(bool _validation)
         {
-            TextAsset[] files = Resources.LoadAll<TextAsset>("Speeches/FindCode");
-            Speech[] speeches = new Speech[files.Length];
+            if(_validation) step = stepConnexions[step].trueStatement;
+            else step = stepConnexions[step].trueStatement;
 
-            for (int i = 0; i < speeches.Length; i++)
-            {
-                speeches[i] = JsonConvert.DeserializeObject<Speech>(files[i].text);
-            }
-            
-            speeches[2].condition[0].words = mainCode;
-            speeches[3].sentences[4] = Language.ReturnCoordinates(duplicateCoord);
-            speeches[4].sentences[5] = Language.ReturnCoordinates(parts[0].coord);
-            speeches[4].sentences[7] = Language.ReturnCoordinates(parts[1].coord);
-            speeches[4].sentences[9] = Language.ReturnCoordinates(parts[2].coord);
-            speeches[5].condition[0].words = mainCode;
+            currentSpeech = speeches[step];
+        }
 
-            return new Dialogue(speeches);
+        public void Answering(Answer _playerAnswer)
+        {
+            answers.Add(_playerAnswer);
+
+            NextSpeech(currentSpeech.Check(_playerAnswer));
         }
     }
 }
