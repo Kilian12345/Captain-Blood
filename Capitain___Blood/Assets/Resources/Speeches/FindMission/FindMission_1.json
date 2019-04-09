@@ -51,19 +51,45 @@
         0
       ],
       "size": 8
-    }
+    },
+    null,
+    null
   ],
   "types": [
     0,
     0,
     0,
-    1
+    1,
+    4,
+    4
   ],
   "requirements": [
     0,
     0,
     0,
-    1
+    1,
+    4,
+    4
   ],
-  "status": 0
+  "status": 1,
+  "condition": [
+    null,
+    null,
+    null,
+    null,
+    {
+      "words": [
+        3
+      ],
+      "requirements": 1
+    },
+    {
+      "words": [
+        5,
+        15,
+        44
+      ],
+      "requirements": 2
+    }
+  ]
 }

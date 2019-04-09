@@ -99,6 +99,7 @@ namespace RetroJam.CaptainBlood.Lang
             else step = stepConnexions[step].trueStatement;
 
             currentSpeech = speeches[step];
+            currentSpeech.status = SpeechStatus.Waiting;
         }
 
         public void Answering(Answer _playerAnswer)

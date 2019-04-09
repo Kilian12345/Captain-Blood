@@ -26,6 +26,7 @@ namespace RetroJam.CaptainBlood
         public List<Word> complement = new List<Word>();
 
         bool isWriting;
+        bool waitingAnswer;
         Queue<Sentence> alienSpeechSentences = new Queue<Sentence>();
 
         private void Awake()
@@ -44,6 +45,7 @@ namespace RetroJam.CaptainBlood
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.R)) ReadPlayerSentence();
+            if(Input.GetKeyDown(KeyCode.W)) SetDialogue(manager.alien.dialogue);
             AlienSpeechManager();
         }
 
@@ -62,6 +64,7 @@ namespace RetroJam.CaptainBlood
         public void SetDialogue(Dialogue _dialogue)
         {
             dialogue = _dialogue;
+            SetSpeech();
         }
 
         public void SetSpeech()
@@ -72,7 +75,8 @@ namespace RetroJam.CaptainBlood
         public void GetAnswer()
         {
             Answer currentAnswer = player.Answer(manager.alien);
-            
+
+            dialogue.Answering(currentAnswer);
         }
 
         public void DebugStructure()
@@ -87,14 +91,10 @@ namespace RetroJam.CaptainBlood
 
         public void AlienSpeechManager()
         {
-            if (Input.GetButtonDown("Select1") && button.IsCursorOver(cursor)) AlienKeyboard(alienSpeech.Read());
-            if (Input.GetKeyDown(KeyCode.K)) AlienKeyboard(Language.RandomSentenceSVO());
-            if (Input.GetKeyDown(KeyCode.J))
+            if (Input.GetButtonDown("Select1") && button.IsCursorOver(cursor)) 
             {
-                Vector2Int coord = new Vector2Int(Random.Range(0, 256), Random.Range(0, 156));
-
-                Debug.Log("Planet coord = " + coord);
-                AlienKeyboard(Language.ReturnCoordinates(coord));
+                if(alienSpeech.status != SpeechStatus.Said) AlienKeyboard(alienSpeech.Read());
+                else if (player.size > 0) GetAnswer();
             }
         }
 
