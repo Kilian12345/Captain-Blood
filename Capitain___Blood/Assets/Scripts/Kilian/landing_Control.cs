@@ -62,13 +62,14 @@ namespace RetroJam.CaptainBlood
         void LandingControl()
         {
             float oldMoveHori = moveHori;
-            moveVert += Input.GetAxis("Vertical") ;
+            float oldMoveVert = moveVert;
+            moveVert += Input.GetAxis("Vertical");
             moveHori += Input.GetAxis("Horizontal") * speed;
             moveFor += (1-Mathf.Abs(Input.GetAxis("Forward"))) * speed * variableSpeed;
 
             ////////////////////////// Camera mouv
             y = transform.localPosition.y + moveVert * 0.05f;
-            y = Mathf.Clamp(y, 351, 400);
+            y = Mathf.Clamp(y, 0, 500);
             transform.localPosition = new Vector3(transform.localPosition.x, y, transform.localPosition.z);
 
             for (int i = 0; i < terGen.Length; i++)
@@ -80,11 +81,10 @@ namespace RetroJam.CaptainBlood
                 terGen[i].offsetY = Mathf.Clamp(terGen[i].offsetY, pointA, pointB);
 
                 if (terGen[i].offsetY == pointA || terGen[i].offsetY == pointB)
-                {
-                   moveHori = oldMoveHori;
-
-                }
+                {moveHori = oldMoveHori;}
             }
+
+            Debug.Log(moveVert);
 
         }
 

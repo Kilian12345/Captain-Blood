@@ -865,10 +865,10 @@ GameObject:
   - component: {fileID: 286008110}
   - component: {fileID: 286008109}
   - component: {fileID: 286008111}
-  - component: {fileID: 286008112}
+  - component: {fileID: 286008115}
   - component: {fileID: 286008113}
   - component: {fileID: 286008114}
-  - component: {fileID: 286008115}
+  - component: {fileID: 286008112}
   m_Layer: 0
   m_Name: LandingView
   m_TagString: Untagged
@@ -1050,7 +1050,7 @@ MonoBehaviour:
   - {fileID: 1950398410}
   - {fileID: 1346792991}
   - {fileID: 491347050}
-  speed: 0.47
+  speed: 0.2
   moveVert: 0
   moveHori: 0
   moveFor: 0
@@ -7528,6 +7528,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 394184501612467766, guid: cc98ffaf475153a4d9c51eb146702025,
+        type: 3}
+      propertyPath: m_Name
+      value: StarHyper
+      objectReference: {fileID: 0}
     - target: {fileID: 394184501612467721, guid: cc98ffaf475153a4d9c51eb146702025,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7582,11 +7587,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 394184501612467766, guid: cc98ffaf475153a4d9c51eb146702025,
-        type: 3}
-      propertyPath: m_Name
-      value: StarHyper
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc98ffaf475153a4d9c51eb146702025, type: 3}
