@@ -3984,7 +3984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c54b415f59c68046be0da9aa4b017dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadFromSave: 1
+  loadFromSave: 0
   phase: 0
   menu:
     main: {fileID: 173558162}

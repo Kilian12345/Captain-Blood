@@ -112,12 +112,16 @@ namespace RetroJam.CaptainBlood
                     List<Word> words = new List<Word>();
                     for (int j = 3; j < 11; j++)
                     {
-                        if(_data[j][i] != 0) words.Add((Word)_data[j][i]);
+                        if(_data[j][i] != 0) 
+                        {
+                            words.Add((Word)_data[j][i]);
+                            //Debug.Log("Condition N°"+_data[1][i]+" - mot n°"+j+" : "+(Word)_data[j][i]);
+                        }
                     }
-
                     result[i] = new AnswerCondition(words.ToArray(), _data[2][i]);
                 }
             }
+            //Debug.Log("Test : "+result[0].words[0]);
 
             return result;
         }
@@ -186,8 +190,8 @@ namespace RetroJam.CaptainBlood
             {
                 types[ids[i]].Add((SentenceType)allData[0][i]);
                 requirements[ids[i]].Add((AnswerRequirements)allData[0][i]);
-                speechSentences[ids[i]].Add(sentences[i]);
-                answerConditions[ids[i]].Add(answers[i]);
+                if(allData[0][i] < 4)speechSentences[ids[i]].Add(sentences[i]);
+                else answerConditions[ids[i]].Add(answers[i]);
             }
 
             for (int i = 0; i < result.Length; i++)

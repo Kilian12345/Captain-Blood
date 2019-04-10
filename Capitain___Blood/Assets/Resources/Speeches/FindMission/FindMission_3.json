@@ -81,11 +81,5 @@
     3
   ],
   "status": 1,
-  "condition": [
-    null,
-    null,
-    null,
-    null,
-    null
-  ]
+  "condition": []
 }

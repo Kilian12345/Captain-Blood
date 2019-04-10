@@ -51,9 +51,7 @@
         0
       ],
       "size": 8
-    },
-    null,
-    null
+    }
   ],
   "types": [
     0,
@@ -73,10 +71,6 @@
   ],
   "status": 1,
   "condition": [
-    null,
-    null,
-    null,
-    null,
     {
       "words": [
         3
