@@ -13,6 +13,7 @@ namespace RetroJam.CaptainBlood
         [SerializeField] float cursorSensitivity;
         [Space]
         [SerializeField] Transform CurseurY;
+        [SerializeField] GameObject[] speedBarBottom;
 
         [Space]
         [Header ("Value")]
@@ -168,13 +169,18 @@ namespace RetroJam.CaptainBlood
             {
                 if(Input.GetAxis("Forward") > -.3f && Input.GetAxis("Forward") < .3f) gotInput = false;
             }
+
+            for (int i = 0; i < speedBarBottom.Length; i++)
+            {
+               // speedBarBottom[i] = variableSpeed[indexSpeed];
+            }
             
         }
         void OnCollisionEnter (Collision col)
         {
             if (col.gameObject.tag == "Terrain")
             {
-                //variableSpeed = speed0;
+                indexSpeed = 0;
             }
         }
           
