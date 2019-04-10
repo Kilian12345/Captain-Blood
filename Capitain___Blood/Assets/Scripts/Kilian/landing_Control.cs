@@ -9,6 +9,10 @@ namespace RetroJam.CaptainBlood
     {
         [SerializeField] TerrainGenerator[] terGen;
         [SerializeField] RectTransform UiImage;
+        [SerializeField] Animator UiAnimator;
+        [SerializeField] float cursorSensitivity;
+        [Space]
+        [SerializeField] Transform CurseurY;
 
         [Space]
         [Header ("Value")]
@@ -25,16 +29,14 @@ namespace RetroJam.CaptainBlood
         float pointB;
         float currentObjective;
         float spawnLocation;
+        float limiteLeft, limiteRight;
 
         #region Static Speed
 
         [Space (20)]
-         float speed0 = 0f;
-         float speed1 = 0.5f;
-         float speed2 = 1f;
-         float speed3 = 1.5f;
-         float speed4 = 2f;
-         float variableSpeed = 0.1f;
+         [SerializeField] float[] variableSpeed;
+         [SerializeField, Range(0,5)] int indexSpeed;
+         bool gotInput;
         #endregion
 
         private void Start()
@@ -45,9 +47,12 @@ namespace RetroJam.CaptainBlood
         void StartLandingSettings()
         {
             pointA = Random.Range(20, 900);
-            pointB = pointA + 100;
-            currentObjective = Random.Range(pointA + 20, pointB - 20);
-            spawnLocation = Random.Range(pointA + 20, pointB - 20);
+            pointB = pointA + 50;
+            currentObjective = Random.Range(pointA + 10, pointB - 10);
+            spawnLocation = Random.Range(pointA + 10, pointB - 10);
+           
+            limiteLeft = currentObjective - 0.5f;
+            limiteRight = currentObjective + 0.5f;
 
             Debug.Log("PointA" + pointA);
             Debug.Log("PointB" + pointB);
@@ -61,6 +66,10 @@ namespace RetroJam.CaptainBlood
             LandingControl();
             CameraBehavior();
             Curseur();
+            SpeedFunction();
+
+            Debug.Log("limiteLeft" + limiteLeft);
+            Debug.Log("limiteRight" + limiteRight);
 
             for (int i = 0; i < terGen.Length; i++)
             {
@@ -71,16 +80,18 @@ namespace RetroJam.CaptainBlood
         void LandingControl()
         {
             float oldMoveHori = moveHori;
-            float oldMoveVert = moveVert;
+            float oldMoveVert = moveVert;           
+
             moveVert = Input.GetAxis("Vertical");
             moveHori += Input.GetAxis("Horizontal") * speed;
             moveHoriCursor = Input.GetAxis("Horizontal") * 2;
-            moveFor += (1-Mathf.Abs(Input.GetAxis("Forward"))) * speed * variableSpeed;
+            moveFor += /*(1-Mathf.Abs(Input.GetAxis("Forward")))* */ speed * variableSpeed[indexSpeed];
 
             ////////////////////////// Camera mouv
             y = transform.localPosition.y + moveVert * 2.5f;
             y = Mathf.Clamp(y, 0, 500);
             transform.localPosition = new Vector3(transform.localPosition.x, y, transform.localPosition.z);
+            //
 
             for (int i = 0; i < terGen.Length; i++)
             {
@@ -92,6 +103,17 @@ namespace RetroJam.CaptainBlood
 
                 if (terGen[i].offsetY == pointA || terGen[i].offsetY == pointB)
                 {moveHori = oldMoveHori;}
+
+                ///////////////////////// Objectif Zone
+
+                if(limiteLeft > terGen[i].offsetY)   {UiAnimator.SetBool("IsRight",true);}
+                else {UiAnimator.SetBool("IsRight",false);}
+
+                if (terGen[i].offsetY > limiteRight)   {UiAnimator.SetBool("IsLeft",true);}
+                else {UiAnimator.SetBool("IsLeft",false);}
+
+                //
+
             }
 
         }
@@ -106,41 +128,56 @@ namespace RetroJam.CaptainBlood
         }
         void Curseur()
         {
-
-            imageX = UiImage.localPosition.x + moveHoriCursor;
+            float fac = Mathf.Exp(-(Mathf.Pow(UiImage.localPosition.x/75,2)/(2*Mathf.Pow(.35f,2))));
+            imageX = UiImage.localPosition.x + moveHoriCursor * fac;
             imageX = Mathf.Clamp(imageX, -100, 100);
             UiImage.localPosition = new Vector3(imageX, UiImage.localPosition.y, UiImage.localPosition.z);
 
-            StartCoroutine(GetAxisup());
-    
+            if (Input.GetAxis("Horizontal") == 0)
+            {
+                if (UiImage.localPosition.x > 0)
+                {UiImage.localPosition = new Vector3(UiImage.localPosition.x - cursorSensitivity, UiImage.localPosition.y, UiImage.localPosition.z);}
+            
+                if (UiImage.localPosition.x < 0)
+                {UiImage.localPosition = new Vector3(UiImage.localPosition.x + cursorSensitivity, UiImage.localPosition.y, UiImage.localPosition.z);}
+            
+            }
+
+            Vector3 curY = CurseurY.localPosition;
+            curY.x = CurseurY.localPosition.x;
+            curY.y = (y * 100 /500) - 50;
+            curY.z = CurseurY.localPosition.z;
+            CurseurY.localPosition = curY;    
+        }
+        void SpeedFunction()
+        {
+            if(!gotInput)
+            {
+                if(Input.GetAxis("Forward") < -.5f)
+                {
+                    gotInput = true;
+                    indexSpeed = Mathf.Clamp(indexSpeed-1, 1,5);
+                }
+                else if(Input.GetAxis("Forward") > .5f)
+                {
+                    gotInput = true;
+                    indexSpeed = Mathf.Clamp(indexSpeed+1, 1,5);
+                }
+            }
+            else
+            {
+                if(Input.GetAxis("Forward") > -.3f && Input.GetAxis("Forward") < .3f) gotInput = false;
+            }
+            
         }
         void OnCollisionEnter (Collision col)
         {
             if (col.gameObject.tag == "Terrain")
             {
-                variableSpeed = speed0;
+                //variableSpeed = speed0;
             }
         }
-
-        IEnumerator GetAxisup()
-        {
-           if (Input.GetAxis("Horizontal") == 0)
-            {
-                Debug.Log("SucePute");
-
-                while(UiImage.localPosition.x == 0)
-                {
-                    if (UiImage.localPosition.x > 0)
-                    {UiImage.localPosition = new Vector3(UiImage.localPosition.x - 0.001f, UiImage.localPosition.y, UiImage.localPosition.z);}
-                    if (UiImage.localPosition.x < 0)
-                    {UiImage.localPosition = new Vector3(UiImage.localPosition.x + 0.001f, UiImage.localPosition.y, UiImage.localPosition.z);}
-                }
-
-                yield return UiImage.localPosition;
-            } 
-        }
-
-        
+          
     }
 
 }
