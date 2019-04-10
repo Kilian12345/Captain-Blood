@@ -61,6 +61,46 @@ namespace RetroJam.CaptainBlood.Lang
 
             size = 0;
         }
+
+        public static bool operator==(Sentence _sentenceA, Sentence _sentenceB)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                if(_sentenceA.words[i]!= _sentenceB.words[i]) return false;
+            }
+
+            return true;
+        }
+
+        public static bool operator==(Word[] _words, Sentence _sentence)
+        {
+            for (int i = 0; i < _words.Length; i++)
+            {
+                if(_words[i] != _sentence.words[i]) return false;
+            }
+
+            return true;
+        }
+
+        public static bool operator!=(Word[] _words, Sentence _sentence)
+        {
+            return !(_words == _sentence);
+        }
+
+        public static bool operator!=(Sentence _sentenceA, Sentence _sentenceB)
+        {
+            return !(_sentenceA == _sentenceB);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return 0;
+        }
     }
 
     public class ContextBehaviors
@@ -187,12 +227,13 @@ namespace RetroJam.CaptainBlood.Lang
         {
             bool result = false;
 
+            Debug.Log(requirements);
             switch (requirements)
             {
                 case AnswerRequirements.none:
                     return true;
                 case AnswerRequirements.Match:
-                    return words == _answer.sentence.words;
+                    return words == _answer.sentence;
                 case AnswerRequirements.MatchPart:
                     return _answer.sentence.Contains(words, true) && !_answer.negative;
                 case AnswerRequirements.MatchSize:

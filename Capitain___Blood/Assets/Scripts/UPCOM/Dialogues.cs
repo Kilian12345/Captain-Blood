@@ -35,10 +35,13 @@ namespace RetroJam.CaptainBlood.Lang
         {
             for (int i = 0; i < condition.Length; i++)
             {
-                if(!condition[i].Check(_answer)) return false;
+                if(condition[i].Check(_answer)) 
+                {
+                    return true;
+                }
             }
 
-            return true;
+            return false;
         }
 
         public Sentence Read()
@@ -95,9 +98,18 @@ namespace RetroJam.CaptainBlood.Lang
 
         private void NextSpeech(bool _validation)
         {
-            if(_validation) step = stepConnexions[step].trueStatement;
-            else step = stepConnexions[step].trueStatement;
+            if(_validation) 
+            {
+                Debug.Log("Going to true step");
+                step = stepConnexions[step].trueStatement;
+            }
+            else 
+            {
+                Debug.Log("Going to false step");
+                step = stepConnexions[step].falseStatement;
+            }
 
+            Debug.Log("New speech step: "+step);
             currentSpeech = speeches[step];
             currentSpeech.status = SpeechStatus.Waiting;
         }

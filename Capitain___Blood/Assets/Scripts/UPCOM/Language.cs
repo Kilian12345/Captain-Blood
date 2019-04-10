@@ -625,14 +625,13 @@ namespace RetroJam.CaptainBlood.Lang
             Sentence result = new Sentence();
 
             result.AddWord(Word.Coord);
-            result.AddWord(Word.Equal);
             result.AddWord((Word)(111 + Mathf.FloorToInt(_x / 100)));
             result.AddWord((Word)(111 + Mathf.FloorToInt(_x / 10)- Mathf.FloorToInt(_x / 100)*10));
-            result.AddWord((Word)(111 + _x - Mathf.FloorToInt(_x / 10)));
+            result.AddWord((Word)(111 + _x - Mathf.FloorToInt(_x / 10)*10));
             result.AddWord(Word.OutOf);
             result.AddWord((Word)(111 + Mathf.FloorToInt(_y / 100)));
             result.AddWord((Word)(111 + Mathf.FloorToInt(_y / 10) - Mathf.FloorToInt(_y / 100)*10));
-            result.AddWord((Word)(111 + _x - Mathf.FloorToInt(_y / 10)));
+            result.AddWord((Word)(111 + _y - Mathf.FloorToInt(_y / 10)*10));
 
             return result;
         }

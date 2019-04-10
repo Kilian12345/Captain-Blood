@@ -126,7 +126,7 @@ namespace RetroJam.CaptainBlood.MissionsLib
             }
             
             speeches[2].condition[0].words = mainCode;
-            speeches[3].sentences[4] = Language.ReturnCoordinates(duplicateCoord);
+            speeches[3].sentences[4].words = Language.ReturnCoordinates(duplicateCoord).words;
             speeches[4].sentences[5] = Language.ReturnCoordinates(parts[0].coord);
             speeches[4].sentences[7] = Language.ReturnCoordinates(parts[1].coord);
             speeches[4].sentences[9] = Language.ReturnCoordinates(parts[2].coord);

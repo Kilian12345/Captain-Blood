@@ -184,6 +184,7 @@ namespace RetroJam.CaptainBlood
             currentPlanet = Galaxy.planets[_coord];
             if (Galaxy.inhabitants.ContainsKey(_coord))
             {
+                Debug.Log("Change Alien");
                 alien = Galaxy.inhabitants[_coord];
                 isInhabited = true;
             }

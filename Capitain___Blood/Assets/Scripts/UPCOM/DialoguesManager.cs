@@ -25,8 +25,8 @@ namespace RetroJam.CaptainBlood
         public List<Word> @object = new List<Word>();
         public List<Word> complement = new List<Word>();
 
-        bool isWriting;
-        bool waitingAnswer;
+        public bool isWriting;
+        public bool waitingAnswer;
         Queue<Sentence> alienSpeechSentences = new Queue<Sentence>();
 
         private void Awake()
@@ -45,7 +45,7 @@ namespace RetroJam.CaptainBlood
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.R)) ReadPlayerSentence();
-            if(Input.GetKeyDown(KeyCode.W)) SetDialogue(manager.alien.dialogue);
+            if(Input.GetKeyDown(KeyCode.M)) SetDialogue(manager.alien.dialogue);
             AlienSpeechManager();
         }
 
@@ -77,6 +77,7 @@ namespace RetroJam.CaptainBlood
             Answer currentAnswer = player.Answer(manager.alien);
 
             dialogue.Answering(currentAnswer);
+            player.Clean();
         }
 
         public void DebugStructure()
@@ -93,14 +94,19 @@ namespace RetroJam.CaptainBlood
         {
             if (Input.GetButtonDown("Select1") && button.IsCursorOver(cursor)) 
             {
-                if(alienSpeech.status != SpeechStatus.Said) AlienKeyboard(alienSpeech.Read());
-                else if (player.size > 0) GetAnswer();
+                if(alienSpeech.status != SpeechStatus.Said) AlienKeyboard(alienSpeech);
+                else if (player.size > 0) 
+                {
+                    GetAnswer();
+                    SetSpeech();
+                    AlienKeyboard(alienSpeech);
+                }
             }
         }
 
-        public void AlienKeyboard(Sentence _sentence)
+        public void AlienKeyboard(Speech _speech)
         {
-            if (!isWriting) StartCoroutine(InsertWords(_sentence));
+            if (!isWriting) StartCoroutine(InsertWords(alienSpeech.Read()));
         }
 
         public void AddAlienWord(Word _word)
