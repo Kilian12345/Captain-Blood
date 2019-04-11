@@ -10,6 +10,11 @@ namespace RetroJam.CaptainBlood
         [SerializeField] private Material material;
         [SerializeField] private Texture[] texture;
 
+        void Start()
+        {
+            material.mainTexture = texture[3];
+        }
+
         public void ApplyRender(Planet _planet)
         {
             material.mainTexture = texture[(int)_planet.renderingValues.x];

@@ -109,7 +109,7 @@ namespace RetroJam.CaptainBlood.Lang
                         break;
                     case Word.Play:
                         dictionary.Add((Word)i, WordNature.Verb);
-                        verbs.Add((Word)i, new Verb(VerbType.Intransitive, 1, SentenceConstruction.SVA, .5f));
+                        verbs.Add((Word)i, new Verb(VerbType.Intransitive, 1, SentenceConstruction.SVO, .5f));
                         break;
                     case Word.Search:
                         dictionary.Add((Word)i, WordNature.Verb);

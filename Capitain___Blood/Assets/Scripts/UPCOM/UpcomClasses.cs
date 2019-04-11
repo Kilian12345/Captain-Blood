@@ -101,6 +101,30 @@ namespace RetroJam.CaptainBlood.Lang
         {
             return 0;
         }
+
+        public static Sentence nonSense 
+        {
+            get 
+            { 
+                Sentence result = new Sentence();
+                result.AddWord(Word.You);
+                result.AddWord(Word.Say);
+                result.AddWord(Word.NonSense);
+                return result;
+            }
+        }
+
+        public static Sentence crazy
+        {
+            get
+            {
+                Sentence result = new Sentence();
+                result.AddWord(Word.You);
+                result.AddWord(Word.Great);
+                result.AddWord(Word.Crazy);
+                return result;
+            }
+        }
     }
 
     public class ContextBehaviors
@@ -132,13 +156,14 @@ namespace RetroJam.CaptainBlood.Lang
         }
 
         [JsonConstructor]
-        public Alien(Word[] _name, float _sympathy, Dictionary<Word, GlossaryValues> _glossary, MissionType _mission, Vector2Int _coord)
+        public Alien(Word[] _name, float _sympathy, Dictionary<Word, GlossaryValues> _glossary, MissionType _mission, Vector2Int _coord, Races _race)
         {
             name = _name;
             sympathy = _sympathy;
             glossary = _glossary;
             mission = _mission;
             coordinates = _coord;
+            race = _race;
         }
 
         public void SetName()
@@ -188,11 +213,6 @@ namespace RetroJam.CaptainBlood.Lang
                 iterations = _iterations;
             }
         }
-    }
-
-    public class Quest
-    {
-        
     }
 
     public struct Answer

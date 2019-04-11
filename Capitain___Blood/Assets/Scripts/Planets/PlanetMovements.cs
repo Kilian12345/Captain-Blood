@@ -26,9 +26,12 @@ namespace RetroJam.CaptainBlood
         [SerializeField]DestroyingPhase phase;
         float scaleWave=1;
         float scaleMask=.5f;
+
         [SerializeField] GameObject explosionWave;
         [SerializeField] Transform waveMask;
         [SerializeField] float explosionWaveSpeed;
+        [SerializeField] float textureValue=0;
+        [SerializeField] Material planetTexture;
         #endregion
 
         // Start is called before the first frame update
@@ -66,7 +69,7 @@ namespace RetroJam.CaptainBlood
 
         public void Movement()
         {
-            if(phase != DestroyingPhase.Explosion) transform.Rotate(Vector3.up, speedOfRotation);
+            transform.Rotate(Vector3.up, speedOfRotation);
 
             TransformManager();
         }
@@ -130,7 +133,7 @@ namespace RetroJam.CaptainBlood
 
                     break;
                 case DestroyingPhase.PlanetDissolve:
-
+                    TextureEffects();
                     break;
                 case DestroyingPhase.Explosion:
                     ShockWave();
@@ -143,6 +146,9 @@ namespace RetroJam.CaptainBlood
             scaleWave+=Time.deltaTime*explosionWaveSpeed;
             explosionWave.transform.localScale =new Vector3(scaleWave, scaleWave, scaleWave);
 
+            if(scaleWave > 4.5f) textureValue += Time.deltaTime/scaleMask;
+            planetTexture.SetFloat("_Dissolve", textureValue);
+            
             if(scaleWave>7.5f) scaleMask += Time.deltaTime*(scaleMask/2);
             waveMask.localScale = new Vector3(scaleMask, scaleMask, scaleMask);
 
@@ -152,6 +158,27 @@ namespace RetroJam.CaptainBlood
                 scaleWave = 1;
                 explosionWave.SetActive(false);
                 phase = DestroyingPhase.none;
+
+                planetTexture.SetColor("_Color_Dissolve", Color.black);
+                planetTexture.SetFloat("_Bordure", 0);
+                planetTexture.SetFloat("_Dissolve", 0);
+                textureValue = 0;
+
+            }
+        }
+
+        public void TextureEffects()
+        {   
+            textureValue += Time.deltaTime/2;
+
+            Color currentColor = planetTexture.GetColor("_Color_Dissolve");
+            planetTexture.SetColor("_Color_Dissolve", Color32.Lerp(Color.black, Color.white, textureValue));
+            planetTexture.SetFloat("_Bordure", textureValue);
+
+            if(textureValue > 1)
+            {
+                textureValue = 0;
+                phase = DestroyingPhase.Explosion;
             }
         }
 #endregion
