@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace RetroJam.CaptainBlood
 {
+    [ExecuteInEditMode]
     public class Terrain_manager : MonoBehaviour
     {
         public float speed = 0.01f;

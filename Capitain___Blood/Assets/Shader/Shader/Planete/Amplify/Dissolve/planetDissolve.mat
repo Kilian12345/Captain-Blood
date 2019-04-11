@@ -56,6 +56,6 @@ Material:
     - _Float1: 0.01
     - _Multiplayer_Noise: 10.2
     - _Test: -0.52
-    - __dirty: 0
+    - __dirty: 1
     m_Colors:
     - _Color_Dissolve: {r: 1, g: 0, b: 0, a: 1}
