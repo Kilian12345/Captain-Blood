@@ -20,9 +20,9 @@ namespace RetroJam.CaptainBlood
 
         private Color ColorFromSeed(int _seed)
         {
-            float red = Mathf.Floor(_seed / 10000) /100;
-            float green = (Mathf.Floor(_seed / 100) - Mathf.Floor(_seed / 10000) * 100) / 100;
-            float blue = (_seed - Mathf.Floor(_seed / 100) * 100) / 100;
+            float red = (Mathf.Floor(_seed / 10000) / 100) / 4 * 3 + .25f;
+            float green = ((Mathf.Floor(_seed / 100) - Mathf.Floor(_seed / 10000) * 100) / 100)/ 4 * 3 + .25f;
+            float blue = ((_seed - Mathf.Floor(_seed / 100) * 100) / 100)/ 4 * 3 + .25f;
 
             return new Color(red, green, blue);
         }

@@ -3,136 +3,6 @@ using UnityEngine;
 
 namespace RetroJam.CaptainBlood.Lang
 {
-    public enum Word
-    {
-        none,
-        QuestionMark,
-        Not,
-        Yes,
-        No,
-        Me,
-        You,
-        Howdy,
-        Bye,
-        Go,
-        Want,
-        Teleport,
-        Give,
-        Like,
-        Say,
-        Know,
-        Unknown,
-        Play,
-        Search,
-        Race,
-        Vote,
-        Help,
-        Disarm,
-        Laugh,
-        Sob,
-        Fear,
-        Destroy,
-        Free,
-        Kill,
-        Prison,
-        Prisonner,
-        Trap,
-        Danger,
-        Forbidden,
-        Radioactivity,
-        Impossible,
-        Bounty,
-        Information,
-        NonSense,
-        RDV,
-        Time,
-        Urgent,
-        Idea,
-        Missile,
-        Code,
-        Friend,
-        Ennemy,
-        Spirit,
-        Brain,
-        Warrior,
-        President,
-        Scientist,
-        Genetic,
-        Sex,
-        Reproduction,
-        Male,
-        Female,
-        Identity,
-        Pop,
-        People,
-        Different,
-        Small,
-        Great,
-        Strong,
-        Bad,
-        Brave,
-        Good,
-        Crazy,
-        Poor,
-        Insult,
-        Curse,
-        Peace,
-        Dead,
-        Oorx,
-        Tromp,
-        Kingpak,
-        Robhead,
-        CroolisVar,
-        CroolisUlv,
-        Izwal,
-        Migrax,
-        Antenna,
-        Buggol,
-        Tricephal,
-        TubularBrain,
-        Yukas,
-        Sinox,
-        Ondoyante,
-        Duplicate,
-        Tuttle,
-        Morlock,
-        Yoko,
-        Maxon,
-        Blood,
-        Torka,
-        Ship,
-        Contact,
-        Home,
-        Planet,
-        Trauma,
-        Entrax,
-        Ondoya,
-        Kristo,
-        Rosko,
-        Corpo,
-        Ulikan,
-        BowBow,
-        Hour,
-        Coord,
-        Equal,
-        OutOf,
-        Zero,
-        One,
-        Two,
-        Three,
-        For,
-        Five,
-        Six,
-        Seven,
-        Height,
-        Nine
-    }
-    public enum WordNature { Ponctuation, Noun, Adjective, Verb, Expression, Negation, Number }
-    public enum WordFunction { Subject, Action, Object, Complement}
-    public enum VerbType { Intransitive, Transitive, Ditransitive, DoubleTransitive, Copular}
-    public enum SentenceConstruction { none, E, O, SV, SVO, SVA, SVOO, SVOC, SVOA, VO }
-    public enum SentenceCorrectness { none, correct, needSubject, needObject, needAdverb, needVerb}
-
     public static class WordsFunctions
     {
         public static string ToText(this Word _word)
@@ -415,7 +285,7 @@ namespace RetroJam.CaptainBlood.Lang
 
         public static SentenceConstruction Type(this Word _word)
         {
-            if (!_word.Nature(WordNature.Verb)) throw new WordTypeException("You must use a verb.");
+            if (!_word.Nature(WordNature.Verb)) throw new LanguageException("You must use a verb.");
 
             return Words.verbs[_word].constructions;
         }
@@ -437,11 +307,54 @@ namespace RetroJam.CaptainBlood.Lang
 
             return false;
         }
+
+        public static bool Contains(this Sentence _sentence, Word[] _words)
+        {
+            int count = 0;
+
+            for (int k = 0; k < _words.Length; k++)
+            {
+                for (int i = 0; i < _sentence.size; i++)
+                {
+                    if (_sentence.words[i] == _words[k]) count++;
+                }
+            }
+
+            return count == _words.Length;
+        }
+
+        public static bool Contains(this Sentence _sentence, Word[] _words, bool _validOrder)
+        {
+            int count = 0;
+
+            if (!_validOrder) return _sentence.Contains(_words);
+            else
+            {
+                for (int k = 0; k < _sentence.size; k++)
+                {
+                    if (_sentence.words[k] != _words[0]) continue;
+
+                    for (int i = 0; i < _words.Length; i++)
+                    {
+                        if (_sentence.words[k + i] != _words[i]) break;
+                        else
+                        {
+                            count++;
+                        }
+                    }
+
+                    if (count == _words.Length) return true;
+                    else count = 0;
+                }
+
+                return false;
+            }
+        }
     }
 
-    public class WordTypeException : System.Exception
+    public class LanguageException : System.Exception
     {
-        public WordTypeException(string message) : base(message) { }
+        public LanguageException(string message) : base(message) { }
     }
 
     public class Lexicon
@@ -619,6 +532,9 @@ namespace RetroJam.CaptainBlood.Lang
             float verb = 0;
             bool negative = false;
 
+            const float gaussianFactorA = 2.5f;
+            const float gaussianFactorC = 1.12f;
+
             for (int i = 0; i < _sentence.size; i++)
             {
                 WordNature nature = _sentence.words[i].Nature();
@@ -627,8 +543,8 @@ namespace RetroJam.CaptainBlood.Lang
                 {
                     Alien.GlossaryValues word = _alien.glossary[_sentence.words[i]];
 
-                    float weight = -Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value > 0 ? Mathf.Clamp(-Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value, 0, 2) : Mathf.Clamp(-Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value, -2, 0);
-
+                    //float weight = -Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value > 0 ? Mathf.Clamp(-Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value, 0, 2) : Mathf.Clamp(-Mathf.Pow(word.iterations, 2) * .05f * word.value + word.value, -2, 0);
+                    float weight = Mathf.Pow(gaussianFactorA, -(Mathf.Pow(word.iterations, 2) / (2 * Mathf.Pow(gaussianFactorC, 2)))) * word.value;
                     if (i == 0)
                     {
                         result += weight / 10;
@@ -680,5 +596,122 @@ namespace RetroJam.CaptainBlood.Lang
 
             return result;
         }
+
+        public static Answer Answer(this Sentence _sentence, Alien _alien)
+        {
+            Answer result;
+            result.sentence = _sentence;
+            result.construction = _sentence.Construction();
+            result.correctness = _sentence.Correctness();
+            result.structure = _sentence.Structure();
+            result.esteem = _sentence.SentenceEsteem(_alien);
+            result.negative = _sentence.IsNegative();
+
+            return result;
+        }
+
+        public static bool IsNegative(this Sentence _sentence)
+        {
+            return _sentence.Contains(Word.No) || _sentence.Contains(Word.Not);
+        }
+
+        public static Sentence ReturnCoordinates(Vector2Int _coord)
+        {
+            return ReturnCoordinates(_coord.x, _coord.y);
+        }
+
+        public static Sentence ReturnCoordinates(int _x, int _y)
+        {
+            Sentence result = new Sentence();
+
+            result.AddWord(Word.Coord);
+            result.AddWord((Word)(111 + Mathf.FloorToInt(_x / 100)));
+            result.AddWord((Word)(111 + Mathf.FloorToInt(_x / 10)- Mathf.FloorToInt(_x / 100)*10));
+            result.AddWord((Word)(111 + _x - Mathf.FloorToInt(_x / 10)*10));
+            result.AddWord(Word.OutOf);
+            result.AddWord((Word)(111 + Mathf.FloorToInt(_y / 100)));
+            result.AddWord((Word)(111 + Mathf.FloorToInt(_y / 10) - Mathf.FloorToInt(_y / 100)*10));
+            result.AddWord((Word)(111 + _y - Mathf.FloorToInt(_y / 10)*10));
+
+            return result;
+        }
+
+        public static Word[] ReturnCode(int _code)
+        {
+            if (_code.ToString().Length > 8 ) throw new LanguageException("The max length is 8 digits.");
+            if (_code.ToString().Length == 0) throw new LanguageException("The min length is 1 digit.");
+
+            Word[] result = new Word[_code.ToString().Length];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i]=(Word)(111+int.Parse(_code.ToString()[i].ToString()));
+            }
+
+            return result;
+        }
+
+        public static Word[] ReturnCode(string _code)
+        {
+            if (_code.Length > 8 ) throw new LanguageException("The max length is 8 digits.");
+            if (_code.Length == 0) throw new LanguageException("The min length is 1 digit.");
+
+            Word[] result = new Word[_code.Length];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i]=(Word)(111+int.Parse(_code[i].ToString()));
+            }
+
+            return result;
+        }
+
+        public static Word[] ReturnCode(int _code, bool _use8Digits)
+        {
+            if(!_use8Digits) return Language.ReturnCode(_code);
+
+            List<Word> result= new List<Word>();
+            for (int i = 0; i < 8-_code.ToString().Length; i++)
+            {
+                result.Add(Word.Zero);
+            }
+
+            Word[] tmp = ReturnCode(_code);
+            for (int i = 0; i < tmp.Length; i++)
+            {
+                result.Add(tmp[i]);
+            }
+
+            return result.ToArray();
+        }
+
+        public static Sentence RandomSentenceSVO()
+        {
+            Sentence result = new Sentence();
+
+            if (Random.value < .8f) result.AddWord(GetWordOfNature(WordNature.Adjective));
+            result.AddWord(Words.nouns[Random.Range(0, Words.nouns.Count)]);
+            if (Random.value < .5f) result.AddWord(Word.Not);
+            result.AddWord(GetWordOfNature(WordNature.Verb));
+            if (Random.value < .8f) result.AddWord(GetWordOfNature(WordNature.Adjective));
+            result.AddWord(Words.nouns[Random.Range(0, Words.nouns.Count)]);
+
+            return result;
+
+            Word GetWordOfNature(WordNature _nature)
+            {
+                Word tmp;
+
+                do
+                {
+                    tmp = (Word)Random.Range(0, Words.dictionary.Count);
+                } while (Words.dictionary[tmp] != _nature);
+
+                return tmp;
+
+            }
+        }
+
+        
     }
 }

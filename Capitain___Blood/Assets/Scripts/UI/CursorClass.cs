@@ -25,6 +25,15 @@ namespace RetroJam.CaptainBlood.CursorLib
         public ButtonBound bottomLeft;
         public ButtonBound upRight;
 
+        public Button(Vector2 _bl, Vector2 _ur)
+        {
+            bottomLeft = new ButtonBound();
+            upRight = new ButtonBound();
+
+            bottomLeft.position = _bl;
+            upRight.position = _ur;
+        }
+
         public bool IsCursorOver(Transform _cursor)
         {
             return _cursor.position > bottomLeft && _cursor.position < upRight;

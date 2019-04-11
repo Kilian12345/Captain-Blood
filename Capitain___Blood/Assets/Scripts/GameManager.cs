@@ -10,8 +10,9 @@ using RetroJam.CaptainBlood.Lang;
 
 namespace RetroJam.CaptainBlood
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : EventsManager
     {
+        [SerializeField] bool loadFromSave;
         [SerializeField] public Phase phase;
         [SerializeField] private Menu menu;
         [SerializeField] private Cursor cursor;
@@ -22,6 +23,7 @@ namespace RetroJam.CaptainBlood
 
         [SerializeField] public Planet currentPlanet;
         [SerializeField] public Alien alien;
+        [SerializeField] bool isInhabited;
 
         private Phase lastPhase;
 
@@ -83,13 +85,16 @@ namespace RetroJam.CaptainBlood
             sw = new System.Diagnostics.Stopwatch();
 
             sw.Start();
-            /*
-            string save = File.ReadAllText(@"Saves\planets.json");
+            
+            string savePlanets = File.ReadAllText(@"Saves\planets.json");
+            string saveAliens = File.ReadAllText(@"Saves\inhabitants.json");
             JsonSerializerSettings setting = new JsonSerializerSettings();
-            setting.CheckAdditionalContent = true;*/
+            setting.CheckAdditionalContent = false;
 
             Words.InitializeWords();
-            Galaxy.Initialize(/*JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(save, new Vec2DictionaryConverter())*/);
+
+            if(loadFromSave) Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(savePlanets, new PlanetLoading()), JsonConvert.DeserializeObject<Dictionary<Vector2Int, Alien>>(saveAliens, new AlienLoading()));
+            else Galaxy.Initialize();
         }
 
         void Start()
@@ -98,8 +103,10 @@ namespace RetroJam.CaptainBlood
             sw.Stop();
 
             Debug.Log("Time to Initialize whole Game : " + sw.ElapsedMilliseconds + "ms.");
-            currentPlanet = Galaxy.planets[new Vector2Int(Random.Range(0, 256), Random.Range(0, 126))];
-            alien = currentPlanet.inhabitant;
+            currentPlanet = Galaxy.RandomInhabitedPlanet();
+            alien = Galaxy.inhabitants[currentPlanet.coordinates];
+            isInhabited = true;
+            
         }
 
         void Update()
@@ -126,9 +133,14 @@ namespace RetroJam.CaptainBlood
             {
                 Debug.Log("Files created in the \"Saves\" directory, saving informations in json-format.");
 
-                using (StreamWriter test = File.CreateText(@"Saves\planets.json"))
+                using (StreamWriter planets = File.CreateText(@"Saves\planets.json"))
                 {
-                    test.WriteLine(JsonConvert.SerializeObject(Galaxy.planets, new Vec2DictionaryConverter()));
+                    planets.WriteLine(JsonConvert.SerializeObject(Galaxy.planets,Formatting.Indented ,new PlanetLoading()));
+                }
+
+                using (StreamWriter inhabitants = File.CreateText(@"Saves\inhabitants.json"))
+                {
+                    inhabitants.WriteLine(JsonConvert.SerializeObject(Galaxy.inhabitants, Formatting.Indented, new AlienLoading()));
                 }
 
             }
@@ -165,13 +177,18 @@ namespace RetroJam.CaptainBlood
         {
             currentX.text = currentPlanet.coordinates.x.ToString();
             currentY.text = currentPlanet.coordinates.y.ToString();
-
         }
 
         public void SetPlanet(Vector2Int _coord)
         {
             currentPlanet = Galaxy.planets[_coord];
-            alien = currentPlanet.inhabitant;
+            if (Galaxy.inhabitants.ContainsKey(_coord))
+            {
+                Debug.Log("Change Alien");
+                alien = Galaxy.inhabitants[_coord];
+                isInhabited = true;
+            }
+            else isInhabited = false;
         }
 
         public void SetPhase(Phase _phase)
@@ -179,7 +196,6 @@ namespace RetroJam.CaptainBlood
             SetCursorLimit(_phase);
             menu.SetActive(_phase);
             phase = _phase;
-
         }
     }
 }

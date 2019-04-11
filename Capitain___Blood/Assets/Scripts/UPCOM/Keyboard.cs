@@ -93,6 +93,8 @@ namespace RetroJam.CaptainBlood
                 dictionary[new Vector3Int(-7 + Mathf.FloorToInt(i / 2), -3, 0)] = (Word)i;
                 dictionary[new Vector3Int(-7 + Mathf.FloorToInt(i / 2), -4, 0)] = (Word)i+1;
             }
+
+            //dictionary[new Vector3Int(-7 + Mathf.FloorToInt(121 / 2), -4, 0)] = (Word)121;
         }
 
         public void InitializeSentences()
@@ -113,7 +115,7 @@ namespace RetroJam.CaptainBlood
         public void InitializeTiles()
         {
 
-            for (int i = 0; i < 120; i++)
+            for (int i = 0; i < 121; i++)
             {
                 icons[(Word)i] = Resources.Load<Tile>("Words/words_" + i);
             }

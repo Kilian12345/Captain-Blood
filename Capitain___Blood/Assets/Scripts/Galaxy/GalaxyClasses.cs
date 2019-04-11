@@ -16,7 +16,6 @@ namespace RetroJam.CaptainBlood.GalaxyLib
         public Word race;
         public bool visited;
         public bool destroyed;
-        public Alien inhabitant;
         public Vector2 renderingValues;
 
         public Planet(Word[] _name, Vector2Int _coord, Word _race)
@@ -30,7 +29,6 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             coordinates = _coord;
             race = _race;
 
-            inhabitant = new Alien();
 
             renderingValues = new Vector2(UnityEngine.Random.Range(0, 20), UnityEngine.Random.Range(0, 1000000));
         }
@@ -44,8 +42,6 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             coordinates = _coord;
             race = _race;
 
-            inhabitant = new Alien();
-
             renderingValues = new Vector2(UnityEngine.Random.Range(0, 14), UnityEngine.Random.Range(0, 1000000));
         }
 
@@ -57,7 +53,6 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             race = _race;
             visited = _visited;
             destroyed = _destroyed;
-            inhabitant = _inhabitant;
             renderingValues = _renderingValues;
         }
 
@@ -76,11 +71,6 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             if (result.Length > 3) result[3] = (Word)UnityEngine.Random.Range(113, 121);
 
             return result;
-        }
-
-        public void SetAlien()
-        {
-
         }
     }
 
@@ -112,10 +102,14 @@ namespace RetroJam.CaptainBlood.GalaxyLib
     public static class Galaxy
     {
         public static Dictionary<Vector2Int, Planet> planets;
+        public static Dictionary<Vector2Int, Alien> inhabitants;
+        public static List<Vector2Int> inhabitedCoordinates;
 
         public static void Initialize()
         {
             planets = new Dictionary<Vector2Int, Planet>();
+            inhabitants = new Dictionary<Vector2Int, Alien>();
+            inhabitedCoordinates = new List<Vector2Int>();
 
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
@@ -129,22 +123,77 @@ namespace RetroJam.CaptainBlood.GalaxyLib
                 }
             }
 
+            for (int i = 0; i < 320; i++)
+            {
+                Vector2Int coord = new Vector2Int(UnityEngine.Random.Range(0, 256), UnityEngine.Random.Range(0, 126));
+
+                if (!inhabitants.ContainsKey(coord))
+                {
+                    inhabitants.Add(coord, new Alien(coord));
+                    inhabitedCoordinates.Add(coord);
+                }
+            }
+
             sw.Stop();
 
             Debug.Log("Time to Initialize whole Galaxy : "+sw.ElapsedMilliseconds/1000+"s.");
         }
 
-        public static void Initialize(Dictionary<Vector2Int, Planet> _save)
+        public static void Initialize(Dictionary<Vector2Int, Planet> _savePlanet, Dictionary<Vector2Int, Alien> _savePop)
         {
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
             sw.Start();
 
-            planets = _save;
+            inhabitedCoordinates = new List<Vector2Int>();
+
+            planets = _savePlanet;
+            inhabitants = _savePop;
+
+            foreach (Vector2Int _coord in inhabitants.Keys)
+            {
+                inhabitedCoordinates.Add(_coord);
+            }
+
+            Debug.Log("Amount of aliens loaded : " + inhabitedCoordinates.Count + ".");
 
             sw.Stop();
 
             Debug.Log("Time to Initialize whole Galaxy : " + sw.ElapsedMilliseconds + "ms.");
+        }
+
+        public static void AddAlien(Vector2Int _coord)
+        {
+            if (!inhabitants.ContainsKey(_coord))
+            {
+                inhabitants.Add(_coord, new Alien(_coord));
+            }
+        }
+
+        public static Alien UnemployedAlien()
+        {
+            Alien result;
+
+            do
+            {
+                result = Galaxy.inhabitants[Galaxy.RandomInhabitedPlanet().coordinates];
+            } while (result.mission != MissionType.none);
+
+            return result;
+        }
+
+        public static Vector2Int SetDuplicate()
+        {
+            Alien duplicate = UnemployedAlien();
+            duplicate.mission = MissionType.Duplicate;
+            duplicate.race = Races.Duplicate;
+
+            return duplicate.coordinates;
+        }
+
+        public static Planet RandomInhabitedPlanet()
+        {
+            return planets[inhabitedCoordinates[UnityEngine.Random.Range(0, inhabitedCoordinates.Count)]];
         }
     }
 
@@ -153,7 +202,7 @@ namespace RetroJam.CaptainBlood.GalaxyLib
         public PlanetValueException(string message) : base (message) { }
     }
 
-    public class Vec2DictionaryConverter : JsonConverter
+    public class PlanetLoading : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
@@ -227,5 +276,78 @@ namespace RetroJam.CaptainBlood.GalaxyLib
         }
     }
 
+    public class AlienLoading : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof(Dictionary<Vector2Int, Alien>).IsAssignableFrom(objectType);
+        }
+
+        //Deserialize json to an Object
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            //Debug.Log("De-serializing!");
+            if (reader.TokenType == JsonToken.StartArray)
+            {
+                // Load JArray from stream
+                JArray jArray = JArray.Load(reader);
+
+                //Where to re-create the json data into 
+                Dictionary<Vector2Int, Alien> dict = new Dictionary<Vector2Int, Alien>();
+
+                if (jArray == null || jArray.Count < 2)
+                {
+                    return dict;
+                }
+
+                //Do the loop faster with +=2
+                for (int i = 0; i < jArray.Count; i += 2)
+                {
+                    //first item = key
+                    string firstData = jArray[i + 0].ToString();
+                    //second item = value
+                    string secondData = jArray[i + 1].ToString();
+
+                    //Create Vector2Int key data 
+                    Vector2Int vect = JsonConvert.DeserializeObject<Vector2Int>(firstData);
+
+                    //Create Collection value data
+                    Alien values = JsonConvert.DeserializeObject<Alien>(secondData);
+
+                    //Add both Key and Value to the Dictionary if key doesnt exit yet
+                    if (!dict.ContainsKey(vect))
+                        dict.Add(vect, values);
+                }
+                //Return the Dictionary result
+                return dict;
+            }
+            return new Dictionary<Vector2Int, Alien>();
+        }
+
+        //SerializeObject to Json
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            //Debug.Log("Serializing!");
+            if (value is Dictionary<Vector2Int, Alien>)
+            {
+                //Get the Data to serialize
+                Dictionary<Vector2Int, Alien> dict = (Dictionary<Vector2Int, Alien>)value;
+
+                //Loop over the Dictionary array and write each one
+                writer.WriteStartArray();
+                foreach (KeyValuePair<Vector2Int, Alien> entry in dict)
+                {
+                    //Write Key (Vector) 
+                    serializer.Serialize(writer, entry.Key);
+                    //Write Value (Collection)
+                    serializer.Serialize(writer, entry.Value);
+                }
+                writer.WriteEndArray();
+                return;
+            }
+            writer.WriteStartObject();
+            writer.WriteEndObject();
+        }
+    }
 
 }
