@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace RetroJam.CaptainBlood
 {
+    
     public class PlanetMovements : EventsManager
     {
         [SerializeField] private float speedOfRotation;
@@ -18,6 +19,18 @@ namespace RetroJam.CaptainBlood
         [SerializeField] private bool isArriving;
         [SerializeField] private bool isAccelerating;
 
+        #region Destruction Variables
+        enum DestroyingPhase {none, PlanetDissolve, Explosion}
+        
+        bool destroying;
+        [SerializeField]DestroyingPhase phase;
+        float scaleWave=1;
+        float scaleMask=.5f;
+        [SerializeField] GameObject explosionWave;
+        [SerializeField] Transform waveMask;
+        [SerializeField] float explosionWaveSpeed;
+        #endregion
+
         // Start is called before the first frame update
         void Start()
         {
@@ -30,8 +43,8 @@ namespace RetroJam.CaptainBlood
             //Lag();
             //TransformManager();
 
-            transform.Rotate(Vector3.up, speedOfRotation);
-            TransformManager();
+            Movement();
+            ExplosionManager();
 
             DebugInput();
 
@@ -51,12 +64,20 @@ namespace RetroJam.CaptainBlood
             }
         }
 
+        public void Movement()
+        {
+            if(phase != DestroyingPhase.Explosion) transform.Rotate(Vector3.up, speedOfRotation);
+
+            TransformManager();
+        }
+
         public void TransformManager()
         {
             transform.localPosition = new Vector2(-4 * graal, graal);
             transform.localScale = new Vector3(4 * graal, 4 * graal, 4 * graal);
         }
 
+#region Arrival/Departure methods
         public void PlanetArrival()
         {
             time += Time.deltaTime * speed;
@@ -91,7 +112,7 @@ namespace RetroJam.CaptainBlood
                 GameManager.events.CallStartFTL();
             }
         }
-
+#endregion
         public void DebugInput()
         {
             if(Input.GetKeyDown(KeyCode.F)&&!isAccelerating&&!isArriving)
@@ -100,7 +121,40 @@ namespace RetroJam.CaptainBlood
                 else isAccelerating = true;
             }
         }
+#region Destroying Planet Methods
+        public void ExplosionManager()
+        {
+            switch (phase)
+            {
+                case DestroyingPhase.none:
 
+                    break;
+                case DestroyingPhase.PlanetDissolve:
+
+                    break;
+                case DestroyingPhase.Explosion:
+                    ShockWave();
+                    break;
+            }
+        }
+        public void ShockWave()
+        {
+            if(!explosionWave.activeSelf) explosionWave.SetActive(true);
+            scaleWave+=Time.deltaTime*explosionWaveSpeed;
+            explosionWave.transform.localScale =new Vector3(scaleWave, scaleWave, scaleWave);
+
+            if(scaleWave>7.5f) scaleMask += Time.deltaTime*(scaleMask/2);
+            waveMask.localScale = new Vector3(scaleMask, scaleMask, scaleMask);
+
+            if(scaleMask > 1)
+            {
+                scaleMask = .5f;
+                scaleWave = 1;
+                explosionWave.SetActive(false);
+                phase = DestroyingPhase.none;
+            }
+        }
+#endregion
         public override void InitializingFTL()
         {
             Debug.Log("Starting Acceleration");

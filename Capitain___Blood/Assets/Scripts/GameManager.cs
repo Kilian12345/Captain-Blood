@@ -10,7 +10,7 @@ using RetroJam.CaptainBlood.Lang;
 
 namespace RetroJam.CaptainBlood
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : EventsManager
     {
         [SerializeField] bool loadFromSave;
         [SerializeField] public Phase phase;

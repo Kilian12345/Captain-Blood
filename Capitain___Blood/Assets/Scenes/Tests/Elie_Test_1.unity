@@ -1190,7 +1190,7 @@ GameObject:
   - component: {fileID: 338658804}
   - component: {fileID: 338658805}
   m_Layer: 0
-  m_Name: New Sprite Mask
+  m_Name: Hole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1441,7 +1441,6 @@ RectTransform:
   - {fileID: 938163178}
   - {fileID: 792941273}
   - {fileID: 71286709}
-  - {fileID: 1856987611}
   m_Father: {fileID: 831653879}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3060,7 +3059,7 @@ GameObject:
   m_Component:
   - component: {fileID: 648495692}
   m_Layer: 0
-  m_Name: Expl
+  m_Name: ShockWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3073,15 +3072,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648495691}
-  m_LocalRotation: {x: -0.1271809, y: -0.9660332, z: -0.029362613, w: -0.22303088}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.66422, y: 0.66422, z: 0.66422}
+  m_LocalRotation: {x: -0.30128965, y: 0.11663814, z: 0.014484721, w: 0.9462612}
+  m_LocalPosition: {x: -4, y: 1, z: 0}
+  m_LocalScale: {x: 2.6568813, y: 2.65688, z: 2.656881}
   m_Children:
   - {fileID: 1969814216}
   - {fileID: 338658804}
-  m_Father: {fileID: 1763756043}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 1492696963}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: -35, y: 15, z: -3}
 --- !u!1 &683828364
 GameObject:
   m_ObjectHideFlags: 0
@@ -6288,6 +6287,7 @@ Transform:
   - {fileID: 831196831}
   - {fileID: 496135041}
   - {fileID: 2023248308}
+  - {fileID: 648495692}
   - {fileID: 1763756043}
   - {fileID: 2007708386}
   m_Father: {fileID: 0}
@@ -6832,7 +6832,7 @@ GameObject:
   - component: {fileID: 1763756044}
   - component: {fileID: 1763756047}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: PlanetRender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6848,10 +6848,9 @@ RectTransform:
   m_LocalRotation: {x: 0.1271809, y: 0.9660332, z: 0.029362613, w: -0.22303088}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 4, y: 4, z: 4}
-  m_Children:
-  - {fileID: 648495692}
+  m_Children: []
   m_Father: {fileID: 1492696963}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -15}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6876,6 +6875,10 @@ MonoBehaviour:
   speed: 0.1
   isArriving: 0
   isAccelerating: 0
+  phase: 0
+  explosionWave: {fileID: 648495691}
+  waveMask: {fileID: 338658804}
+  explosionWaveSpeed: 6
 --- !u!23 &1763756045
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6934,80 +6937,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
---- !u!1 &1856987610
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1856987611}
-  - component: {fileID: 1856987613}
-  - component: {fileID: 1856987612}
-  m_Layer: 5
-  m_Name: Image
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1856987611
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856987610}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 380029648}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 38, y: 38}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1856987612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856987610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 039e3d6a2e61573449d09e21aac65620, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
---- !u!222 &1856987613
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856987610}
-  m_CullTransparentMesh: 0
 --- !u!1 &1950398409
 GameObject:
   m_ObjectHideFlags: 0
@@ -7193,7 +7122,7 @@ GameObject:
   - component: {fileID: 1969814216}
   - component: {fileID: 1969814217}
   m_Layer: 0
-  m_Name: New Sprite
+  m_Name: Wave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7290,7 +7219,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1492696963}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 75, z: 0}
 --- !u!108 &2007708387
 Light:
