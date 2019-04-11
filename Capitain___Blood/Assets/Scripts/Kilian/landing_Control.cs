@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace RetroJam.CaptainBlood
 {
@@ -13,8 +14,8 @@ namespace RetroJam.CaptainBlood
         [SerializeField] float cursorSensitivity;
         [Space]
         [SerializeField] Transform CurseurY;
+        [SerializeField] TextMeshProUGUI rangeText;
         [SerializeField] GameObject[] speedBarBottom;
-        [Range(0,4)] int spBrBtSm;
 
         [Space]
         [Header ("Value")]
@@ -24,6 +25,7 @@ namespace RetroJam.CaptainBlood
         [SerializeField]float moveHori;
         [SerializeField]float moveFor;
 
+        #region Propreties
         float moveHoriCursor;
         float y;
         float imageX;
@@ -32,6 +34,12 @@ namespace RetroJam.CaptainBlood
         float currentObjective;
         float spawnLocation;
         float limiteLeft, limiteRight;
+        [Range(0,4)] int spBrBtSm;
+        [SerializeField]int distanceLeft;
+        bool IsinZone = true;
+        
+        #endregion
+
 
         #region Static Speed
 
@@ -58,6 +66,8 @@ namespace RetroJam.CaptainBlood
 
             spBrBtSm = indexSpeed - 1;
 
+            distanceLeft = (Random.Range(350,400));
+
             Debug.Log("PointA" + pointA);
             Debug.Log("PointB" + pointB);
             Debug.Log("currentObjective" + currentObjective);
@@ -71,6 +81,7 @@ namespace RetroJam.CaptainBlood
             CameraBehavior();
             Curseur();
             SpeedFunction();
+            UiRange();
 
             Debug.Log("limiteLeft" + limiteLeft);
             Debug.Log("limiteRight" + limiteRight);
@@ -92,7 +103,7 @@ namespace RetroJam.CaptainBlood
             moveFor += /*(1-Mathf.Abs(Input.GetAxis("Forward")))* */ speed * variableSpeed[indexSpeed];
 
             ////////////////////////// Camera mouv
-            y = transform.localPosition.y + moveVert * 2.5f;
+            y = transform.localPosition.y + moveVert * 3f;
             y = Mathf.Clamp(y, 0, 500);
             transform.localPosition = new Vector3(transform.localPosition.x, y, transform.localPosition.z);
             //
@@ -110,11 +121,24 @@ namespace RetroJam.CaptainBlood
 
                 ///////////////////////// Objectif Zone
 
-                if(limiteLeft > terGen[i].offsetY)   {UiAnimator.SetBool("IsRight",true);}
-                else {UiAnimator.SetBool("IsRight",false);}
-
-                if (terGen[i].offsetY > limiteRight)   {UiAnimator.SetBool("IsLeft",true);}
-                else {UiAnimator.SetBool("IsLeft",false);}
+                if(limiteLeft > terGen[i].offsetY)
+                {
+                    UiAnimator.SetBool("IsRight",true);
+                    UiAnimator.SetBool("IsLeft",false);
+                    IsinZone = false;
+                }
+                else if(limiteRight < terGen[i].offsetY)
+                {
+                    UiAnimator.SetBool("IsRight",false);
+                    UiAnimator.SetBool("IsLeft",true);
+                    IsinZone = false;
+                }
+                else 
+                {
+                    UiAnimator.SetBool("IsRight",false);
+                    UiAnimator.SetBool("IsLeft",false);
+                    IsinZone = true;
+                }
 
                 //
 
@@ -182,6 +206,29 @@ namespace RetroJam.CaptainBlood
                 else{speedBarBottom[x].SetActive(false);}
             }
             
+        }
+        void UiRange()
+        {
+            int distanceFlotant = distanceLeft;
+            int result = distanceFlotant - (int)moveFor;
+            string ranger = result.ToString();
+            rangeText.text = ranger;
+
+            if (result == 0)
+            {
+                Debug.Log("T'es au bout grosse tchoin.");
+                if(IsinZone)
+                {
+                    Debug.Log("SALOPE TA WIN");
+                    }
+                else
+                {
+                    Debug.Log("Continue ta mère");
+                    distanceLeft = (int)(1.35f *distanceLeft);
+                }
+            }
+
+
         }
         void OnCollisionEnter (Collision col)
         {
