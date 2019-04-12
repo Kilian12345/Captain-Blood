@@ -125,7 +125,7 @@ namespace RetroJam.CaptainBlood
         {
             
 
-            if (_pos.x < -5.6 || _pos.y < -3.75 || _pos.x > 5.6 || _pos.y > -1.9) return;
+            if (_pos.x < -5.6 || _pos.y < -3.7 || _pos.x > 5.6 || _pos.y > -1.9) return;
 
             Vector3Int cursor = tm.WorldToCell(_pos);
 

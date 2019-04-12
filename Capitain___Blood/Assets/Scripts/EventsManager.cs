@@ -21,11 +21,17 @@ namespace RetroJam.CaptainBlood
 
         }
 
-        public virtual void InitializingFTL() { Debug.Log("InitializingFTL"); }
-        public virtual void FTLDistortionIn() { Debug.Log("FTLDistortion"); }
-        public virtual void FTLDistortionOut() { }
-        public virtual void SlowingDown() { Debug.Log("SlowingDown"); }
-        public virtual void StartFTL() { Debug.Log("FTLStart"); }
+        public virtual void InitializingFTL(){}
+        public virtual void FTLDistortionIn(){}
+        public virtual void FTLDistortionOut(){}
+        public virtual void SlowingDown(){}
+        public virtual void StartFTL(){}
+        public virtual void DeathStarBehave(){}
+
+        public virtual void PlayDestroySound(){}
+        public virtual void PlayValidSound(){}
+
+        public virtual void ShakeCamera(float _duration, float _magnitude){}
 
 
     }
@@ -97,6 +103,38 @@ namespace RetroJam.CaptainBlood
             for (int i = 0; i < events.Count; i++)
             {
                 events[i].StartFTL();
+            }
+        }
+
+        public void CallDeathStarBehave()
+        {
+            for (int i = 0; i < events.Count; i++)
+            {
+                events[i].DeathStarBehave();
+            }
+        }
+
+        public void CallPlayDestroySound()
+        {
+            for (int i = 0; i < events.Count; i++)
+            {
+                events[i].PlayDestroySound();
+            }
+        }
+
+        public void CallPlayvalidSound()
+        {
+            for (int i = 0; i < events.Count; i++)
+            {
+                events[i].PlayValidSound();
+            }
+        }
+
+        public void CallShakeCam(float _duration, float _magnitude)
+        {
+            for (int i = 0; i < events.Count; i++)
+            {
+                events[i].ShakeCamera(_duration, _magnitude);
             }
         }
     }

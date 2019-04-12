@@ -9,6 +9,7 @@ namespace RetroJam.CaptainBlood
     {
         [SerializeField] private Material material;
         [SerializeField] private Texture[] texture;
+        [SerializeField] private MeshRenderer planetmesh;
 
         void Start()
         {
@@ -17,12 +18,26 @@ namespace RetroJam.CaptainBlood
 
         public void ApplyRender(Planet _planet)
         {
-            material.mainTexture = texture[(int)_planet.renderingValues.x];
-            material.color = ColorFromSeed((int)_planet.renderingValues.y);
+            if(_planet.destroyed)
+            {
+                planetmesh.enabled = false;
+            }
+            else
+            {
+                if(!planetmesh.enabled) planetmesh.enabled = true;
+                material.mainTexture = texture[(int)_planet.renderingValues.x];
+                material.SetColor("_Color",ColorFromSeed((int)_planet.renderingValues.y));
+                material.SetFloat("_HUEValue", HUEModif(_planet.renderingValues.y));
 
-            Debug.Log("ApplyRenderer");
+                Debug.Log("ApplyRenderer");
+            }
+            
         }
 
+        private float HUEModif(float _seed)
+        {
+            return _seed/1000000;
+        }
         private Color ColorFromSeed(int _seed)
         {
             float red = (Mathf.Floor(_seed / 10000) / 100) / 4 * 3 + .25f;

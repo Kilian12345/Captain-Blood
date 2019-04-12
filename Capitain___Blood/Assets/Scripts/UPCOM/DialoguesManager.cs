@@ -14,6 +14,7 @@ namespace RetroJam.CaptainBlood
         [SerializeField] GameManager manager;
         [SerializeField] TextAsset jsonFile;
         [SerializeField] Transform cursor;
+        [SerializeField] Animator mouth;
 
         Speech alienSpeech;
         Dialogue dialogue;
@@ -48,6 +49,13 @@ namespace RetroJam.CaptainBlood
             if(Input.GetKeyDown(KeyCode.M)) SetDialogue(manager.alien.dialogue);
             AlienSpeechManager();
             TestGeneratedSpeech();
+            if(alienSpeech != null)MouthManager();
+        }
+
+        public void MouthManager()
+        {
+            if(alienSpeech.status != SpeechStatus.Said && !isWriting && !mouth.GetBool("used")) mouth.SetBool("used", true);
+            else if (mouth.GetBool("used")) mouth.SetBool("used", false);
         }
 
         public void ReadPlayerSentence()

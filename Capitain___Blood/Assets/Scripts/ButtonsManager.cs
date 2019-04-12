@@ -44,6 +44,7 @@ namespace RetroJam.CaptainBlood
                 if (main[i].IsCursorOver(cursor))
                 {
                     index = i;
+                    GameManager.events.CallPlayvalidSound();
                     break;
                 } 
             }
@@ -85,6 +86,7 @@ namespace RetroJam.CaptainBlood
                 if (galaxy[i].IsCursorOver(cursor))
                 {
                     index = i;
+                    GameManager.events.CallPlayvalidSound();
                     break;
                 }
             }
@@ -98,6 +100,7 @@ namespace RetroJam.CaptainBlood
                     Debug.Log("Switching to Planet interface.");
                     manager.SetPlanet(coordManager.coord);
                     manager.SetPhase(Phase.Planet);
+                    Cursor.blocked = true;
                     GameManager.events.CallInitializingFTL();
                     break;
                 case 1:
@@ -120,6 +123,7 @@ namespace RetroJam.CaptainBlood
                 if (planet[i].IsCursorOver(cursor))
                 {
                     index = i;
+                    GameManager.events.CallPlayvalidSound();
                     break;
                 }
             }
@@ -138,7 +142,7 @@ namespace RetroJam.CaptainBlood
                     break;
                 case 2:
                     Debug.Log("Destroy Planet. #ThanksDirectorKrenic");
-                    //Destroy planet
+                    DestroyPlanet();
                     break;
                 case 3:
                     Debug.Log("Intel of the Planet.");
@@ -156,6 +160,17 @@ namespace RetroJam.CaptainBlood
 
         }
 
+        public void DestroyPlanet()
+        {
+            bool isDestroyed = Galaxy.planets[manager.currentPlanet.coordinates].destroyed;
+
+            if(!isDestroyed)
+            {
+                Galaxy.planets[manager.currentPlanet.coordinates].destroyed = true;
+                GameManager.events.CallDeathStarBehave();
+            }
+        }
+
         public void UpComButtons()
         {
             int index = -1;
@@ -165,6 +180,7 @@ namespace RetroJam.CaptainBlood
                 if (upcom[i].IsCursorOver(cursor))
                 {
                     index = i;
+                    GameManager.events.CallPlayvalidSound();
                     break;
                 }
             }

@@ -7,8 +7,10 @@ namespace RetroJam.CaptainBlood
     
     public class PlanetMovements : EventsManager
     {
+        [SerializeField] private GameManager manager;
         [SerializeField] private float speedOfRotation;
         [SerializeField] private float framer;
+        [SerializeField] CameShake shaking;
 
         private float buffer = 0;
 
@@ -16,17 +18,21 @@ namespace RetroJam.CaptainBlood
         [SerializeField, Range(0, 1)] private float speed;
         private float time;
 
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
         [SerializeField] private bool isArriving;
         [SerializeField] private bool isAccelerating;
 
         #region Destruction Variables
         enum DestroyingPhase {none, PlanetDissolve, Explosion}
         
+        bool madeSound;
         bool destroying;
         [SerializeField]DestroyingPhase phase;
         float scaleWave=1;
         float scaleMask=.5f;
 
+        [SerializeField] PlanetRenderer planetManager;
         [SerializeField] GameObject explosionWave;
         [SerializeField] Transform waveMask;
         [SerializeField] float explosionWaveSpeed;
@@ -85,12 +91,15 @@ namespace RetroJam.CaptainBlood
         {
             time += Time.deltaTime * speed;
 
-            graal = Mathf.Clamp(Mathf.Log10(time) + 1.5f / 1.5f, 0, 1);
+            graal = Mathf.Clamp((Mathf.Log10(time) + 1.5f) / 1.5f, 0, 1);
 
             if(graal == 1)
             {
                 time = 0;
                 isArriving = false;
+                Cursor.blocked = false;
+                sw.Stop();
+                UnityEngine.Debug.Log("duration: "+sw.ElapsedMilliseconds+"ms.");
             }
         }
 
@@ -148,22 +157,30 @@ namespace RetroJam.CaptainBlood
 
             if(scaleWave > 4.5f) textureValue += Time.deltaTime/scaleMask;
             planetTexture.SetFloat("_Dissolve", textureValue);
+
+            if(scaleWave > 4 && !madeSound) 
+            {
+                GameManager.events.CallPlayDestroySound();
+                madeSound = true;
+            }
             
             if(scaleWave>7.5f) scaleMask += Time.deltaTime*(scaleMask/2);
             waveMask.localScale = new Vector3(scaleMask, scaleMask, scaleMask);
 
             if(scaleMask > 1)
             {
+                planetManager.ApplyRender(manager.currentPlanet);
+
                 scaleMask = .5f;
                 scaleWave = 1;
                 explosionWave.SetActive(false);
                 phase = DestroyingPhase.none;
+                madeSound = false;
 
                 planetTexture.SetColor("_Color_Dissolve", Color.black);
                 planetTexture.SetFloat("_Bordure", 0);
                 planetTexture.SetFloat("_Dissolve", 0);
                 textureValue = 0;
-
             }
         }
 
@@ -175,8 +192,28 @@ namespace RetroJam.CaptainBlood
             planetTexture.SetColor("_Color_Dissolve", Color32.Lerp(Color.black, Color.white, textureValue));
             planetTexture.SetFloat("_Bordure", textureValue);
 
+            if(textureValue > .05f && textureValue < .65f)
+            {
+                if(!explosionWave.activeSelf) explosionWave.SetActive(true);
+                scaleWave+=Time.deltaTime*explosionWaveSpeed*2;
+                explosionWave.transform.localScale =new Vector3(scaleWave, scaleWave, scaleWave);
+                if(scaleWave>5.5f) scaleMask += textureValue-.05f;
+                waveMask.localScale = new Vector3(scaleMask, scaleMask, scaleMask);
+            }
+            if( scaleMask > 1.5f || textureValue > .65f)
+            {
+                explosionWave.SetActive(false);
+                scaleMask = .5f;
+                scaleWave = 1; 
+            }
+
+
+
             if(textureValue > 1)
             {
+                scaleMask = .5f;
+                scaleWave = 1;
+                explosionWave.SetActive(false);
                 textureValue = 0;
                 phase = DestroyingPhase.Explosion;
             }
@@ -186,12 +223,19 @@ namespace RetroJam.CaptainBlood
         {
             Debug.Log("Starting Acceleration");
             isAccelerating = true;
+            sw.Start();
+            //StartCoroutine(shaking.Shake(17.5f, .05f));
         }
 
         public override void SlowingDown()
         {
             Debug.Log("Starting slowing down");
             isArriving = true;
+        }
+
+        public override void DeathStarBehave()
+        {
+            phase = DestroyingPhase.PlanetDissolve;
         }
 
     }

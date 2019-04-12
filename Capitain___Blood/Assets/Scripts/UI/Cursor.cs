@@ -6,10 +6,13 @@ namespace RetroJam.CaptainBlood
 {
     public class Cursor : MonoBehaviour
     {
+        public static bool blocked;
+
         [SerializeField, Range(1,40)] private float speed;
         public bool clicking;
 
         [SerializeField] private Animator animator;
+        [SerializeField] private AudioSource audioSource;
         private Camera cam;
 
         [SerializeField] private int height = 87;
@@ -29,9 +32,12 @@ namespace RetroJam.CaptainBlood
         // Update is called once per frame
         void Update()
         {
+            if(blocked) return;
+
             Move();
 
             AnimationManager();
+            SoundManager();
 
             Debug1 = cam.WorldToScreenPoint(transform.position);
         }
@@ -84,6 +90,15 @@ namespace RetroJam.CaptainBlood
         public void SetHeight(int _value)
         {
             height = Mathf.Clamp(_value, 2, 87);
+        }
+
+        public void SoundManager()
+        {
+            if(Input.GetButtonDown("Select1"))
+            {
+                audioSource.pitch= Random.value / 4 + 1-0.125f;
+                audioSource.Play();
+            }
         }
     } 
 }
