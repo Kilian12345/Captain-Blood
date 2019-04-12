@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace RetroJam.CaptainBlood
 {
+    [ExecuteInEditMode]
 public class TerrainGenerator : MonoBehaviour
 {
     //EPISODE 2
