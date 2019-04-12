@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace RetroJam.CaptainBlood
 {
@@ -13,16 +14,19 @@ namespace RetroJam.CaptainBlood
         [SerializeField] float cursorSensitivity;
         [Space]
         [SerializeField] Transform CurseurY;
+        [SerializeField] TextMeshProUGUI rangeText;
         [SerializeField] GameObject[] speedBarBottom;
 
         [Space]
         [Header ("Value")]
 
         [SerializeField]float speed;
+        [SerializeField]float verticalMultiplayer;
         [SerializeField]float moveVert;
         [SerializeField]float moveHori;
         [SerializeField]float moveFor;
 
+        #region Propreties
         float moveHoriCursor;
         float y;
         float imageX;
@@ -31,6 +35,13 @@ namespace RetroJam.CaptainBlood
         float currentObjective;
         float spawnLocation;
         float limiteLeft, limiteRight;
+        [Range(0,4)] int spBrBtSm;
+        public int distanceLeft;
+        public int result;
+        bool IsinZone = true;
+        
+        #endregion
+
 
         #region Static Speed
 
@@ -55,10 +66,10 @@ namespace RetroJam.CaptainBlood
             limiteLeft = currentObjective - 0.5f;
             limiteRight = currentObjective + 0.5f;
 
-            Debug.Log("PointA" + pointA);
-            Debug.Log("PointB" + pointB);
-            Debug.Log("currentObjective" + currentObjective);
-            Debug.Log("spawnLocation" + spawnLocation);
+            spBrBtSm = indexSpeed - 1;
+
+            distanceLeft = (Random.Range(350,400));
+
 
         }
 
@@ -68,9 +79,7 @@ namespace RetroJam.CaptainBlood
             CameraBehavior();
             Curseur();
             SpeedFunction();
-
-            Debug.Log("limiteLeft" + limiteLeft);
-            Debug.Log("limiteRight" + limiteRight);
+            UiRange();
 
             for (int i = 0; i < terGen.Length; i++)
             {
@@ -84,12 +93,12 @@ namespace RetroJam.CaptainBlood
             float oldMoveVert = moveVert;           
 
             moveVert = Input.GetAxis("Vertical");
-            moveHori += Input.GetAxis("Horizontal") * speed;
+            moveHori += Input.GetAxis("Horizontal");
             moveHoriCursor = Input.GetAxis("Horizontal") * 2;
             moveFor += /*(1-Mathf.Abs(Input.GetAxis("Forward")))* */ speed * variableSpeed[indexSpeed];
 
             ////////////////////////// Camera mouv
-            y = transform.localPosition.y + moveVert * 2.5f;
+            y = transform.localPosition.y + moveVert * verticalMultiplayer;
             y = Mathf.Clamp(y, 0, 500);
             transform.localPosition = new Vector3(transform.localPosition.x, y, transform.localPosition.z);
             //
@@ -107,11 +116,24 @@ namespace RetroJam.CaptainBlood
 
                 ///////////////////////// Objectif Zone
 
-                if(limiteLeft > terGen[i].offsetY)   {UiAnimator.SetBool("IsRight",true);}
-                else {UiAnimator.SetBool("IsRight",false);}
-
-                if (terGen[i].offsetY > limiteRight)   {UiAnimator.SetBool("IsLeft",true);}
-                else {UiAnimator.SetBool("IsLeft",false);}
+                if(limiteLeft > terGen[i].offsetY)
+                {
+                    UiAnimator.SetBool("IsRight",true);
+                    UiAnimator.SetBool("IsLeft",false);
+                    IsinZone = false;
+                }
+                else if(limiteRight < terGen[i].offsetY)
+                {
+                    UiAnimator.SetBool("IsRight",false);
+                    UiAnimator.SetBool("IsLeft",true);
+                    IsinZone = false;
+                }
+                else 
+                {
+                    UiAnimator.SetBool("IsRight",false);
+                    UiAnimator.SetBool("IsLeft",false);
+                    IsinZone = true;
+                }
 
                 //
 
@@ -121,7 +143,7 @@ namespace RetroJam.CaptainBlood
         void CameraBehavior()
         {
             Quaternion transRotate = transform.localRotation;
-            transRotate.x = Mathf.Lerp(0, 23, (y*2) / 1000 );
+            transRotate.x = Mathf.Lerp(0, 16, (y*2) / 1000 );
             transRotate.y = 0;
             transRotate.z = 0;
             transRotate.w = 0;
@@ -158,11 +180,13 @@ namespace RetroJam.CaptainBlood
                 {
                     gotInput = true;
                     indexSpeed = Mathf.Clamp(indexSpeed-1, 1,5);
+                    spBrBtSm = Mathf.Clamp(spBrBtSm-1, -1,3);
                 }
                 else if(Input.GetAxis("Forward") > .5f)
                 {
                     gotInput = true;
                     indexSpeed = Mathf.Clamp(indexSpeed+1, 1,5);
+                    spBrBtSm = Mathf.Clamp(spBrBtSm+1, -1,3);
                 }
             }
             else
@@ -170,17 +194,39 @@ namespace RetroJam.CaptainBlood
                 if(Input.GetAxis("Forward") > -.3f && Input.GetAxis("Forward") < .3f) gotInput = false;
             }
 
-            for (int i = 0; i < speedBarBottom.Length; i++)
+
+            for (int x = 0; x < speedBarBottom.Length; x++)
             {
-               // speedBarBottom[i] = variableSpeed[indexSpeed];
+                if(x <= spBrBtSm){speedBarBottom[x].SetActive(true);}
+                else{speedBarBottom[x].SetActive(false);}
             }
             
+        }
+        void UiRange()
+        {
+            int distanceFlotant = distanceLeft;
+            result = distanceFlotant - (int)moveFor;
+            string ranger = result.ToString();
+            rangeText.text = ranger;
+
+            if (result == 0)
+            {
+                if(IsinZone)
+                {
+                    }
+                else
+                {
+                    distanceLeft = (int)(1.35f *distanceLeft);
+                }
+            }
+
         }
         void OnCollisionEnter (Collision col)
         {
             if (col.gameObject.tag == "Terrain")
             {
                 indexSpeed = 0;
+                spBrBtSm = -1;
             }
         }
           
