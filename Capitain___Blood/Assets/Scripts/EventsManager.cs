@@ -31,7 +31,8 @@ namespace RetroJam.CaptainBlood
         public virtual void PlayDestroySound(){}
         public virtual void PlayValidSound(){}
 
-        public virtual void ShakeCamera(float _duration, float _magnitude){}
+        public virtual void StartLanding(){}
+
 
 
     }
@@ -130,11 +131,11 @@ namespace RetroJam.CaptainBlood
             }
         }
 
-        public void CallShakeCam(float _duration, float _magnitude)
+        public void CallStartLanding()
         {
             for (int i = 0; i < events.Count; i++)
             {
-                events[i].ShakeCamera(_duration, _magnitude);
+                events[i].StartLanding();
             }
         }
     }

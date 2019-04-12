@@ -38,7 +38,7 @@ namespace RetroJam.CaptainBlood
         #region Classes
         [System.Serializable] public class Menu
         {
-            public GameObject main, galaxy, planetMenu, landing, upCom, keyboard, planet, terrain;
+            public GameObject main, galaxy, planetMenu, landing, upCom, keyboard, planet;
 
             public void SetActive(Phase _phase)
             {
@@ -49,7 +49,6 @@ namespace RetroJam.CaptainBlood
                 upCom.SetActive(false);
                 keyboard.SetActive(false);
                 planet.SetActive(false);
-                terrain.SetActive(false);
 
                 switch (_phase)
                 {
@@ -67,11 +66,11 @@ namespace RetroJam.CaptainBlood
                         return;
                     case Phase.Landing:
                         landing.SetActive(true);
-                        terrain.SetActive(true);
                         return;
                     case Phase.UpCom:
                         upCom.SetActive(true);
                         keyboard.SetActive(true);
+                        landing.SetActive(true);
                         return;
                     default:
                         return;

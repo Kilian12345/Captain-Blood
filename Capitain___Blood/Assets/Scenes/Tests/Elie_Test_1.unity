@@ -425,7 +425,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2093736465}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -895,7 +895,6 @@ GameObject:
   m_Component:
   - component: {fileID: 286008108}
   - component: {fileID: 286008110}
-  - component: {fileID: 286008109}
   - component: {fileID: 286008111}
   - component: {fileID: 286008115}
   - component: {fileID: 286008114}
@@ -924,14 +923,6 @@ Transform:
   m_Father: {fileID: 914273623}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 14.009001, y: 0, z: 0}
---- !u!81 &286008109
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 286008107}
-  m_Enabled: 1
 --- !u!20 &286008110
 Camera:
   m_ObjectHideFlags: 0
@@ -1079,6 +1070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2221bf4825449f1448c88f4a509683a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 1208673037}
   terGen:
   - {fileID: 1950398410}
   - {fileID: 1346792991}
@@ -1100,6 +1092,7 @@ MonoBehaviour:
   moveFor: 0
   distanceLeft: 0
   result: 0
+  active: 0
   variableSpeed:
   - 0
   - 0.1
@@ -1857,7 +1850,7 @@ RectTransform:
   m_Children:
   - {fileID: 2011205865}
   m_Father: {fileID: 2093736465}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3292,7 +3285,7 @@ Transform:
   - {fileID: 1969814216}
   - {fileID: 338658804}
   m_Father: {fileID: 1492696963}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -35, y: 15, z: -3}
 --- !u!1 &683828364
 GameObject:
@@ -3396,7 +3389,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2093736465}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3646,12 +3639,12 @@ MonoBehaviour:
   offsetX: 0
   offsetY: 0
   startOffset: 6.63
-  xCord: 3.6940055
-  yCord: 1.2409055
+  xCord: 9.983799
+  yCord: 3.3537986
   terrain1: 0
   terrain2: 0
   terrain3: 1
-  multiplicator: 0.37
+  multiplicator: 1
 --- !u!154 &797275275
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -3661,7 +3654,7 @@ TerrainCollider:
   m_GameObject: {fileID: 797275272}
   m_Material: {fileID: 0}
   m_Enabled: 1
-  m_TerrainData: {fileID: 15600000, guid: ebcc745be16a9b944a1c8074a4c4cc81, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 635baf6a6a78e4d4fa8b1dae5a417b90, type: 2}
   m_EnableTreeColliders: 0
 --- !u!218 &797275276
 Terrain:
@@ -3672,7 +3665,7 @@ Terrain:
   m_GameObject: {fileID: 797275272}
   m_Enabled: 1
   serializedVersion: 3
-  m_TerrainData: {fileID: 15600000, guid: ebcc745be16a9b944a1c8074a4c4cc81, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 635baf6a6a78e4d4fa8b1dae5a417b90, type: 2}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
@@ -4255,7 +4248,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2093736465}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4388,11 +4381,10 @@ MonoBehaviour:
     main: {fileID: 173558162}
     galaxy: {fileID: 294473063}
     planetMenu: {fileID: 380029647}
-    landing: {fileID: 380029647}
+    landing: {fileID: 914273622}
     upCom: {fileID: 2093736464}
     keyboard: {fileID: 384422220}
     planet: {fileID: 1492696962}
-    terrain: {fileID: 1950398409}
   cursor: {fileID: 1958863215}
   currentX: {fileID: 1359181741}
   currentY: {fileID: 401780457}
@@ -4813,12 +4805,12 @@ MonoBehaviour:
   offsetX: 0
   offsetY: 0
   startOffset: 3.31
-  xCord: 2.4656055
-  yCord: 1.2409055
+  xCord: 6.6637983
+  yCord: 3.3537986
   terrain1: 0
   terrain2: 1
   terrain3: 0
-  multiplicator: 0.37
+  multiplicator: 1
 --- !u!154 &1346792992
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -6826,7 +6818,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1868726920}
-  - {fileID: 496135041}
   - {fileID: 648495692}
   - {fileID: 1763756043}
   - {fileID: 2007708386}
@@ -7549,7 +7540,7 @@ RectTransform:
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 1492696963}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -15}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7699,6 +7690,15 @@ MonoBehaviour:
   scale: 3.38
   offsetX: 0
   multiplicateur: 1
+  scriptAble:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  patternIndex: 0
+  terrainGenerator: {fileID: 0}
+  countTerrains: 0
 --- !u!1 &1868726919
 GameObject:
   m_ObjectHideFlags: 0
@@ -7856,12 +7856,12 @@ MonoBehaviour:
   offsetX: 0
   offsetY: 0
   startOffset: 0
-  xCord: 1.2409055
-  yCord: 1.2409055
+  xCord: 3.3537986
+  yCord: 3.3537986
   terrain1: 1
   terrain2: 0
   terrain3: 0
-  multiplicator: 0.37
+  multiplicator: 1
 --- !u!154 &1950398411
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -8344,7 +8344,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1492696963}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 75, z: 0}
 --- !u!108 &2007708387
 Light:
@@ -8500,7 +8500,7 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -8832,6 +8832,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2106453831}
   - {fileID: 1041562015}
   - {fileID: 402870408}
   - {fileID: 684482704}
@@ -8880,4 +8881,78 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093736464}
+  m_CullTransparentMesh: 0
+--- !u!1 &2106453830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2106453831}
+  - component: {fileID: 2106453833}
+  - component: {fileID: 2106453832}
+  m_Layer: 5
+  m_Name: Alien
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2106453831
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106453830}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2093736465}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -76.4, y: 76.9}
+  m_SizeDelta: {x: 63, y: 81}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2106453832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106453830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 056b57118b14d9a438274482b843f222, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+--- !u!222 &2106453833
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106453830}
   m_CullTransparentMesh: 0

@@ -6,8 +6,9 @@ using TMPro;
 
 namespace RetroJam.CaptainBlood
 {
-    public class landing_Control : MonoBehaviour
+    public class landing_Control : EventsManager
     {
+        [SerializeField] GameManager manager;
         [SerializeField] TerrainGenerator[] terGen;
         [SerializeField] RectTransform UiImage;
         [SerializeField] Animator UiAnimator;
@@ -39,6 +40,9 @@ namespace RetroJam.CaptainBlood
         public int distanceLeft;
         public int result;
         bool IsinZone = true;
+
+        [SerializeField] bool active;
+        bool ending;
         
         #endregion
 
@@ -54,10 +58,19 @@ namespace RetroJam.CaptainBlood
         private void Start()
         {
             StartLandingSettings();
+            active = false;
         }
 
+        public override void StartLanding()
+        {
+            Debug.Log("bli");
+            StartLandingSettings();
+        }
         void StartLandingSettings()
         {
+            indexSpeed = 1;
+            Cursor.blocked = true;
+            active = true;
             pointA = Random.Range(20, 900);
             pointB = pointA + 50;
             currentObjective = Random.Range(pointA + 10, pointB - 10);
@@ -69,13 +82,13 @@ namespace RetroJam.CaptainBlood
             spBrBtSm = indexSpeed - 1;
 
             distanceLeft = (Random.Range(350,400));
-
-
         }
 
         void Update()
         {
+            
             LandingControl();
+            if(!active) return;
             CameraBehavior();
             Curseur();
             SpeedFunction();
@@ -92,9 +105,12 @@ namespace RetroJam.CaptainBlood
             float oldMoveHori = moveHori;
             float oldMoveVert = moveVert;           
 
-            moveVert = Input.GetAxis("Vertical");
-            moveHori += Input.GetAxis("Horizontal");
-            moveHoriCursor = Input.GetAxis("Horizontal") * 2;
+            if(active)
+            {
+                moveVert = Input.GetAxis("Vertical");
+                moveHori += Input.GetAxis("Horizontal");
+                moveHoriCursor = Input.GetAxis("Horizontal") * 2;
+            }
             moveFor += /*(1-Mathf.Abs(Input.GetAxis("Forward")))* */ speed * variableSpeed[indexSpeed];
 
             ////////////////////////// Camera mouv
@@ -209,11 +225,12 @@ namespace RetroJam.CaptainBlood
             string ranger = result.ToString();
             rangeText.text = ranger;
 
-            if (result == 0)
+            if (result < 1)
             {
                 if(IsinZone)
                 {
-                    }
+                    StartCoroutine(Slowing());
+                }
                 else
                 {
                     distanceLeft = (int)(1.35f *distanceLeft);
@@ -227,7 +244,30 @@ namespace RetroJam.CaptainBlood
             {
                 indexSpeed = 0;
                 spBrBtSm = -1;
+
+                active = false;
+                Cursor.blocked = false;
+                manager.SetPhase(Phase.Planet);
             }
+        }
+
+        IEnumerator Slowing()
+        {
+            active = false;
+            ending = true;
+            int curSpeed = indexSpeed;
+
+            for (int i = curSpeed; i == 0; i--)
+            {
+                indexSpeed = i;
+                Debug.Log("erygblergberg");
+
+                yield return new WaitForSeconds(i/2);
+            }
+
+            ending = false;
+            Cursor.blocked = false;
+            manager.SetPhase(Phase.UpCom);
         }
           
     }

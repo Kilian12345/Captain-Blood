@@ -137,14 +137,18 @@ namespace RetroJam.CaptainBlood
                     manager.SetPhase(Phase.Galaxy);
                     break;
                 case 1:
+                    if(manager.currentPlanet.destroyed) break;
                     Debug.Log("Switching to Landing interface.");
                     manager.SetPhase(Phase.Landing);
+                    GameManager.events.CallStartLanding();
                     break;
                 case 2:
+                    if(manager.currentPlanet.destroyed) break;
                     Debug.Log("Destroy Planet. #ThanksDirectorKrenic");
                     DestroyPlanet();
                     break;
                 case 3:
+                    if(manager.currentPlanet.destroyed) break;
                     Debug.Log("Intel of the Planet.");
                     //Intel of the planet
                     break;

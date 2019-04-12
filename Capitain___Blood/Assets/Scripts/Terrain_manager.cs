@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RetroJam.CaptainBlood
 {
     [ExecuteInEditMode]
-    public class Terrain_manager : MonoBehaviour
+    public class Terrain_manager : EventsManager
     {
         #region Propreties
         public float speed = 0.01f;
@@ -41,36 +41,18 @@ namespace RetroJam.CaptainBlood
             SeedGenerator();
         }
 
+        public override void StartLanding()
+        {
+            speed = 0.01f;
+            depth = 33;
+            width = 65;
+            height = 65;
+            scale = 3.38f;
+        }
+
         void Update()
         {
             TerrainBiomes();
-        }
-
-        void TerrainPattern()
-        {
-
-            depth = scriptAble[patternIndex].depth;
-            multiplicateur = scriptAble[patternIndex].multiplicateur;
-
-            if (landingScript.result > (startValue - terrainParts * 1) || landingScript.result <= (startValue - terrainParts * 9))
-            {patternIndex = 0;}
-            else if (landingScript.result <= (startValue - terrainParts * 1) && randomDone == false)
-            {                
-                patternIndex = parts[0];
-            }
-            else if(landingScript.result <= (startValue - terrainParts * 3) && randomDone == false)
-            {
-                patternIndex = parts[1];
-            }
-            else if(landingScript.result <= (startValue - terrainParts * 5) && randomDone == false)
-            {
-                patternIndex = parts[2];
-            }
-            else if(landingScript.result <= (startValue - terrainParts * 7) && randomDone == false)
-            {
-                patternIndex = parts[3];
-            }
-            Debug.Log(patternIndex);
         }
 
         void TerrainBiomes()
