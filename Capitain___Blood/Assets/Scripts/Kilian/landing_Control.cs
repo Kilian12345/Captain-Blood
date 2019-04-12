@@ -36,7 +36,8 @@ namespace RetroJam.CaptainBlood
         float spawnLocation;
         float limiteLeft, limiteRight;
         [Range(0,4)] int spBrBtSm;
-        [SerializeField]int distanceLeft;
+        public int distanceLeft;
+        public int result;
         bool IsinZone = true;
         
         #endregion
@@ -69,10 +70,6 @@ namespace RetroJam.CaptainBlood
 
             distanceLeft = (Random.Range(350,400));
 
-            Debug.Log("PointA" + pointA);
-            Debug.Log("PointB" + pointB);
-            Debug.Log("currentObjective" + currentObjective);
-            Debug.Log("spawnLocation" + spawnLocation);
 
         }
 
@@ -83,9 +80,6 @@ namespace RetroJam.CaptainBlood
             Curseur();
             SpeedFunction();
             UiRange();
-
-            Debug.Log("limiteLeft" + limiteLeft);
-            Debug.Log("limiteRight" + limiteRight);
 
             for (int i = 0; i < terGen.Length; i++)
             {
@@ -211,24 +205,20 @@ namespace RetroJam.CaptainBlood
         void UiRange()
         {
             int distanceFlotant = distanceLeft;
-            int result = distanceFlotant - (int)moveFor;
+            result = distanceFlotant - (int)moveFor;
             string ranger = result.ToString();
             rangeText.text = ranger;
 
             if (result == 0)
             {
-                Debug.Log("T'es au bout grosse tchoin.");
                 if(IsinZone)
                 {
-                    Debug.Log("SALOPE TA WIN");
                     }
                 else
                 {
-                    Debug.Log("Continue ta mère");
                     distanceLeft = (int)(1.35f *distanceLeft);
                 }
             }
-
 
         }
         void OnCollisionEnter (Collision col)

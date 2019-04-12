@@ -7,6 +7,7 @@ namespace RetroJam.CaptainBlood
     [ExecuteInEditMode]
     public class Terrain_manager : MonoBehaviour
     {
+        #region Propreties
         public float speed = 0.01f;
         public int depth = 33;
         public int width = 65;
@@ -17,38 +18,100 @@ namespace RetroJam.CaptainBlood
 
         [Range(0.0f,3.0f)]public float multiplicateur = 1;
 
-        #region Pattern
-
-        void FlatCrisp_1()
-        {depth = 20; multiplicateur = 1.16f;}
-
-        void PlaineStart_2()
-        { depth = 27; multiplicateur = 0.37f;}
-
-        void MediumCrisp_3()
-        { depth = 30; multiplicateur = 1.75f;}
-
-        void HighCrisp_4()
-        { depth = 44; multiplicateur = 1.68f;}
-
-        void HardCrisp_5()
-        { depth = 23; multiplicateur = 3f;}
-
         #endregion
+
+        landing_Control landingScript;
+        [SerializeField] Script_ObjPattern[] scriptAble;
+        [SerializeField][Range (0,4)] int patternIndex;
+        [SerializeField] TerrainGenerator terrainGenerator;
+        float terrainParts;
+        float startValue;
+
+        int[] parts = new int[100];
+        public int countTerrains = 0;
+        bool randomDone = false;
+        bool routineRunning = false;
 
         void Start()
         {
-
+            landingScript = FindObjectOfType<landing_Control>();
+            //// Definir zones des terrains
+            terrainParts = landingScript.distanceLeft * 0.1f;
+            startValue = landingScript.distanceLeft;
+            SeedGenerator();
         }
 
         void Update()
         {
-            TerrainPattern();
+            TerrainBiomes();
         }
 
         void TerrainPattern()
         {
 
+            depth = scriptAble[patternIndex].depth;
+            multiplicateur = scriptAble[patternIndex].multiplicateur;
+
+            if (landingScript.result > (startValue - terrainParts * 1) || landingScript.result <= (startValue - terrainParts * 9))
+            {patternIndex = 0;}
+            else if (landingScript.result <= (startValue - terrainParts * 1) && randomDone == false)
+            {                
+                patternIndex = parts[0];
+            }
+            else if(landingScript.result <= (startValue - terrainParts * 3) && randomDone == false)
+            {
+                patternIndex = parts[1];
+            }
+            else if(landingScript.result <= (startValue - terrainParts * 5) && randomDone == false)
+            {
+                patternIndex = parts[2];
+            }
+            else if(landingScript.result <= (startValue - terrainParts * 7) && randomDone == false)
+            {
+                patternIndex = parts[3];
+            }
+            Debug.Log(patternIndex);
+        }
+
+        void TerrainBiomes()
+        {
+            depth = scriptAble[patternIndex].depth;
+            multiplicateur = scriptAble[patternIndex].multiplicateur;
+
+            float distance = terrainGenerator.offsetX;
+            int nbterrainsFlown = Mathf.FloorToInt(distance / terrainParts);
+            if(nbterrainsFlown != countTerrains &&  nbterrainsFlown-1 != countTerrains)
+            {
+                 countTerrains = nbterrainsFlown;
+                 patternIndex = parts[nbterrainsFlown];
+            }
+        }
+
+        public void SeedGenerator()
+        {
+            parts[0] = 0;
+            
+            for (int i = 2; i < Mathf.FloorToInt(startValue/terrainParts)-1; i+=2)
+            {
+                int val;
+                do
+                {
+                    val = Random.Range(1,5);
+                } while (val == parts[i-2]);
+
+                parts[i] = val;
+                parts[i+1] = val;
+               // int tepu = parts[i+1]
+
+                //scriptAble[i].depth = Mathf.Lerp(scriptAble.parts[i].depth, scriptAble.parts[i+1].depth , 10);
+
+            }
+
+            for (int i = Mathf.FloorToInt(startValue/terrainParts); i < parts.Length; i++)
+            {
+                parts[i] = 0;
+
+            }
         }
 
     }
