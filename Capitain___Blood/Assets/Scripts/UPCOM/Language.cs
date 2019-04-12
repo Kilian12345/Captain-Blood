@@ -486,7 +486,7 @@ namespace RetroJam.CaptainBlood.Lang
 
             conditions.Add(AnswerCondition.yes);
             conditions.Add(new AnswerCondition(new Word[]{Word.Me, result[result.Count-1].Structure()[WordFunction.Action][0]}, AnswerRequirements.MatchPart));
-            return new Speech();
+            return new Speech(result.ToArray(), conditions.ToArray());
         }
 
         public static bool Contains(this Answer _answer, WordFunction _function, Word _word)

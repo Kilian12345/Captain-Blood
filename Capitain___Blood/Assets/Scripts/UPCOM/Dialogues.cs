@@ -20,6 +20,7 @@ namespace RetroJam.CaptainBlood.Lang
         
         private int index;
 
+        [JsonConstructor]
         public Speech(Sentence[] _sentences, SentenceType[] _types, AnswerRequirements[] _requirements, AnswerCondition[] _condition)
         {
             sentences = _sentences;
@@ -27,6 +28,17 @@ namespace RetroJam.CaptainBlood.Lang
             requirements = _requirements;
             condition = _condition;
 
+            status = SpeechStatus.Waiting;
+            index = 0;
+        }
+
+        public Speech(Sentence[] _sentence, AnswerCondition[] _conditions)
+        {
+            sentences = _sentence;
+            condition = _conditions;
+            types = new SentenceType[0];
+            requirements = new AnswerRequirements[0];
+            
             status = SpeechStatus.Waiting;
             index = 0;
         }

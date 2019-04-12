@@ -47,6 +47,7 @@ namespace RetroJam.CaptainBlood
             if (Input.GetKeyDown(KeyCode.R)) ReadPlayerSentence();
             if(Input.GetKeyDown(KeyCode.M)) SetDialogue(manager.alien.dialogue);
             AlienSpeechManager();
+            TestGeneratedSpeech();
         }
 
         public void ReadPlayerSentence()
@@ -59,6 +60,23 @@ namespace RetroJam.CaptainBlood
                 DebugStructure();
             }
             player.Clean();
+        }
+
+        public void TestGeneratedSpeech()
+        {
+            if(Input.GetKeyDown(KeyCode.End))
+            {
+                if(player.size > 0)
+                {
+                    alienSpeech = Language.SpeakAboutAnswer(manager.alien, player.Answer(manager.alien));
+                    player.Clean();
+                    AlienKeyboard(alienSpeech);
+                }
+                else
+                {
+                    AlienKeyboard(alienSpeech);
+                }
+            }
         }
 
         public void SetDialogue(Dialogue _dialogue)
