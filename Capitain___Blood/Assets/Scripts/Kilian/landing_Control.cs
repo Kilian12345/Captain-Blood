@@ -21,6 +21,7 @@ namespace RetroJam.CaptainBlood
         [Header ("Value")]
 
         [SerializeField]float speed;
+        [SerializeField]float verticalMultiplayer;
         [SerializeField]float moveVert;
         [SerializeField]float moveHori;
         [SerializeField]float moveFor;
@@ -103,7 +104,7 @@ namespace RetroJam.CaptainBlood
             moveFor += /*(1-Mathf.Abs(Input.GetAxis("Forward")))* */ speed * variableSpeed[indexSpeed];
 
             ////////////////////////// Camera mouv
-            y = transform.localPosition.y + moveVert * 3f;
+            y = transform.localPosition.y + moveVert * verticalMultiplayer;
             y = Mathf.Clamp(y, 0, 500);
             transform.localPosition = new Vector3(transform.localPosition.x, y, transform.localPosition.z);
             //
