@@ -71,6 +71,7 @@ namespace RetroJam.CaptainBlood
                         upCom.SetActive(true);
                         keyboard.SetActive(true);
                         landing.SetActive(true);
+                        events.CallSetDialogueOfAlien();
                         return;
                     default:
                         return;

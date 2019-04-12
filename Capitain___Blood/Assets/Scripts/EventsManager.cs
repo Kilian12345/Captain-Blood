@@ -33,7 +33,7 @@ namespace RetroJam.CaptainBlood
 
         public virtual void StartLanding(){}
 
-
+        public virtual void SetDialogueOfAlien(){}
 
     }
 
@@ -136,6 +136,14 @@ namespace RetroJam.CaptainBlood
             for (int i = 0; i < events.Count; i++)
             {
                 events[i].StartLanding();
+            }
+        }
+
+        public void CallSetDialogueOfAlien()
+        {
+            for (int i = 0; i < events.Count; i++)
+            {
+                events[i].SetDialogueOfAlien();
             }
         }
     }

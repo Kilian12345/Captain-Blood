@@ -46,10 +46,13 @@ namespace RetroJam.CaptainBlood
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.R)) ReadPlayerSentence();
-            if(Input.GetKeyDown(KeyCode.M)) SetDialogue(manager.alien.dialogue);
             AlienSpeechManager();
-            TestGeneratedSpeech();
             if(alienSpeech != null)MouthManager();
+        }
+
+        public override void SetDialogueOfAlien()
+        {
+            SetDialogue(manager.alien.dialogue);
         }
 
         public void MouthManager()
@@ -72,18 +75,15 @@ namespace RetroJam.CaptainBlood
 
         public void TestGeneratedSpeech()
         {
-            if(Input.GetKeyDown(KeyCode.End))
+            if(player.size > 0)
             {
-                if(player.size > 0)
-                {
-                    alienSpeech = Language.SpeakAboutAnswer(manager.alien, player.Answer(manager.alien));
-                    player.Clean();
-                    AlienKeyboard(alienSpeech);
-                }
-                else
-                {
-                    AlienKeyboard(alienSpeech);
-                }
+                alienSpeech = Language.SpeakAboutAnswer(manager.alien, player.Answer(manager.alien));
+                player.Clean();
+                AlienKeyboard(alienSpeech);
+            }
+            else
+            {
+                AlienKeyboard(alienSpeech);
             }
         }
 
@@ -120,12 +120,19 @@ namespace RetroJam.CaptainBlood
         {
             if (Input.GetButtonDown("Select1") && button.IsCursorOver(cursor)) 
             {
-                if(alienSpeech.status != SpeechStatus.Said) AlienKeyboard(alienSpeech);
-                else if (player.size > 0) 
+                if(dialogue.finished)
                 {
-                    GetAnswer();
-                    SetSpeech();
-                    AlienKeyboard(alienSpeech);
+                    TestGeneratedSpeech();
+                }
+                else
+                {
+                    if(alienSpeech.status != SpeechStatus.Said) AlienKeyboard(alienSpeech);
+                    else if (player.size > 0) 
+                    {
+                        GetAnswer();
+                        SetSpeech();
+                        AlienKeyboard(alienSpeech);
+                    }
                 }
             }
         }

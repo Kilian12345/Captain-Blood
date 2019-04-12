@@ -71,8 +71,8 @@ namespace RetroJam.CaptainBlood
                     manager.SetPhase(Phase.Galaxy);
                     break;
                 case 4:
-                    Debug.Log("Switching to Upcom interface.");
-                    manager.SetPhase(Phase.UpCom);
+                    Debug.Log("Quit");
+                    Application.Quit();
                     break;
             }
         }

@@ -35,6 +35,47 @@ namespace RetroJam.CaptainBlood.MissionsLib
                 coord = alien.coordinates;
                 code = _code;
                 given = false;
+
+                List<Speech> speeches = new List<Speech>();
+                Sentence sentence1 = new Sentence();
+                Sentence sentence2 = new Sentence();
+                Sentence sentence3 = new Sentence();
+                Sentence sentence4 = new Sentence();
+
+                sentence1.AddWord(Word.Howdy);
+                sentence1.AddWord(Word.Brave);
+                sentence1.AddWord(Word.Blood);
+                sentence2.AddWord(Word.You);
+                sentence2.AddWord(Word.Want);
+                sentence2.AddWord(Word.Small);
+                sentence2.AddWord(Word.Code);
+                sentence3.AddWord(Word.Small);
+                sentence3.AddWord(Word.Code);
+                sentence3.AddWord(Word.Equal);
+                sentence3.AddWord(_code[0]);
+                sentence3.AddWord(_code[1]);
+                if(_code.Length == 3) sentence3.AddWord(_code[2]);
+                sentence4.AddWord(Word.Bye);
+                sentence4.AddWord(Word.Laugh);
+                sentence4.AddWord(Word.Laugh);
+
+                Sentence[] sentences = new Sentence[4];
+                sentences[0] = sentence1;
+                sentences[1] = sentence2;
+                sentences[2] = sentence3;
+                sentences[3] = sentence4;
+
+
+                SpeechConnexion connexion;
+                connexion.trueStatement = 100;
+                connexion.falseStatement = 100;
+
+
+                speeches.Add(new Speech(sentences, new AnswerCondition[]{AnswerCondition.yes}));
+
+                alien.dialogue = new Dialogue(speeches.ToArray(),new SpeechConnexion[]{connexion});
+
+                Galaxy.inhabitants[coord] = alien;
             }
         }
 

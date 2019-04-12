@@ -88,6 +88,8 @@ namespace RetroJam.CaptainBlood.Lang
         public SpeechConnexion[] stepConnexions;
         public Speech currentSpeech {get; private set;}
 
+        public bool finished;
+
         public Dialogue(Speech[] _speeches)
         {
             speeches = _speeches;
@@ -96,6 +98,7 @@ namespace RetroJam.CaptainBlood.Lang
 
             stepConnexions = new SpeechConnexion[speeches.Length];
             currentSpeech = speeches[step];
+            finished = false;
         }
 
         public Dialogue(Speech[] _speeches, SpeechConnexion[] _connexions)
@@ -106,24 +109,32 @@ namespace RetroJam.CaptainBlood.Lang
             stepConnexions = _connexions;
 
             currentSpeech = speeches[step];
+            finished = false;
         }
 
         private void NextSpeech(bool _validation)
         {
             if(_validation) 
             {
-                Debug.Log("Going to true step");
+                
                 step = stepConnexions[step].trueStatement;
             }
             else 
             {
-                Debug.Log("Going to false step");
+                
                 step = stepConnexions[step].falseStatement;
             }
 
-            Debug.Log("New speech step: "+step);
-            currentSpeech = speeches[step];
-            currentSpeech.status = SpeechStatus.Waiting;
+            if(step == 100)
+            {
+                currentSpeech = speeches[0];
+                finished = true;
+            }
+            else
+            {
+                currentSpeech = speeches[step];
+                currentSpeech.status = SpeechStatus.Waiting;
+            }
         }
 
         public void Answering(Answer _playerAnswer)
