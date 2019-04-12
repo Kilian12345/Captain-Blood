@@ -23,12 +23,12 @@ namespace RetroJam.CaptainBlood
         landing_Control landingScript;
         [SerializeField] Script_ObjPattern[] scriptAble;
         [SerializeField][Range (0,4)] int patternIndex;
-        [SerializeField] TerrainGenerator terrainGenerator;
+        //[SerializeField] TerrainGenerator terrainGenerator;
         float terrainParts;
         float startValue;
 
         int[] parts = new int[100];
-        public int countTerrains = 0;
+       // public int countTerrains = 0;
         bool randomDone = false;
         bool routineRunning = false;
 
@@ -36,9 +36,8 @@ namespace RetroJam.CaptainBlood
         {
             landingScript = FindObjectOfType<landing_Control>();
             //// Definir zones des terrains
-            terrainParts = landingScript.distanceLeft * 0.1f;
-            startValue = landingScript.distanceLeft;
-            SeedGenerator();
+            //terrainParts = landingScript.distanceLeft * 0.1f;
+            //startValue = landingScript.distanceLeft;
         }
 
         public override void StartLanding()
@@ -49,12 +48,42 @@ namespace RetroJam.CaptainBlood
             height = 65;
             scale = 3.38f;
         }
-
+        
         void Update()
         {
-            TerrainBiomes();
+           TerrainPattern();
+        }
+        
+
+        void TerrainPattern()
+        {
+
+            depth = scriptAble[patternIndex].depth;
+            multiplicateur = scriptAble[patternIndex].multiplicateur;
+
+           /*  if (landingScript.result > (startValue - terrainParts * 1) || landingScript.result <= (startValue - terrainParts * 9))
+            {patternIndex = 0;}
+            else if (landingScript.result <= (startValue - terrainParts * 1) && randomDone == false)
+            {                
+                patternIndex = parts[0];
+            }
+            else if(landingScript.result <= (startValue - terrainParts * 3) && randomDone == false)
+            {
+                patternIndex = parts[1];
+            }
+            else if(landingScript.result <= (startValue - terrainParts * 5) && randomDone == false)
+            {
+                patternIndex = parts[2];
+            }
+            else if(landingScript.result <= (startValue - terrainParts * 7) && randomDone == false)
+            {
+                patternIndex = parts[3];
+            }*/
+
         }
 
+        
+        /*  ///////////////////////// Switch plusieurs Pattern de Map
         void TerrainBiomes()
         {
             depth = scriptAble[patternIndex].depth;
@@ -78,15 +107,12 @@ namespace RetroJam.CaptainBlood
                 int val;
                 do
                 {
-                    val = Random.Range(1,5);
+                    val = Random.Range(1,1);
                 } while (val == parts[i-2]);
 
                 parts[i] = val;
                 parts[i+1] = val;
-               // int tepu = parts[i+1]
-
-                //scriptAble[i].depth = Mathf.Lerp(scriptAble.parts[i].depth, scriptAble.parts[i+1].depth , 10);
-
+            
             }
 
             for (int i = Mathf.FloorToInt(startValue/terrainParts); i < parts.Length; i++)
@@ -95,6 +121,7 @@ namespace RetroJam.CaptainBlood
 
             }
         }
+        */
 
     }
 }

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 1_Plaine_Start
   m_EditorClassIdentifier: Assembly-CSharp:RetroJam.CaptainBlood:Script_ObjPattern
   depth: 27
-  multiplicateur: 0.37
+  multiplicateur: 0.8

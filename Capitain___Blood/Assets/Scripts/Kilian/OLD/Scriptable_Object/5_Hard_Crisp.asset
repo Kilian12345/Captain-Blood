@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: 5_Hard_Crisp
   m_EditorClassIdentifier: Assembly-CSharp:RetroJam.CaptainBlood:Script_ObjPattern
-  depth: 39
-  multiplicateur: 0.76
+  depth: 58
+  multiplicateur: 0.86
