@@ -7,6 +7,7 @@ using RetroJam.CaptainBlood.Lang;
 
 namespace RetroJam.CaptainBlood
 {
+    #if UNITY_EDITOR
     public class ToolCSVToJSON : EditorWindow
     {
         #region Variables
@@ -204,4 +205,6 @@ namespace RetroJam.CaptainBlood
         }
         #endregion
     }
+
+    #endif
 }

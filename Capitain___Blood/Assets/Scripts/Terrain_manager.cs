@@ -43,9 +43,9 @@ namespace RetroJam.CaptainBlood
         public override void StartLanding()
         {
             speed = 0.01f;
-            depth = 33;
-            width = 65;
-            height = 65;
+            depth = 40;
+            width = 129;
+            height = 129;
             scale = 3.38f;
         }
         

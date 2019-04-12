@@ -65,16 +65,16 @@ namespace RetroJam.CaptainBlood
         private void Start()
         {
             StartLandingSettings();
-            active = false;
+            //active = false;
         }
 
         public override void StartLanding()
         {
-            Debug.Log("bli");
             StartLandingSettings();
         }
         void StartLandingSettings()
         {
+            Debug.Log("ta grosse mère la pute");
             indexSpeed = 1;
             Cursor.blocked = true;
             active = true;
@@ -89,6 +89,8 @@ namespace RetroJam.CaptainBlood
             spBrBtSm = indexSpeed - 1;
 
             distanceLeft = (Random.Range(350,400));
+
+            transform.localPosition = new Vector3(-1538,904,3569);
         }
 
         void Update()
@@ -306,11 +308,9 @@ namespace RetroJam.CaptainBlood
             ending = true;
             int curSpeed = indexSpeed;
 
-            for (int i = curSpeed; i == 0; i--)
+            for (int i = curSpeed; i > 0; i--)
             {
                 indexSpeed = i;
-                Debug.Log("erygblergberg");
-
                 yield return new WaitForSeconds(i/2);
             }
 
