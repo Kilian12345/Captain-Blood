@@ -72,10 +72,10 @@ Material:
     - _Float1: 0.01
     - _H: 0.33
     - _HUEVA: 0.33
-    - _HUEValue: 0.42066
+    - _HUEValue: 0.758961
     - _Multiplayer_Noise: 10.2
     - _Test: -0.52
     - __dirty: 1
     m_Colors:
-    - _Color: {r: 0.565, g: 0.295, b: 0.7, a: 1}
+    - _Color: {r: 0.8125, g: 0.9175, b: 0.7075, a: 1}
     - _Color_Dissolve: {r: 0, g: 0, b: 0, a: 1}

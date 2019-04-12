@@ -48,6 +48,13 @@ namespace RetroJam.CaptainBlood
         [Space (20)]
          [SerializeField] float[] variableSpeed;
          [SerializeField, Range(0,5)] int indexSpeed;
+
+         [Space]
+         [Header ("Anti-AIR")]
+         public bool antiAIR;
+         [SerializeField] Image leftArrow;
+         [SerializeField] Image rightArrow;
+         [SerializeField] float antiAirSpeed;
          bool gotInput;
         #endregion
 
@@ -81,6 +88,9 @@ namespace RetroJam.CaptainBlood
             SpeedFunction();
             UiRange();
 
+            if (antiAIR == true){AntiAIR();}
+            else {leftArrow.enabled = false; rightArrow.enabled = false;}
+
             for (int i = 0; i < terGen.Length; i++)
             {
                 terGen[i].GetComponent<Terrain>().materialTemplate.mainTextureOffset = new Vector2(terGen[i].offsetY,terGen[i].offsetX);
@@ -99,7 +109,7 @@ namespace RetroJam.CaptainBlood
 
             ////////////////////////// Camera mouv
             y = transform.localPosition.y + moveVert * verticalMultiplayer;
-            y = Mathf.Clamp(y, 0, 500);
+            y = Mathf.Clamp(y, 300, 800);
             transform.localPosition = new Vector3(transform.localPosition.x, y, transform.localPosition.z);
             //
 
@@ -143,7 +153,7 @@ namespace RetroJam.CaptainBlood
         void CameraBehavior()
         {
             Quaternion transRotate = transform.localRotation;
-            transRotate.x = Mathf.Lerp(0, 16, (y*2) / 1000 );
+            transRotate.x = Mathf.Lerp(0, 16, (y*2) / 1600 );
             transRotate.y = 0;
             transRotate.z = 0;
             transRotate.w = 0;
@@ -168,7 +178,7 @@ namespace RetroJam.CaptainBlood
 
             Vector3 curY = CurseurY.localPosition;
             curY.x = CurseurY.localPosition.x;
-            curY.y = (y * 100 /500) - 50;
+            curY.y = (y * 100 /800) - 50;
             curY.z = CurseurY.localPosition.z;
             CurseurY.localPosition = curY;    
         }
@@ -220,6 +230,45 @@ namespace RetroJam.CaptainBlood
                 }
             }
 
+        }
+        void AntiAIR()
+        {
+            float antiAirTime = Time.deltaTime * antiAirSpeed;
+
+            Vector3 left = leftArrow.transform.localPosition;
+            left.x = Mathf.Clamp(left.x, -105f, -13.3f);
+            left.y = leftArrow.transform.localPosition.y;
+            left.z = leftArrow.transform.localPosition.z;
+            leftArrow.transform.localPosition = left;
+
+            Vector3 right = rightArrow.transform.localPosition;
+            right.x = Mathf.Clamp(right.x, 13.3f, 105f);
+            right.y = rightArrow.transform.localPosition.y;
+            right.z = rightArrow.transform.localPosition.z;
+            rightArrow.transform.localPosition = right;
+
+            if (leftArrow.transform.localPosition.x <= -100f) {leftArrow.enabled = false;}
+            else {leftArrow.enabled = true;}
+            if (rightArrow.transform.localPosition.x >= 100f) {rightArrow.enabled = false;}
+            else {rightArrow.enabled = true;}
+
+            //////////// Trigger Death
+            if (leftArrow.transform.localPosition.x >= -20.0f)
+            {
+                Debug.Log("Death");
+            }
+
+            //////// Anti_AIR Speed
+            if ( y <= 400 )
+            {
+                leftArrow.transform.Translate(-antiAirTime, 0, 0);
+                rightArrow.transform.Translate(antiAirTime, 0, 0);
+            }
+            else 
+            {
+                leftArrow.transform.Translate(antiAirTime, 0, 0);
+                rightArrow.transform.Translate(-antiAirTime, 0, 0);
+            }
         }
         void OnCollisionEnter (Collision col)
         {
