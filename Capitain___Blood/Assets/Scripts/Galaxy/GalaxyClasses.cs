@@ -111,9 +111,9 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             inhabitants = new Dictionary<Vector2Int, Alien>();
             inhabitedCoordinates = new List<Vector2Int>();
 
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
-            sw.Start();
+            //sw.Start();
 
             for (int x = 0; x < 256; x++)
             {
@@ -134,9 +134,9 @@ namespace RetroJam.CaptainBlood.GalaxyLib
                 }
             }
 
-            sw.Stop();
+            //sw.Stop();
 
-            Debug.Log("Time to Initialize whole Galaxy : "+sw.ElapsedMilliseconds/1000+"s.");
+            //Debug.Log("Time to Initialize whole Galaxy : "+sw.ElapsedMilliseconds/1000+"s.");
         }
 
         public static void Initialize(Dictionary<Vector2Int, Planet> _savePlanet, Dictionary<Vector2Int, Alien> _savePop)

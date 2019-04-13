@@ -74,7 +74,7 @@ namespace RetroJam.CaptainBlood
         }
         void StartLandingSettings()
         {
-            Debug.Log("ta grosse mère la pute");
+            
             indexSpeed = 1;
             Cursor.blocked = true;
             active = true;

@@ -42,20 +42,32 @@ namespace RetroJam.CaptainBlood
             EditorGUILayout.EndHorizontal();
 
             //GENERATOR BUTTON
-            if (GUILayout.Button("Generate"))
+            if (GUILayout.Button("Generate JSON"))
             {
                 TextAsset file = csvFile as TextAsset;
 
                 Speech[] speeches = GetSpeechesFromCSVFile(file);
 
-                GenerateFiles(speeches, fileName);
+                GenerateJSON(speeches, fileName);
+
+                AssetDatabase.Refresh();
+            }
+
+            //GENERATOR BUTTON
+            if (GUILayout.Button("Generate SCO"))
+            {
+                TextAsset file = csvFile as TextAsset;
+
+                Speech[] speeches = GetSpeechesFromCSVFile(file);
+
+                GenerateSCO(speeches, fileName);
 
                 AssetDatabase.Refresh();
             }
         }
 
         #region File management methods
-        void GenerateFiles(Speech[] _speeches, string _fileName)
+        void GenerateJSON(Speech[] _speeches, string _fileName)
         {
             GenerateDirectory(_fileName);
 
@@ -67,6 +79,21 @@ namespace RetroJam.CaptainBlood
                 {
                     json.Write(JsonConvert.SerializeObject(_speeches[i], Formatting.Indented));
                 }
+            }
+
+            Debug.Log(csvFile.name+".csv successfully converted in JSON into "+_speeches.Length + " files.");
+        }
+
+        void GenerateSCO(Speech[] _speeches, string _fileName)
+        {
+            GenerateDirectory(_fileName);
+
+            for (int i = 0; i < _speeches.Length; i++)
+            {
+                SpeechSCO asset = ScriptableObject.CreateInstance<SpeechSCO>();
+                asset.speech = _speeches[i];
+                AssetDatabase.CreateAsset(asset, "Assets/Resources/Speeches/" + _fileName + "/" + _fileName + "_" + i + ".asset");
+                AssetDatabase.SaveAssets();
             }
 
             Debug.Log(csvFile.name+".csv successfully converted in JSON into "+_speeches.Length + " files.");

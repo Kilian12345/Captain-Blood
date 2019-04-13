@@ -7,7 +7,7 @@ namespace RetroJam.CaptainBlood
 {
     public class MissionsManager : MonoBehaviour
     {
-        [SerializeField] TextAsset[] files;
+        [SerializeField] RetroJam.CaptainBlood.Lang.SpeechSCO[] files;
         [SerializeField] RetroJam.CaptainBlood.Lang.SpeechConnexionSCO sco;
 
         public FindCode missionFindCode;

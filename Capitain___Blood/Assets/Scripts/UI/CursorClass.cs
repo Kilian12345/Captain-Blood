@@ -39,14 +39,4 @@ namespace RetroJam.CaptainBlood.CursorLib
             return _cursor.position > bottomLeft && _cursor.position < upRight;
         }
     }
-
-    [CreateAssetMenu(fileName ="Saving Buttons", menuName ="Buttons")]
-    public class SaveButtons : ScriptableObject
-    {
-        public Button[] main;
-        public Button[] galaxy;
-        public Button[] planet;
-        public Button[] landing;
-        public Button[] upcom;
-    }
 }
