@@ -12,7 +12,6 @@ namespace RetroJam.CaptainBlood
         public bool clicking;
 
         [SerializeField] private Animator animator;
-        [SerializeField] private AudioSource audioSource;
         private Camera cam;
 
         [SerializeField] private int height = 87;
@@ -37,7 +36,6 @@ namespace RetroJam.CaptainBlood
             Move();
 
             AnimationManager();
-            SoundManager();
 
             Debug1 = cam.WorldToScreenPoint(transform.position);
         }
@@ -90,15 +88,6 @@ namespace RetroJam.CaptainBlood
         public void SetHeight(int _value)
         {
             height = Mathf.Clamp(_value, 2, 87);
-        }
-
-        public void SoundManager()
-        {
-            if(Input.GetButtonDown("Select1"))
-            {
-                audioSource.pitch= Random.value / 4 + 1-0.125f;
-                audioSource.Play();
-            }
         }
     } 
 }

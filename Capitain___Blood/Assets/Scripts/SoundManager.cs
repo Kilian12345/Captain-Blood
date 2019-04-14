@@ -12,12 +12,21 @@ namespace RetroJam.CaptainBlood
 
          public override void PlayDestroySound()
          {
+             sounds.pitch = 1;
              sounds.clip = clips[0];
              sounds.Play();
          }
 
          public override void PlayValidSound()
          {
+             sounds.pitch = 1.15f;
+             sounds.clip = clips[1];
+             sounds.Play();
+         }
+
+         public override void PlayBlockedSound()
+         {
+             sounds.pitch = 0.85f;
              sounds.clip = clips[1];
              sounds.Play();
          }

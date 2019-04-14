@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 370777b771cd9dc4693c39dc3926a104, type: 3}
   m_Name: save1
   m_EditorClassIdentifier: Assembly-CSharp:RetroJam.CaptainBlood.CursorLib:SaveButtons
   main: []

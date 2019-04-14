@@ -808,7 +808,6 @@ GameObject:
   - component: {fileID: 286008114}
   - component: {fileID: 286008112}
   - component: {fileID: 286008113}
-  - component: {fileID: 286008116}
   m_Layer: 0
   m_Name: LandingView
   m_TagString: Untagged
@@ -964,8 +963,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.62579346, y: 0.50202286, z: 0.4466139}
-  m_Center: {x: -0.011497498, y: 0.0080743935, z: 0.5832596}
+  m_Size: {x: 1.8551788, y: 4.4000854, z: 0.40132713}
+  m_Center: {x: -0.01234436, y: 2.144908, z: 5.1133924}
 --- !u!114 &286008114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,7 +1008,7 @@ MonoBehaviour:
   - 1
   - 1.5
   indexSpeed: 5
-  antiAIR: 0
+  antiAIR: 1
   leftArrow: {fileID: 1780192340}
   rightArrow: {fileID: 2032600198}
   antiAirSpeed: 0.5
@@ -1029,19 +1028,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 1
---- !u!135 &286008116
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 286008107}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.26654023
-  m_Center: {x: 0, y: -0.000000014796015, z: 0.5413959}
 --- !u!1 &294473063
 GameObject:
   m_ObjectHideFlags: 0
@@ -8811,12 +8797,12 @@ PrefabInstance:
     - target: {fileID: 4016914587593711979, guid: 27677f6ceefa3e445a9a6f1280ff1acb,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 159.3
       objectReference: {fileID: 0}
     - target: {fileID: 4016914587593711979, guid: 27677f6ceefa3e445a9a6f1280ff1acb,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 39.3
       objectReference: {fileID: 0}
     - target: {fileID: 4016914587593711979, guid: 27677f6ceefa3e445a9a6f1280ff1acb,
         type: 3}

@@ -52,6 +52,7 @@ namespace RetroJam.CaptainBlood
             switch (index)
             {
                 case -1:
+                    GameManager.events.CallBlockedSound();
                     break;
                 case 0:
                     Debug.Log("Teleporting Out.");
@@ -94,6 +95,7 @@ namespace RetroJam.CaptainBlood
             switch (index)
             {
                 case -1:
+                    GameManager.events.CallBlockedSound();
                     break;
                 case 0:
                     Debug.Log("Hyperspace Jump.");
@@ -131,6 +133,7 @@ namespace RetroJam.CaptainBlood
             switch (index)
             {
                 case -1:
+                    GameManager.events.CallBlockedSound();
                     break;
                 case 0:
                     Debug.Log("Switching to Galaxy interface.");
@@ -192,6 +195,7 @@ namespace RetroJam.CaptainBlood
             switch (index)
             {
                 case -1:
+                    GameManager.events.CallBlockedSound();
                     break;
                 case 0:
                     Debug.Log("Teleport In.");

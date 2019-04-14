@@ -94,7 +94,9 @@ namespace RetroJam.CaptainBlood
             //JsonSerializerSettings setting = new JsonSerializerSettings();
             //setting.CheckAdditionalContent = false;
 
-            Words.InitializeWords();
+            //Words.InitializeWords();
+            //if(Galaxy.planets.Count != 32256)Galaxy.GeneratePlanets();
+            //Galaxy.Initialize();
 
             /*if(loadFromSave) Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(savePlanets, new PlanetLoading()), JsonConvert.DeserializeObject<Dictionary<Vector2Int, Alien>>(saveAliens, new AlienLoading()));
             else Galaxy.Initialize();*/
@@ -102,7 +104,7 @@ namespace RetroJam.CaptainBlood
 
         void Start()
         {
-            Galaxy.Initialize();
+            
 
             sw.Stop();
 

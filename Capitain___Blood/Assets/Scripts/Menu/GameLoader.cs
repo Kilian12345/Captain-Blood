@@ -21,7 +21,7 @@ namespace RetroJam.CaptainBlood
 
             while (!operation.isDone)
             {
-                float progress = Mathf.Clamp01(operation.progress/.9f)*100;
+                int progress = Mathf.FloorToInt(Mathf.Clamp01(operation.progress/.9f)*100);
 
                 loadingField.text =  progress.ToString();
 
