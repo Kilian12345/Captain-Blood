@@ -74,7 +74,7 @@ namespace RetroJam.CaptainBlood
         }
         void StartLandingSettings()
         {
-            Debug.Log("ta grosse mère la pute");
+            
             indexSpeed = 1;
             Cursor.blocked = true;
             active = true;
@@ -88,7 +88,7 @@ namespace RetroJam.CaptainBlood
 
             spBrBtSm = indexSpeed - 1;
 
-            distanceLeft = (Random.Range(350,400));
+            distanceLeft = (Random.Range(200,250));
 
             transform.localPosition = new Vector3(-1538,904,3569);
         }
@@ -242,6 +242,8 @@ namespace RetroJam.CaptainBlood
                 if(IsinZone)
                 {
                     StartCoroutine(Slowing());
+                    leftArrow.transform.localPosition = new Vector3(-103.1f,0,0);
+                    rightArrow.transform.localPosition = new Vector3(103.1f,0,0);
                 }
                 else
                 {
@@ -274,7 +276,7 @@ namespace RetroJam.CaptainBlood
             //////////// Trigger Death
             if (leftArrow.transform.localPosition.x >= -20.0f)
             {
-                Debug.Log("Death");
+                Lose();
             }
 
             //////// Anti_AIR Speed
@@ -293,13 +295,22 @@ namespace RetroJam.CaptainBlood
         {
             if (col.gameObject.tag == "Terrain")
             {
-                indexSpeed = 0;
-                spBrBtSm = -1;
-
-                active = false;
-                Cursor.blocked = false;
-                manager.SetPhase(Phase.Planet);
+                Lose();
             }
+        }
+
+        void Lose()
+        {
+            indexSpeed = 0;
+            spBrBtSm = -1;
+
+            leftArrow.transform.localPosition = new Vector3(-103.1f,0,0);
+            rightArrow.transform.localPosition = new Vector3(103.1f,0,0);
+
+            active = false;
+            Cursor.blocked = false;
+            manager.SetPhase(Phase.Planet);
+            GameManager.events.CallPlayDestroySound();
         }
 
         IEnumerator Slowing()

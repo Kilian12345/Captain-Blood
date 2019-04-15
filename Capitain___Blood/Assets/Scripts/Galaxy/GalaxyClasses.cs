@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RetroJam.CaptainBlood.Lang;
 using System;
+using System.Threading.Tasks;
 
 namespace RetroJam.CaptainBlood.GalaxyLib
 {
@@ -42,7 +43,9 @@ namespace RetroJam.CaptainBlood.GalaxyLib
             coordinates = _coord;
             race = _race;
 
-            renderingValues = new Vector2(UnityEngine.Random.Range(0, 14), UnityEngine.Random.Range(0, 1000000));
+            System.Random rand = new System.Random();
+
+            renderingValues = new Vector2(rand.Next(0, 13), rand.Next(0, 999999));
         }
 
         [JsonConstructor]
@@ -59,16 +62,17 @@ namespace RetroJam.CaptainBlood.GalaxyLib
 
         private Word[] GenerateName()
         {
-            int length = UnityEngine.Random.Range(3, 5);
+            System.Random rand = new System.Random();
+            int length = rand.Next(3, 4);
 
             Word[] result = new Word[length];
 
-            Debug.Log(result.Length);
+            //Debug.Log(result.Length);
 
             result[0] = Word.Planet;
-            result[1] = (Word)UnityEngine.Random.Range(2, 73);
-            result[2] = (Word)UnityEngine.Random.Range(2, 73);
-            if (result.Length > 3) result[3] = (Word)UnityEngine.Random.Range(113, 121);
+            result[1] = (Word)rand.Next(2, 72);
+            result[2] = (Word)rand.Next(2, 72);
+            if (result.Length > 3) result[3] = (Word)rand.Next(113, 120);;
 
             return result;
         }
@@ -107,7 +111,7 @@ namespace RetroJam.CaptainBlood.GalaxyLib
 
         public static void Initialize()
         {
-            planets = new Dictionary<Vector2Int, Planet>();
+            
             inhabitants = new Dictionary<Vector2Int, Alien>();
             inhabitedCoordinates = new List<Vector2Int>();
 
@@ -115,17 +119,11 @@ namespace RetroJam.CaptainBlood.GalaxyLib
 
             sw.Start();
 
-            for (int x = 0; x < 256; x++)
-            {
-                for (int y = 0; y < 126; y++)
-                {
-                    planets.Add(new Vector2Int(x, y), new Planet(new Vector2Int(x, y), (Word)UnityEngine.Random.Range(74, 89)));
-                }
-            }
+            
 
             for (int i = 0; i < 320; i++)
             {
-                Vector2Int coord = new Vector2Int(UnityEngine.Random.Range(0, 256), UnityEngine.Random.Range(0, 126));
+                Vector2Int coord = new Vector2Int(UnityEngine.Random.Range(0,256), UnityEngine.Random.Range(0,126) );
 
                 if (!inhabitants.ContainsKey(coord))
                 {
@@ -134,9 +132,38 @@ namespace RetroJam.CaptainBlood.GalaxyLib
                 }
             }
 
+            
+
             sw.Stop();
 
-            Debug.Log("Time to Initialize whole Galaxy : "+sw.ElapsedMilliseconds/1000+"s.");
+            Debug.Log("Time to Initialize whole Galaxy : "+sw.ElapsedMilliseconds/1000+"s. \n"+"Inhabiants: "+inhabitants.Count+"\n Inhabited: "+inhabitedCoordinates.Count);
+        }
+
+        public static void GeneratePlanetsAlongY(int _coordX)
+        {
+            for (int y = 0; y < 126; y++)
+            {
+                System.Random rand = new System.Random();
+                planets.Add(new Vector2Int(_coordX, y), new Planet(new Vector2Int(_coordX, y), (Word)rand.Next(74,88)));
+            }
+        }
+
+        public static async Task GeneratePlanets()
+        {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+            planets = new Dictionary<Vector2Int, Planet>();
+            
+
+            for (int x = 0; x < 256; x++)
+            {
+                await Task.Run(() => GeneratePlanetsAlongY(x));
+            }
+
+
+
+            sw.Stop();
+            Debug.Log("Whole galaxy generated in "+sw.ElapsedMilliseconds+"ms.");
         }
 
         public static void Initialize(Dictionary<Vector2Int, Planet> _savePlanet, Dictionary<Vector2Int, Alien> _savePop)

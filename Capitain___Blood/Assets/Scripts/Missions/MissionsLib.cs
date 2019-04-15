@@ -101,7 +101,7 @@ namespace RetroJam.CaptainBlood.MissionsLib
             giver.dialogue = SetUpDialogue();
         }
 
-        public FindCode(TextAsset[] _speechesFiles, SpeechConnexionSCO _sco)
+        public FindCode(SpeechSCO[] _speechesFiles, SpeechConnexionSCO _sco)
         {
             giver = Galaxy.UnemployedAlien();
             giver.mission = MissionType.Code;
@@ -164,6 +164,30 @@ namespace RetroJam.CaptainBlood.MissionsLib
             for (int i = 0; i < speeches.Length; i++)
             {
                 speeches[i] = JsonConvert.DeserializeObject<Speech>(speechesFiles[i].text);
+            }
+            
+            speeches[2].condition[0].words = mainCode;
+            speeches[3].sentences[4].words = Language.ReturnCoordinates(duplicateCoord).words;
+            speeches[4].sentences[5] = Language.ReturnCoordinates(parts[0].coord);
+            speeches[4].sentences[7] = Language.ReturnCoordinates(parts[1].coord);
+            speeches[4].sentences[9] = Language.ReturnCoordinates(parts[2].coord);
+            speeches[5].condition[0].words = mainCode;
+
+            return new Dialogue(speeches, connexions);
+        }
+
+        public Dialogue SetUpDialogue(SpeechSCO[] _speechesFiles, SpeechConnexionSCO _sco)
+        {
+
+            //SpeechSCO[] speechesFiles = _speechesFiles;
+            
+            SpeechConnexion[] connexions = _sco.connexions;
+
+            Speech[] speeches = new Speech[_speechesFiles.Length];
+
+            for (int i = 0; i < speeches.Length; i++)
+            {
+                speeches[i] = _speechesFiles[i].speech;
             }
             
             speeches[2].condition[0].words = mainCode;

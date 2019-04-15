@@ -10,6 +10,7 @@ namespace RetroJam.CaptainBlood.Lang
     public enum MissionStatus {none, Started, Achieved}
     public enum SpeechStatus { Said, Waiting, Valid}
 
+    [System.Serializable]
     public class Speech
     {
         public Sentence[] sentences;

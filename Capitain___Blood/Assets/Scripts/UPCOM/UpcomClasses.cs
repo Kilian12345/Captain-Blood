@@ -225,6 +225,7 @@ namespace RetroJam.CaptainBlood.Lang
         public bool negative;
     }
 
+    [System.Serializable]
     public class AnswerCondition
     {
         public Word[] words;

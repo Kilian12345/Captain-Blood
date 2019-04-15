@@ -30,6 +30,7 @@ namespace RetroJam.CaptainBlood
 
         public virtual void PlayDestroySound(){}
         public virtual void PlayValidSound(){}
+        public virtual void PlayBlockedSound(){}
 
         public virtual void StartLanding(){}
 
@@ -144,6 +145,14 @@ namespace RetroJam.CaptainBlood
             for (int i = 0; i < events.Count; i++)
             {
                 events[i].SetDialogueOfAlien();
+            }
+        }
+
+        public void CallBlockedSound()
+        {
+            for (int i = 0; i < events.Count; i++)
+            {
+                events[i].PlayBlockedSound();
             }
         }
     }

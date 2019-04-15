@@ -16,6 +16,7 @@ namespace RetroJam.CaptainBlood
         [SerializeField] public Phase phase;
         [SerializeField] private Menu menu;
         [SerializeField] private Cursor cursor;
+        [SerializeField] private MissionsManager missions;
 
         [SerializeField] private TextMeshProUGUI currentX;
         [SerializeField] private TextMeshProUGUI currentY;
@@ -26,6 +27,8 @@ namespace RetroJam.CaptainBlood
         [SerializeField] bool isInhabited;
 
         private Phase lastPhase;
+
+        public bool initialized;
 
         public static Events events = new Events();
 
@@ -86,19 +89,22 @@ namespace RetroJam.CaptainBlood
 
             sw.Start();
             
-            string savePlanets = File.ReadAllText(@"Saves\planets.json");
-            string saveAliens = File.ReadAllText(@"Saves\inhabitants.json");
-            JsonSerializerSettings setting = new JsonSerializerSettings();
-            setting.CheckAdditionalContent = false;
+            //string savePlanets = File.ReadAllText(@"Saves\planets.json");
+            //string saveAliens = File.ReadAllText(@"Saves\inhabitants.json");
+            //JsonSerializerSettings setting = new JsonSerializerSettings();
+            //setting.CheckAdditionalContent = false;
 
-            Words.InitializeWords();
+            //Words.InitializeWords();
+            //if(Galaxy.planets.Count != 32256)Galaxy.GeneratePlanets();
+            //Galaxy.Initialize();
 
-            if(loadFromSave) Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(savePlanets, new PlanetLoading()), JsonConvert.DeserializeObject<Dictionary<Vector2Int, Alien>>(saveAliens, new AlienLoading()));
-            else Galaxy.Initialize();
+            /*if(loadFromSave) Galaxy.Initialize(JsonConvert.DeserializeObject<Dictionary<Vector2Int, Planet>>(savePlanets, new PlanetLoading()), JsonConvert.DeserializeObject<Dictionary<Vector2Int, Alien>>(saveAliens, new AlienLoading()));
+            else Galaxy.Initialize();*/
         }
 
         void Start()
         {
+            
 
             sw.Stop();
 
@@ -111,6 +117,14 @@ namespace RetroJam.CaptainBlood
 
         void Update()
         {
+            if(!initialized)
+            {
+                currentPlanet = Galaxy.planets[missions.missionFindCode.giver.coordinates];
+                alien = missions.missionFindCode.giver;
+                isInhabited = true;
+                initialized = true;
+            }
+
 
             Test();
 
