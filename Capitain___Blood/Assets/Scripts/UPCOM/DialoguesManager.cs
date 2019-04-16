@@ -150,6 +150,7 @@ namespace RetroJam.CaptainBlood
         public IEnumerator InsertWords(Sentence _sentence)
         {
             isWriting = true;
+            Cursor.blocked = true;
             alien.Clean();
 
             for (int i = 0; i < 8; i++)
@@ -160,6 +161,7 @@ namespace RetroJam.CaptainBlood
             }
 
             isWriting = false;
+            Cursor.blocked = false;
         }
     }
 }

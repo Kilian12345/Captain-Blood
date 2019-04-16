@@ -88,7 +88,7 @@ namespace RetroJam.CaptainBlood
 
             spBrBtSm = indexSpeed - 1;
 
-            distanceLeft = (Random.Range(200,250));
+            distanceLeft = (Random.Range(125,250));
 
             transform.localPosition = new Vector3(-1538,904,3569);
         }
@@ -324,6 +324,8 @@ namespace RetroJam.CaptainBlood
                 indexSpeed = i;
                 yield return new WaitForSeconds(i/2);
             }
+
+            indexSpeed = 0;
 
             ending = false;
             Cursor.blocked = false;
