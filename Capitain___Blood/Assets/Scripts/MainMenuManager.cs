@@ -28,7 +28,7 @@ namespace RetroJam.CaptainBlood
             }
         }
 
-        void PlayGame()
+        public void PlayGame()
         {
             gameLoader.LoadGame(1);
         }
