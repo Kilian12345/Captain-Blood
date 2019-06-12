@@ -100,7 +100,9 @@ public class TerrainGenerator : MonoBehaviour
             xCord = (float)x / width * Scale*multiplicator + offsetX + startOffset*factor ;
             yCord = (float)y / height * Scale*multiplicator + offsetY;
 
-            return Mathf.PerlinNoise(xCord, yCord);
+            return Perlin.Fbm(xCord, yCord, 4);
+            //return Mathf.PerlinNoise(xCord, yCord);
+
         }
     }
 }
