@@ -17,6 +17,28 @@ public static class CommonMethods
         return result;
     }
 
+    public static List<T>[] NewListArray<T>(int _index)
+    {
+        List<T>[] result = new List<T>[_index];
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            result[i] = new List<T>();
+        }
+
+        return result;
+    }
+
+    public static T Last<T>(this T[] _array)
+    {
+        return _array[_array.Length - 1];
+    }
+
+    public static T Last<T>(this List<T> _list)
+    {
+        return _list[_list.Count - 1];
+    }
+
     public static bool Contains<T>(this T[] _array, T _element) where T : System.IEquatable<T>
     {
         foreach (T item in _array)
