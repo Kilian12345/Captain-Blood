@@ -3514,6 +3514,7 @@ MonoBehaviour:
   terrain2: 0
   terrain3: 1
   multiplicator: 1.5
+  CalculShader: {fileID: 0}
 --- !u!154 &797275275
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -4725,6 +4726,7 @@ MonoBehaviour:
   terrain2: 1
   terrain3: 0
   multiplicator: 1.5
+  CalculShader: {fileID: 0}
 --- !u!154 &1346792992
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -7736,6 +7738,7 @@ MonoBehaviour:
   terrain2: 0
   terrain3: 0
   multiplicator: 1.5
+  CalculShader: {fileID: 0}
 --- !u!154 &1950398411
 TerrainCollider:
   m_ObjectHideFlags: 0

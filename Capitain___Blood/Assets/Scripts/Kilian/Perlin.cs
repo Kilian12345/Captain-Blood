@@ -67,22 +67,23 @@ namespace RetroJam.CaptainBlood
 
         public static float Fbm(float x, int octave)
         {
-            var f = 0.0f;
-            var w = 0.5f;
-            for (var i = 0; i < octave; i++)
+            float f = 0.0f;
+            float w = 0.5f;
+            for (float i = 0; i < octave; i++)
             {
                 f += w * Noise(x);
                 x *= 2.0f;
                 w *= 0.5f;
+
             }
             return f;
         }
 
         public static float Fbm(Vector2 coord, int octave)
         {
-            var f = 0.0f;
-            var w = 0.5f;
-            for (var i = 0; i < octave; i++)
+            float f = 0.0f;
+            float w = 0.5f;
+            for (float i = 0; i < octave; i++)
             {
                 f += w * Noise(coord);
                 coord *= 2.0f;
@@ -98,9 +99,9 @@ namespace RetroJam.CaptainBlood
 
         public static float Fbm(Vector3 coord, int octave)
         {
-            var f = 0.0f;
-            var w = 0.5f;
-            for (var i = 0; i < octave; i++)
+            float f = 0.0f;
+            float w = 0.5f;
+            for (float i = 0; i < octave; i++)
             {
                 f += w * Noise(coord);
                 coord *= 2.0f;
